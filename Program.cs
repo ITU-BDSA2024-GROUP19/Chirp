@@ -22,7 +22,7 @@ public static class Program
         cheepFragments.RemoveAt(0);
             
         string timecode = cheepFragments[^1]; //instead of cheepFragments.Count - 1, last element in list
-        timecode = TimecodeToUTC(timecode);
+        timecode = TimecodeToCEST(timecode);
         cheepFragments.RemoveAt(cheepFragments.Count-1);
             
         string message = string.Join(',', cheepFragments);
@@ -38,11 +38,11 @@ public static class Program
         return username + " @ " + timecode + ": " + message;
     }
 
-    private static string TimecodeToUTC(string timecode)
+    private static string TimecodeToCEST(string timecode)
     {
         DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeSeconds(int.Parse(timecode));
         TimeZoneInfo danishTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central Europe Standard Time");
         DateTime dateTime = TimeZoneInfo.ConvertTime(dateTimeOffset.UtcDateTime, danishTimeZone);
-        return dateTime.ToString(CultureInfo.InvariantCulture);
+        return dateTime.ToString(CultureInfo.InvariantCulture); // ensures the right format that is required
     }
 }
