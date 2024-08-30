@@ -41,7 +41,8 @@ public static class Program
     private static string TimecodeToUTC(string timecode)
     {
         DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeSeconds(int.Parse(timecode));
-        DateTime dateTime = dateTimeOffset.UtcDateTime;
+        TimeZoneInfo danishTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central Europe Standard Time");
+        DateTime dateTime = TimeZoneInfo.ConvertTime(dateTimeOffset.UtcDateTime, danishTimeZone);
         return dateTime.ToString(CultureInfo.InvariantCulture);
     }
 }
