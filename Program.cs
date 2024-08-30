@@ -4,15 +4,36 @@ namespace Chirp;
 
 public static class Program
 {
-    public static void Main()
+    public static void Main(string[] args)
     {
         StreamReader reader = File.OpenText("/Users/Jake/Desktop/ITU/3. semester/Analysis, Design and Software Architecture/Chirp/chirp_cli_db.csv");
         reader.ReadLine();
 
-        while (reader.ReadLine() is { } line) // initialisation of string line in while loop condition
+        if (args.Length != 0)
         {
-            Console.WriteLine(CSVParser(line));
-        }
+            switch (args[0])
+            {
+                case "read":
+                    {
+                        while (reader.ReadLine() is { } line) // initialisation of string line in while loop condition
+                        {
+                            Console.WriteLine(CSVParser(line));
+                        }
+
+                        break;
+                    }
+                case "cheep":
+                    try
+                    {
+                        string cheep = args[1];
+                    } catch (IndexOutOfRangeException ex) { Console.WriteLine("Please enter a valid cheep");}
+                    break;
+                default:
+                    Console.WriteLine("Unknown Command");
+                    break;
+            }
+        } else Console.WriteLine("No command provided");
+        
     }
 
     private static string CSVParser(string line)
