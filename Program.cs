@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace Chirp;
@@ -7,35 +8,59 @@ public static partial class Program
 {
     public static void Main(string[] args)
     {
-        StreamReader reader = File.OpenText("/Users/Jake/Desktop/ITU/3. semester/Analysis, Design and Software Architecture/Chirp/chirp_cli_db.csv");
-        reader.ReadLine();
-
-        if (args.Length != 0)
+        const string path = "chirp_cli_db.csv";
+        if (File.Exists(path))
         {
-            switch (args[0])
+            
+            if (args.Length != 0)
             {
-                case "read":
-                    {
-                        while (reader.ReadLine() is { } line) // initialisation of string line in while loop condition
+                switch (args[0])
+                {
+                    case "read":
                         {
-                            Console.WriteLine(CSVParser(line));
-                        }
+                            StreamReader reader = File.OpenText(path);
+                            reader.ReadLine();
+                            while (reader.ReadLine() is { } line) // initialisation of string line in while loop condition
+                            {
+                                Console.WriteLine(CSVParser(line));
+                            }
 
-                        break;
-                    }
+                            break;
+                        }
                 
-                case "cheep":
-                    try
-                    {
-                        string cheep = args[1];
-                    } catch (IndexOutOfRangeException) { Console.WriteLine("Please enter a valid cheep");}
-                    break;
-                default:
-                    Console.WriteLine("Unknown Command");
-                    break;
+                    case "cheep":
+                        try
+                        {
+                            string cheep = args[1];
+                            
+                            AppendToCSVFile(path, cheep);
+                            
+                        } catch (IndexOutOfRangeException) { Console.WriteLine("Please enter a valid cheep");}
+                        break;
+                    default:
+                        Console.WriteLine("Unknown Command");
+                        break;
+                }
+            } else Console.WriteLine("No command provided");
+
+        } else Console.WriteLine("No such file");
+    }
+
+    private static void AppendToCSVFile(string path, string cheep)
+    {
+        if (File.Exists(path))
+        {
+            using (StreamWriter sw = File.AppendText(path))
+            {
+                sw.WriteLine();
+                sw.Write(Environment.UserName + ",");
+                sw.Write("\"" + cheep + "\"" + ",");
+
+                DateTimeOffset UtcTime = DateTimeOffset.UtcNow;
+            
+                sw.Write(UtcTime.ToUnixTimeSeconds());
             }
-        } else Console.WriteLine("No command provided");
-        
+        }
     }
 
     private static string CSVParser(string line)
