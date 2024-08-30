@@ -1,34 +1,47 @@
-﻿using System.Collections;
+﻿using System.Globalization;
 
-StreamReader reader = File.OpenText("/home/newnorthstar/Chirp.CLI/chirp_cli_db.csv");
-reader.ReadLine();
-string line;
+namespace Chirp;
 
-while ((line = reader.ReadLine()) != null)
+public static class Program
 {
-    ArrayList list = new ArrayList(line.Split(','));
-    string username = (string) list[0];
-    list.RemoveAt(0);
-    string timecode = (string)list[list.Count - 1];
-    DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeSeconds(int.Parse(timecode));
-    DateTime dateTime = dateTimeOffset.UtcDateTime;
-    timecode = dateTime.ToString();
-    list.RemoveAt(list.Count-1);
-    string message = "";
-    if (list.Count > 1)
+    public static void Main()
     {
-        while (list.Count != 0)
-        {
-            message = message + (string)list[0] + ",";
-            list.RemoveAt(0);
-        }
+        StreamReader reader = File.OpenText("/Users/Jake/Desktop/ITU/3. semester/Analysis, Design and Software Architecture/Chirp/chirp_cli_db.csv");
+        reader.ReadLine();
 
-        message = message.Substring(1, message.Length - 3);
+        while (reader.ReadLine() is { } line) // initialisation of string line in while loop condition
+        {
+            Console.WriteLine(CSVParser(line));
+        }
     }
-    else
+
+    private static string CSVParser(string line)
     {
-        message = (string)list[0];
-        message = message.Substring(1, message.Length - 2);
+        List<string> cheepFragments = line.Split(',').ToList();
+        string username = cheepFragments[0];
+        cheepFragments.RemoveAt(0);
+            
+        string timecode = cheepFragments[^1]; //instead of cheepFragments.Count - 1, last element in list
+        timecode = TimecodeToUTC(timecode);
+        cheepFragments.RemoveAt(cheepFragments.Count-1);
+            
+        string message = string.Join(',', cheepFragments);
+        if (cheepFragments.Count > 1)
+        {
+            message = message.Substring(1, message.Length - 3);
+        }
+        else
+        {
+            message = cheepFragments[0];
+            message = message.Substring(1, message.Length - 2);
+        }
+        return username + " @ " + timecode + ": " + message;
     }
-    Console.WriteLine(username + " @ " + timecode + ": " + message);
+
+    private static string TimecodeToUTC(string timecode)
+    {
+        DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeSeconds(int.Parse(timecode));
+        DateTime dateTime = dateTimeOffset.UtcDateTime;
+        return dateTime.ToString(CultureInfo.InvariantCulture);
+    }
 }
