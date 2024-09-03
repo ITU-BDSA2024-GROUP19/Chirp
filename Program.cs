@@ -32,7 +32,6 @@ public static partial class Program
                     {
                         Console.WriteLine(CSVParser(line));
                     }
-
                     break;
                 }
         
@@ -40,10 +39,9 @@ public static partial class Program
                 try
                 {
                     string cheep = args[1];
-                    
                     AppendToCSVFile(path, cheep);
-                    
-                } catch (IndexOutOfRangeException) { Console.WriteLine("Please enter a valid cheep");}
+                } 
+                catch (IndexOutOfRangeException) { Console.WriteLine("Please enter a valid cheep");}
                 break;
             default:
                 Console.WriteLine("Unknown Command");
@@ -53,13 +51,11 @@ public static partial class Program
 
     private static void AppendToCSVFile(string path, string cheep)
     {
-        using (StreamWriter sw = File.AppendText(path))
-        {
-            sw.WriteLine();
-            sw.Write(Environment.UserName + ",");
-            sw.Write("\"" + cheep + "\"" + ",");
-            sw.Write(DateTimeOffset.UtcNow.ToUnixTimeSeconds());
-        }
+        using StreamWriter sw = File.AppendText(path);
+        sw.WriteLine();
+        sw.Write(Environment.UserName + ",");
+        sw.Write("\"" + cheep + "\"" + ",");
+        sw.Write(DateTimeOffset.UtcNow.ToUnixTimeSeconds());
     }
 
     private static string CSVParser(string line)
