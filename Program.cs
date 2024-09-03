@@ -86,31 +86,4 @@ public static partial class Program
     // Adapted from Stackoverflow: https://stackoverflow.com/questions/3507498/reading-csv-files-using-c-sharp/34265869#34265869
     [GeneratedRegex(",(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))")]
     private static partial Regex MyRegex();
-    
-    
-    
-    
-    /*private static string CSVParser(string line)
-    {
-        List<string> cheepFragments = line.Split(',').ToList();
-        string username = cheepFragments[0];
-        cheepFragments.RemoveAt(0);
-
-        string timecode = cheepFragments[^1]; //instead of cheepFragments.Count - 1, last element in list
-        timecode = TimecodeToCEST(timecode);
-        cheepFragments.RemoveAt(cheepFragments.Count-1);
-
-        string message = string.Join(',', cheepFragments);
-        if (cheepFragments.Count > 1)
-        {
-            message = message.Substring(1, message.Length - 3);
-        }
-        else
-        {
-            message = cheepFragments[0];
-            message = message.Substring(1, message.Length - 2);
-        }
-        return username + " @ " + timecode + ": " + message;
-    }
-    */
 }
