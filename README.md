@@ -3,7 +3,7 @@ Project for BDSA course
 
 # Code of Conduct
 
-- **Weekly Scheduled Meeting:** Tuesday, 12:00 - 16:00.
+- **Weekly Scheduled Meeting:** Tuesday, 12:00 - 16:00 and Wednesday 14:00 - 16:00.
 
 - **Branch Naming:** When creating a new branch, name it according to the task you are working on, e.g., `feature/2a`.
 
