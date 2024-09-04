@@ -12,7 +12,8 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
         using StreamReader sr = new (path);
         using CsvReader csv = new (sr, CultureInfo.InvariantCulture);
         IEnumerable<T> records = csv.GetRecords<T>();
-        return records;
+        List<T> results = new(records);
+        return results;
     }
 
     public void Store(T record)

@@ -1,6 +1,6 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Text.RegularExpressions;
+using Chirp.SimpleDB;
 
 namespace Chirp;
 
@@ -26,12 +26,18 @@ public static partial class Program
         {
             case "read":
                 {
-                    StreamReader reader = File.OpenText(path);
+                    CSVDatabase<Cheep> db = new CSVDatabase<Cheep>();
+                    IEnumerable<Cheep> cheeps = db.Read();
+                    foreach (var record in cheeps)
+                    {
+                        Console.WriteLine(record.ToString());
+                    }
+                    /*StreamReader reader = File.OpenText(path);
                     reader.ReadLine();
                     while (reader.ReadLine() is { } line) // initialisation of string line in while loop condition
                     {
                         Console.WriteLine(CSVParser(line));
-                    }
+                    } */
                     break;
                 }
         
@@ -66,14 +72,14 @@ public static partial class Program
         string message = lines[1].Substring(1, lines[1].Length - 2);
         string timecode = lines[2];
 
-        timecode = TimecodeToCEST(timecode);
+        timecode = TimecodeToCEST(long.Parse(timecode));
         
         return username + " @ " + timecode + ": " + message;
     }
 
-    private static string TimecodeToCEST(string timecode)
+    public static string TimecodeToCEST(long timecode)
     {
-        DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeSeconds(int.Parse(timecode));
+        DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeSeconds(timecode);
         TimeZoneInfo danishTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central Europe Standard Time");
         DateTime dateTime = TimeZoneInfo.ConvertTime(dateTimeOffset.UtcDateTime, danishTimeZone);
         return dateTime.ToString(CultureInfo.InvariantCulture); // ensures the right format that is required
@@ -84,4 +90,10 @@ public static partial class Program
     private static partial Regex MyRegex();
 }
 
-public record Cheep(string Author, string Message, long TimeStamp);
+public record Cheep(string Author, string Message, long Timestamp)
+{
+    override public string ToString()
+    {
+        return Author + " @ " + Program.TimecodeToCEST(Timestamp) + ": " + Message;
+    }
+}
