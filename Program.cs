@@ -83,3 +83,5 @@ public static partial class Program
     [GeneratedRegex(",(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))")]
     private static partial Regex MyRegex();
 }
+
+public record Cheep(string Author, string Message, long TimeStamp);
