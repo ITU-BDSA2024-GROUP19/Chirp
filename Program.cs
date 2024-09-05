@@ -16,7 +16,7 @@ public static partial class Program
         const string usage = @"Chirp CLI version.
 
         Usage:
-            chirp read <limit>
+            chirp read [<limit>]
             chirp cheep <message>
             chirp (-h | --help)
             chirp --version
@@ -27,12 +27,6 @@ public static partial class Program
         ";
         
         var arguments = new Docopt().Apply(usage, args, version: "0.1", exit: true);
-        /*
-        foreach (var arg in arguments) //for debugging
-        {
-            Console.WriteLine($"{arg.Key}: {arg.Value}");
-        }
-        */
         
         if (!File.Exists(path))
         {
@@ -50,7 +44,7 @@ public static partial class Program
         {
             {
                 CSVDatabase<Cheep> db = new (path);
-                IEnumerable<Cheep> cheeps = db.Read();
+                IEnumerable<Cheep> cheeps = db.Read(arguments["<limit>"].AsInt);
                 foreach (var record in cheeps)
                 {
                     Console.WriteLine(record.ToString());
