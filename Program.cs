@@ -1,6 +1,6 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Text.RegularExpressions;
+using Chirp.SimpleDB;
 
 namespace Chirp;
 
@@ -25,24 +25,36 @@ public static partial class Program
         switch (args[0])
         {
             case "read":
+            {
+                CSVDatabase<Cheep> db = new CSVDatabase<Cheep>(path);
+                IEnumerable<Cheep> cheeps = db.Read();
+                foreach (var record in cheeps)
                 {
-                    StreamReader reader = File.OpenText(path);
-                    reader.ReadLine();
-                    while (reader.ReadLine() is { } line) // initialisation of string line in while loop condition
-                    {
-                        Console.WriteLine(CSVParser(line));
-                    }
-                    break;
+                    Console.WriteLine(record.ToString());
                 }
+            }
+            break;
+                
         
             case "cheep":
+            {
+                string message;
                 try
                 {
-                    string cheep = args[1];
-                    AppendToCSVFile(path, cheep);
+                    message = args[1];
                 } 
-                catch (IndexOutOfRangeException) { Console.WriteLine("Please enter a valid cheep");}
-                break;
+                catch (IndexOutOfRangeException) 
+                { 
+                    Console.WriteLine("Please enter a valid cheep"); 
+                    return; 
+                }
+                CSVDatabase<Cheep> db = new CSVDatabase<Cheep>(path);
+                Cheep c = Cheep.NewCheep(message);
+                db.Store(c);
+            }
+            break;
+                
+
             default:
                 Console.WriteLine("Unknown Command");
                 break;
@@ -66,14 +78,14 @@ public static partial class Program
         string message = lines[1].Substring(1, lines[1].Length - 2);
         string timecode = lines[2];
 
-        timecode = TimecodeToCEST(timecode);
+        timecode = TimecodeToCEST(long.Parse(timecode));
         
         return username + " @ " + timecode + ": " + message;
     }
 
-    private static string TimecodeToCEST(string timecode)
+    public static string TimecodeToCEST(long timecode)
     {
-        DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeSeconds(int.Parse(timecode));
+        DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeSeconds(timecode);
         TimeZoneInfo danishTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central Europe Standard Time");
         DateTime dateTime = TimeZoneInfo.ConvertTime(dateTimeOffset.UtcDateTime, danishTimeZone);
         return dateTime.ToString(CultureInfo.InvariantCulture); // ensures the right format that is required
@@ -82,4 +94,20 @@ public static partial class Program
     // Adapted from Stackoverflow: https://stackoverflow.com/questions/3507498/reading-csv-files-using-c-sharp/34265869#34265869
     [GeneratedRegex(",(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))")]
     private static partial Regex MyRegex();
+}
+
+public record Cheep(string Author, string Message, long Timestamp)
+{
+    /// <summary>
+    /// Builder method for new Cheeps.
+    /// </summary>
+    /// <returns>A Cheep with the message content. Includes the current time, and env. username.</returns>
+    public static Cheep NewCheep(string message) {
+        return new Cheep(Environment.UserName, message, DateTimeOffset.UtcNow.ToUnixTimeSeconds());
+    }
+
+    override public string ToString()
+    {
+        return Author + " @ " + Program.TimecodeToCEST(Timestamp) + ": " + Message;
+    }
 }
