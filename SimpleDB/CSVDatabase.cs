@@ -20,16 +20,21 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
     {
         using StreamReader sr = new (_path);
         using CsvReader csv = new (sr, CultureInfo.InvariantCulture);
-        IEnumerable<T> records = csv.GetRecords<T>().ToList();
-        List<T> results = new();
+        IEnumerable<T> records = csv.GetRecords<T>();
         if (limit != 0)
         {
-            for (int i = 0; i < limit; i++)
+            List<T> results = new();
+            IEnumerator<T> iterator = records.GetEnumerator();
+            for (int i = 0; i < limit && iterator.MoveNext(); i++)
             {
-                if (i < (records.Count() - 1)) results.Add(records.ElementAt(i));
+                results.Add(iterator.Current);
             }
-        } else results = new List<T>(records);
-        return results;
+            return results;
+        } 
+        else 
+        {
+            return new List<T>(records);
+        }
     }
 
     public void Store(T record)
