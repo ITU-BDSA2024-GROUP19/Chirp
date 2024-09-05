@@ -5,11 +5,15 @@ namespace Chirp.SimpleDB;
 
 public sealed class CSVDatabase<T> : IDatabaseRepository<T>
 {
-    const string path = "chirp_cli_db.csv"; 
+    readonly string _path;
+
+    public CSVDatabase(string path) {
+        _path = path;
+    }
     
     public IEnumerable<T> Read(int? limit = null)
     {
-        using StreamReader sr = new (path);
+        using StreamReader sr = new (_path);
         using CsvReader csv = new (sr, CultureInfo.InvariantCulture);
         IEnumerable<T> records = csv.GetRecords<T>();
         List<T> results = new(records);

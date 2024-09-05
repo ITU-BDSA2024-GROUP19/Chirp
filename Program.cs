@@ -26,7 +26,7 @@ public static partial class Program
         {
             case "read":
                 {
-                    CSVDatabase<Cheep> db = new CSVDatabase<Cheep>();
+                    CSVDatabase<Cheep> db = new CSVDatabase<Cheep>(path);
                     IEnumerable<Cheep> cheeps = db.Read();
                     foreach (var record in cheeps)
                     {
