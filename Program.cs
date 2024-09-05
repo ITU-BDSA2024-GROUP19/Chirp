@@ -49,6 +49,7 @@ public static class Program
                 CSVDatabase<Cheep> db = new (path);
                 Cheep c = Cheep.NewCheep(message);
                 db.Store(c);
+                Console.WriteLine("Cheep posted successfully!");
             }
         }
     }
