@@ -3,6 +3,11 @@ using CsvHelper;
 
 namespace Chirp.SimpleDB;
 
+/// <summary>
+/// CSV file implementation of <c>IDatabaseRepository</c> interface.<br/>
+/// Utilizes the CsvHelper library by Josh Close. Web: https://joshclose.github.io/CsvHelper/
+/// </summary>
+/// <typeparam name="T">the type of record in this database.</typeparam>
 public sealed class CSVDatabase<T> : IDatabaseRepository<T>
 {
     readonly string _path;
