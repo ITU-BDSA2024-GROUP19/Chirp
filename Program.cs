@@ -2,6 +2,8 @@
 using System.Text.RegularExpressions;
 using Chirp.SimpleDB;
 
+using DocoptNet;
+
 namespace Chirp;
 
 public static partial class Program
@@ -10,6 +12,28 @@ public static partial class Program
     
     public static void Main(string[] args)
     {
+
+        const string usage = @"Chirp CLI version.
+
+        Usage:
+            chirp read <limit>
+            chirp cheep <message>
+            chirp (-h | --help)
+            chirp --version
+
+        Options:
+            -h --help    Show this screen.
+            --version    Show version information.
+        ";
+        
+        var arguments = new Docopt().Apply(usage, args, version: "0.1", exit: true);
+        /*
+        foreach (var arg in arguments) //for debugging
+        {
+            Console.WriteLine($"{arg.Key}: {arg.Value}");
+        }
+        */
+        
         if (!File.Exists(path))
         {
             Console.WriteLine("No such file");
@@ -22,42 +46,39 @@ public static partial class Program
             return;
         }
         
-        switch (args[0])
+        if (arguments != null && arguments["read"].IsTrue)
         {
-            case "read":
             {
-                CSVDatabase<Cheep> db = new CSVDatabase<Cheep>(path);
+                CSVDatabase<Cheep> db = new (path);
                 IEnumerable<Cheep> cheeps = db.Read();
                 foreach (var record in cheeps)
                 {
                     Console.WriteLine(record.ToString());
                 }
             }
-            break;
-                
-        
-            case "cheep":
+        }
+        else if (arguments != null && arguments["cheep"].IsTrue)
+        {
             {
                 string message;
                 try
                 {
-                    message = args[1];
-                } 
-                catch (IndexOutOfRangeException) 
-                { 
-                    Console.WriteLine("Please enter a valid cheep"); 
-                    return; 
+                    message = arguments["<message>"].ToString();
                 }
-                CSVDatabase<Cheep> db = new CSVDatabase<Cheep>(path);
+                catch (IndexOutOfRangeException)
+                {
+                    Console.WriteLine("Please enter a valid cheep");
+                    return;
+                }
+
+                CSVDatabase<Cheep> db = new (path);
                 Cheep c = Cheep.NewCheep(message);
                 db.Store(c);
             }
-            break;
-                
-
-            default:
-                Console.WriteLine("Unknown Command");
-                break;
+        }
+        else
+        {
+            Console.WriteLine("Unknown Command");
         }
     }
 
