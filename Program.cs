@@ -25,30 +25,36 @@ public static partial class Program
         switch (args[0])
         {
             case "read":
+            {
+                CSVDatabase<Cheep> db = new CSVDatabase<Cheep>(path);
+                IEnumerable<Cheep> cheeps = db.Read();
+                foreach (var record in cheeps)
                 {
-                    CSVDatabase<Cheep> db = new CSVDatabase<Cheep>(path);
-                    IEnumerable<Cheep> cheeps = db.Read();
-                    foreach (var record in cheeps)
-                    {
-                        Console.WriteLine(record.ToString());
-                    }
-                    /*StreamReader reader = File.OpenText(path);
-                    reader.ReadLine();
-                    while (reader.ReadLine() is { } line) // initialisation of string line in while loop condition
-                    {
-                        Console.WriteLine(CSVParser(line));
-                    } */
-                    break;
+                    Console.WriteLine(record.ToString());
                 }
+            }
+            break;
+                
         
             case "cheep":
+            {
+                string message;
                 try
                 {
-                    string cheep = args[1];
-                    AppendToCSVFile(path, cheep);
+                    message = args[1];
                 } 
-                catch (IndexOutOfRangeException) { Console.WriteLine("Please enter a valid cheep");}
-                break;
+                catch (IndexOutOfRangeException) 
+                { 
+                    Console.WriteLine("Please enter a valid cheep"); 
+                    return; 
+                }
+                CSVDatabase<Cheep> db = new CSVDatabase<Cheep>(path);
+                Cheep c = Cheep.NewCheep(message);
+                db.Store(c);
+            }
+            break;
+                
+
             default:
                 Console.WriteLine("Unknown Command");
                 break;
@@ -92,6 +98,14 @@ public static partial class Program
 
 public record Cheep(string Author, string Message, long Timestamp)
 {
+    /// <summary>
+    /// Builder method for new Cheeps.
+    /// </summary>
+    /// <returns>A Cheep with the message content. Includes the current time, and env. username.</returns>
+    public static Cheep NewCheep(string message) {
+        return new Cheep(Environment.UserName, message, DateTimeOffset.UtcNow.ToUnixTimeSeconds());
+    }
+
     override public string ToString()
     {
         return Author + " @ " + Program.TimecodeToCEST(Timestamp) + ": " + Message;

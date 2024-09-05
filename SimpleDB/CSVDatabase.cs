@@ -22,6 +22,9 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
 
     public void Store(T record)
     {
-        
+        using StreamWriter sw = File.AppendText(_path);
+        using CsvWriter csv = new (sw, CultureInfo.InvariantCulture);
+        sw.WriteLine();
+        csv.WriteRecord(record);
     }
 }
