@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using Chirp.SimpleDB;
+﻿using Chirp.SimpleDB;
 using DocoptNet;
 
 namespace Chirp;
@@ -38,13 +37,5 @@ public static class Program
         Cheep c = Cheep.NewCheep(message);
         db.Store(c);
         Console.WriteLine("Cheep posted successfully!");
-    }
-    
-    public static string TimecodeToCEST(long timecode)
-    {
-        DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeSeconds(timecode);
-        TimeZoneInfo danishTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central Europe Standard Time");
-        DateTime dateTime = TimeZoneInfo.ConvertTime(dateTimeOffset.UtcDateTime, danishTimeZone);
-        return dateTime.ToString(CultureInfo.InvariantCulture); // ensures the right format that is required
     }
 }
