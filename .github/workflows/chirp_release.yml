@@ -45,7 +45,7 @@ jobs:
         release_name="Chirp-$tag-win-x64"
 
         # Build everything
-        dotnet publish src/Chirp/Chirp.csproj --framework net7.0 --runtime "win-x64" -c Release -o "$release_name"
+        dotnet publish home/runner/work/Chirp/Chirp.csproj --framework net7.0 --runtime "win-x64" -c Release -o "$release_name"
 
         # Pack files
         7z a -tzip "${release_name}.zip" "./${release_name}/*"
@@ -61,7 +61,7 @@ jobs:
         release_name="Chirp-$tag-linux-x64"
 
         # Build everything
-        dotnet publish src/Chirp/Chirp.csproj --framework net7.0 --runtime "linux-x64" -c Release -o "$release_name"
+        dotnet publish home/runner/work/Chirp/Chirp.csproj --framework net7.0 --runtime "linux-x64" -c Release -o "$release_name"
 
         # Pack files
         tar czvf "${release_name}.tar.gz" "$release_name"
@@ -77,7 +77,7 @@ jobs:
         release_name="Chirp-$tag-osx-x64"
 
         # Build everything
-        dotnet publish src/Chirp/Chirp.csproj --framework net7.0 --runtime "osx-x64" -c Release -o "$release_name"
+        dotnet publish home/runner/work/Chirp/Chirp.csproj --framework net7.0 --runtime "osx-x64" -c Release -o "$release_name"
 
         # Pack files
         tar czvf "${release_name}.tar.gz" "$release_name"
