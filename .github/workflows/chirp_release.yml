@@ -58,7 +58,7 @@ jobs:
       run: |
         # Define tags and release name
         tag=$(git describe --tags --abbrev=0)
-        release_name="Chirp-$tag-linux-x64"tag
+        release_name="Chirp-$tag-linux-x64"
 
         # Build everything
         dotnet publish /home/runner/work/Chirp/Chirp/Chirp.csproj --framework net7.0 --runtime "linux-x64" -c Release -o "$release_name"
@@ -88,7 +88,7 @@ jobs:
     - name: Publish
       uses: softprops/action-gh-release@v1
       with:
-       files: "Chirp*"
+       files: "Chirp-$tag-*"
       env:
        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
