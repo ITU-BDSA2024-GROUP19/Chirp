@@ -5,11 +5,11 @@ namespace Chirp;
 
 public static class Program
 {
+    const string path = "chirp_cli_db.csv";
+
     public static void Main(string[] args)
     {
         var arguments = new Docopt().Apply(UserInterface.GetCLIMessage(), args, version: "0.1", exit: true);
-
-        const string path = "chirp_cli_db.csv";
         
         if (!File.Exists(path))
         {
@@ -21,22 +21,18 @@ public static class Program
         
         if (arguments["read"].IsTrue)
         {
-            {
-                CSVDatabase<Cheep> db = new (path);
-                UserInterface.PrintCheeps(db.Read(arguments["<limit>"].AsInt));
-            }
+            CSVDatabase<Cheep> db = new (path);
+            UserInterface.PrintCheeps(db.Read(arguments["<limit>"].AsInt));
         }
         else if (arguments["cheep"].IsTrue)
         {
-            {
-                CSVDatabase<Cheep> db = new (path);
-                StoreCheeps(arguments["<message>"].ToString(), db);
-            }
+            StoreCheeps(arguments["<message>"].ToString());
         }
     }
 
-    private static void StoreCheeps(string message, CSVDatabase<Cheep> db)
+    private static void StoreCheeps(string message)
     {
+        CSVDatabase<Cheep> db = new (path);
         Cheep c = Cheep.NewCheep(message);
         db.Store(c);
         Console.WriteLine("Cheep posted successfully!");
