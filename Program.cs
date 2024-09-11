@@ -8,6 +8,7 @@ public static class Program
     public static void Main(string[] args)
     {
         var arguments = new Docopt().Apply(UserInterface.GetCLIMessage(), args, version: "0.1", exit: true);
+
         const string path = "chirp_cli_db.csv";
         
         if (!File.Exists(path))
@@ -15,15 +16,17 @@ public static class Program
             Console.WriteLine("No such file");
             return;
         }
+
+        if (arguments == null) return;
         
-        if (arguments != null && arguments["read"].IsTrue)
+        if (arguments["read"].IsTrue)
         {
             {
                 CSVDatabase<Cheep> db = new (path);
                 UserInterface.PrintCheeps(db.Read(arguments["<limit>"].AsInt));
             }
         }
-        else if (arguments != null && arguments["cheep"].IsTrue)
+        else if (arguments["cheep"].IsTrue)
         {
             {
                 CSVDatabase<Cheep> db = new (path);
