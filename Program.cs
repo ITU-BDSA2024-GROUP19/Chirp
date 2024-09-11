@@ -3,7 +3,7 @@ using Chirp.SimpleDB;
 using DocoptNet;
 
 namespace Chirp;
-// This is a test line :)
+
 public static class Program
 {
     const string path = "chirp_cli_db.csv";
