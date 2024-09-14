@@ -5,7 +5,7 @@ namespace Chirp;
 
 public static class Program
 {
-    const string path = "chirp_cli_db.csv";
+    const string path = "data/chirp_cli_db.csv";
 
     public static void Main(string[] args)
     {
