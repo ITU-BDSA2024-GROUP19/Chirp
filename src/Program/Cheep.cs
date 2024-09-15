@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace Chirp;
+namespace Chirp.Program;
 
 public record Cheep(string Author, string Message, long Timestamp)
 {

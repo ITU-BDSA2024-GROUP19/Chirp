@@ -1,4 +1,4 @@
-namespace Chirp;
+namespace Chirp.Program;
 
 public class UnitTest1
 {
