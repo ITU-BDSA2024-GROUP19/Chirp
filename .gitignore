@@ -29,5 +29,5 @@ obj/
 .history
 .ionide
 .idea
-chirp_cli_db.csv
+data/
 # End of https://www.toptal.com/developers/gitignore/api/dotnetcore,visualstudiocode
