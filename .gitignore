@@ -31,3 +31,6 @@ obj/
 .idea
 data/
 # End of https://www.toptal.com/developers/gitignore/api/dotnetcore,visualstudiocode
+
+# Visual Studio 17
+.vs/
