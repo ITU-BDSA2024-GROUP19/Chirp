@@ -1,7 +1,4 @@
 using Chirp.SimpleDB;
-
-using Microsoft.VisualStudio.TestPlatform.Utilities;
-
 using Xunit.Abstractions;
 
 namespace Chirp.Test.SimpleDB;
