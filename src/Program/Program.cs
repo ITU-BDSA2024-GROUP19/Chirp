@@ -21,7 +21,7 @@ public static class Program
         
         if (arguments["read"].IsTrue)
         {
-            CSVDatabase<Cheep> db = CSVDatabase<Cheep>.Instance(path);
+            CsvDatabase<Cheep> db = CsvDatabase<Cheep>.Instance(path);
             UserInterface.PrintCheeps(db.Read(arguments["<limit>"].AsInt));
         }
         else if (arguments["cheep"].IsTrue)
@@ -32,7 +32,7 @@ public static class Program
 
     private static void StoreCheeps(string message)
     {
-        CSVDatabase<Cheep> db = CSVDatabase<Cheep>.Instance(path);
+        CsvDatabase<Cheep> db = CsvDatabase<Cheep>.Instance(path);
         Cheep c = Cheep.NewCheep(message);
         db.Store(c);
         Console.WriteLine("Cheep posted successfully!");

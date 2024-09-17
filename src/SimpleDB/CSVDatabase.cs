@@ -10,30 +10,30 @@ namespace Chirp.SimpleDB;
 /// <typeparam name="T">the type of record in this database.</typeparam>
 /// Singleton pattern is based on C# in depth. Web: https://csharpindepth.com/Articles/Singleton
 
-public sealed class CSVDatabase<T> : IDatabaseRepository<T>
+public sealed class CsvDatabase<T> : IDatabaseRepository<T>
 {
-    private static readonly Lazy<CSVDatabase<T>> Lazy;
-    private static string _path = null!;
+    private static readonly Lazy<CsvDatabase<T>> Lazy;
+    private static string s_path = null!;
     
-    static CSVDatabase()
+    static CsvDatabase()
     {
-        Lazy = new Lazy<CSVDatabase<T>>(() => new CSVDatabase<T>(_path));
+        Lazy = new Lazy<CsvDatabase<T>>(() => new CsvDatabase<T>(s_path));
     }
 
-    public static CSVDatabase<T> Instance(string path)
+    public static CsvDatabase<T> Instance(string path)
     {
-        _path = path ?? throw new ArgumentNullException(nameof(path));
+        s_path = path ?? throw new ArgumentNullException(nameof(path));
         return Lazy.Value;
     }
 
-    private CSVDatabase(string path)
+    private CsvDatabase(string path)
     {
-        _path = path ?? throw new ArgumentNullException(nameof(path));
+        s_path = path ?? throw new ArgumentNullException(nameof(path));
     }
 
     public IEnumerable<T> Read(int? limit = null)
     {
-        using StreamReader sr = new StreamReader(_path);
+        using StreamReader sr = new StreamReader(s_path);
         using CsvReader csv = new CsvReader(sr, CultureInfo.InvariantCulture);
         IEnumerable<T> records = csv.GetRecords<T>();
         if (limit != 0)
@@ -54,7 +54,7 @@ public sealed class CSVDatabase<T> : IDatabaseRepository<T>
 
     public void Store(T record)
     {
-        using StreamWriter sw = File.AppendText(_path);
+        using StreamWriter sw = File.AppendText(s_path);
         using CsvWriter csv = new CsvWriter(sw, CultureInfo.InvariantCulture);
         sw.WriteLine();
         csv.WriteRecord(record);
