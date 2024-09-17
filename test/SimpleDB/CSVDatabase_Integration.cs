@@ -24,7 +24,8 @@ public class CSVDatabase_Integration : IDisposable
     }
 
     [Fact]
-    public void CSVDatabase_WriteTo_ReadFrom() {
+    public void CSVDatabase_WriteTo_ReadFrom() 
+    {
         //Arrange:
         CreateSampleFile();
         List<Cheep> sample = new()
@@ -48,7 +49,7 @@ public class CSVDatabase_Integration : IDisposable
         Assert.Equal(sample, readFour);
     }
 
-        private void CreateSampleFile()
+    private void CreateSampleFile()
     {
         using var sw = File.CreateText(_tempFilePath);
         sw.Write("Author,Message,Timestamp");
