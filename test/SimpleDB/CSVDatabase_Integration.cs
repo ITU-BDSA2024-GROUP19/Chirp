@@ -39,11 +39,13 @@ public class CSVDatabase_Integration : IDisposable
         IEnumerable<Cheep> readAll = db.Read(0);
         IEnumerable<Cheep> readTwo = db.Read(2);
         IEnumerable<Cheep> readFour = db.Read(4);
+        IEnumerable<Cheep> readSix = db.Read(6);
 
         //Assert:
         Assert.Equal(sample, readAll);
         Assert.Equal(sample.GetRange(0, 2), readTwo);
         Assert.Equal(sample, readFour);
+        Assert.Equal(sample, readSix);
     }
 
     private void CreateSampleFile()
