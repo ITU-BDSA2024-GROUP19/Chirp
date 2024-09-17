@@ -20,6 +20,7 @@ public class CSVDatabase_Integration : IDisposable
     public void Dispose()
     {
         if (File.Exists(_tempFilePath)) File.Delete(_tempFilePath);
+        _output.WriteLine("Sample file destroyed at: " + _tempFilePath);
     }
 
     [Fact]
