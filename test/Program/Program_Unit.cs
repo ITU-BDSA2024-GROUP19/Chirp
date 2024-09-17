@@ -1,13 +1,20 @@
-using Xunit;
+using Chirp.Program;
 
 namespace Chirp.Test.Program;
 
 public class Program_Unit
 {
     [Fact]
-    public void ExampleTest1()
+    public void UnixTimeConversionTest()
     {
-        Assert.True(2 + 2 == 4, $"Two plus two should be four");
+        //Arrange
+        var cheep = new Cheep("Jakob", "test message", 1726563255);
+        
+        //Act
+        long timestamp = cheep.Timestamp;
+        
+        // Assert
+        Assert.Equal("17/09/2024 10:54:15", Cheep.TimecodeToCEST(timestamp));
     }
 
     [Fact]

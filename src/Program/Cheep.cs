@@ -18,11 +18,11 @@ public record Cheep(string Author, string Message, long Timestamp)
         return Author + " @ " + TimecodeToCEST(Timestamp) + ": " + Message;
     }
     
-    private static string TimecodeToCEST(long timecode)
+    public static string TimecodeToCEST(long timecode)
     {
         DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeSeconds(timecode);
         TimeZoneInfo danishTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central Europe Standard Time");
         DateTime dateTime = TimeZoneInfo.ConvertTime(dateTimeOffset.UtcDateTime, danishTimeZone);
-        return dateTime.ToString(CultureInfo.InvariantCulture); // ensures the right format that is required
+        return dateTime.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture); // ensures the right format that is required
     }
 }
