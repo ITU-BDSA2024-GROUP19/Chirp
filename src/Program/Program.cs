@@ -1,7 +1,7 @@
 ﻿using Chirp.SimpleDB;
 using DocoptNet;
 
-namespace Chirp;
+namespace Chirp.Program;
 
 public static class Program
 {
