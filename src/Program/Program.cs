@@ -5,7 +5,7 @@ namespace Chirp.Program;
 
 public static class Program
 {
-    const string path = "data/chirp_cli_db.csv";
+    const string path = "../../data/chirp_cli_db.csv";
 
     public static void Main(string[] args)
     {
@@ -21,7 +21,7 @@ public static class Program
         
         if (arguments["read"].IsTrue)
         {
-            CSVDatabase<Cheep> db = new (path);
+            CsvDatabase<Cheep> db = CsvDatabase<Cheep>.Instance(path);
             UserInterface.PrintCheeps(db.Read(arguments["<limit>"].AsInt));
         }
         else if (arguments["cheep"].IsTrue)
@@ -32,7 +32,7 @@ public static class Program
 
     private static void StoreCheeps(string message)
     {
-        CSVDatabase<Cheep> db = new (path);
+        CsvDatabase<Cheep> db = CsvDatabase<Cheep>.Instance(path);
         Cheep c = Cheep.NewCheep(message);
         db.Store(c);
         Console.WriteLine("Cheep posted successfully!");

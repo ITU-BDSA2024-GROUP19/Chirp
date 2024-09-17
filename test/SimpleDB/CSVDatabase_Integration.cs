@@ -34,7 +34,7 @@ public class CSVDatabase_Integration : IDisposable
         };
 
         //Act:
-        IDatabaseRepository<Cheep> db = new CSVDatabase<Cheep>(_tempFilePath);
+        IDatabaseRepository<Cheep> db = CsvDatabase<Cheep>.Instance(_tempFilePath);;
         sample.ForEach(db.Store);
         IEnumerable<Cheep> readAll = db.Read(0);
         IEnumerable<Cheep> readTwo = db.Read(2);
