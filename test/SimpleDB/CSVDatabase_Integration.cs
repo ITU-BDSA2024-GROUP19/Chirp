@@ -30,8 +30,8 @@ public class CSVDatabase_Integration : IDisposable
         {
             new("Alice", "Red Fox", 10000),
             new("Bob", "Brown Fox", 20000),
-            new("Charlie", "Yellow Hen", 30000),
-            new("Dorothy", "Green Snake", 40000)
+            new("Charlie", " Yellow Hen ", 30000),
+            new("Dorothy", "Green, Snake", 40000)
         };
 
         //Act:
