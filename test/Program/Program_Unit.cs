@@ -8,7 +8,7 @@ public class Program_Unit
     public void UnixTimeConversionTest()
     {
         //Arrange
-        var cheep = new Cheep("Jakob", "test message", 1726563255);
+        Cheep cheep = new ("Jakob", "test message", 1726563255);
 
         //Act
         long timestamp = cheep.Timestamp;
@@ -21,7 +21,7 @@ public class Program_Unit
     public void CorrectCLIMessageTest()
     {
         //Arrange
-        string climessage = @"Chirp CLI version.
+        string cliMessage = @"Chirp CLI version.
 
         Usage:
             chirp read [<limit>]
@@ -35,17 +35,17 @@ public class Program_Unit
         ";
 
         //Act
-        string getclimessage = UserInterface.GetCLIMessage();
+        string getCLImessage = UserInterface.GetCLIMessage();
 
         // Assert
-        Assert.Equal(climessage, getclimessage);
+        Assert.Equal(cliMessage, getCLImessage);
     }
 
     [Fact]
     public void NewCheepTest()
     {
         // Arrange
-        var newCheep = Cheep.NewCheep("test message");
+        Cheep newCheep = Cheep.NewCheep("test message");
         string cheepToString = newCheep.ToString();
         string timestamp = Cheep.TimecodeToCEST(newCheep.Timestamp);
         
@@ -58,12 +58,12 @@ public class Program_Unit
     }
 
     [Fact]
-    public void PrintCheepPrintsExpectedOutputTest()
+    public void PrintsExpectedOutputTest()
     {
         // Arrange
-        var cheeps = new List<Cheep>
+        List<Cheep> cheeps = new()
         {
-            new Cheep("Jakob", "Jakob's test cheep", 1726563255),  // Example Unix timestamps
+            new Cheep("Jakob", "Jakob's test cheep", 1726563255),
             new Cheep("Ronas", "Ronas' test cheep", 1726563255),
             new Cheep("Jacob", "Jacob's test cheep", 1726563255)
         };
@@ -74,12 +74,12 @@ public class Program_Unit
             "Jacob @ 17/09/2024 10:54:15: Jacob's test cheep\n";
 
         // Act
-        using var sw = new StringWriter();
+        using StringWriter sw = new ();
         Console.SetOut(sw);  
         UserInterface.PrintCheeps(cheeps); 
 
         // Assert
-        var result = sw.ToString();
+        string result = sw.ToString();
         Assert.Equal(expectedOutput, result);
     }
 }
