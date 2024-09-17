@@ -42,19 +42,34 @@ public class Program_Unit
     }
 
     [Fact]
-    public void NewCheepTest()
+    public void FormatOfCheepTest()
     {
         // Arrange
-        Cheep newCheep = Cheep.NewCheep("test message");
-        string cheepToString = newCheep.ToString();
-        string timestamp = Cheep.TimecodeToCEST(newCheep.Timestamp);
-        
+        Cheep cheep = new ("Jakob", "test message", 1726563255);
+        string timestamp = Cheep.TimecodeToCEST(cheep.Timestamp);
+        string expectedCheep = "Jakob" + " @ " + timestamp + ": " + "test message";
         
         // Act
-        string expectedCheep = Environment.UserName + " @ " + timestamp + ": " + "test message";
+        string cheepToString = cheep.ToString();
         
         // Assert
         Assert.Equal(expectedCheep, cheepToString);
+    }
+
+    [Fact]
+    public void NewCheepWithPresentTimestampAndUserTest()
+    {
+        // Arrange
+        string message = "test message";
+        string expectedAuthor = Environment.UserName;
+        
+        // Act
+        Cheep cheep = Cheep.NewCheep(message);
+        
+        // Assert
+        Assert.True(Math.Abs(DateTimeOffset.UtcNow.ToUnixTimeSeconds() - cheep.Timestamp) < 1);
+        Assert.Equal(message, cheep.Message);
+        Assert.Equal(expectedAuthor, cheep.Author);
     }
 
     [Fact]
