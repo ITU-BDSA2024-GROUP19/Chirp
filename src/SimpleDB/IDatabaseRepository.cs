@@ -1,6 +1,6 @@
 ﻿namespace Chirp.SimpleDB;
 
-interface IDatabaseRepository<T>
+public interface IDatabaseRepository<T>
 {
     /// <summary>
     /// Returns an enumerator over records on the database. 
