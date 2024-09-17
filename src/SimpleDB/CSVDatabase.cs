@@ -12,18 +12,18 @@ namespace Chirp.SimpleDB;
 
 public sealed class CSVDatabase<T> : IDatabaseRepository<T>
 {
-    private static readonly Lazy<CSVDatabase<T>> lazy = new Lazy<CSVDatabase<T>>(() => new CSVDatabase<T>(_path));
-    private static string _path;
+    private static readonly Lazy<CSVDatabase<T>> Lazy;
+    private static string _path = null!;
     
     static CSVDatabase()
     {
-        lazy = new Lazy<CSVDatabase<T>>(() => new CSVDatabase<T>(_path));
+        Lazy = new Lazy<CSVDatabase<T>>(() => new CSVDatabase<T>(_path));
     }
 
     public static CSVDatabase<T> Instance(string path)
     {
         _path = path ?? throw new ArgumentNullException(nameof(path));
-        return lazy.Value;
+        return Lazy.Value;
     }
 
     private CSVDatabase(string path)
