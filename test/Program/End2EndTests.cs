@@ -22,10 +22,10 @@ public class End2End
         }
         string[] expectedLines = new string[]
         {
-            "ropf @ 08/01/2023 14:09:20: Hello, BDSA students!",
-            "adho @ 08/02/2023 14:19:38: Welcome to the course!",
-            "adho @ 08/02/2023 14:37:38: I hope you had a good summer.",
-            "ropf @ 08/02/2023 15:04:47: Cheeping cheeps on Chirp :)"
+            "ropf @ 01/08/2023 14:09:20: Hello, BDSA students!",
+            "adho @ 02/08/2023 14:19:38: Welcome to the course!",
+            "adho @ 02/08/2023 14:37:38: I hope you had a good summer.",
+            "ropf @ 02/08/2023 15:04:47: Cheeping cheeps on Chirp :)"
         };
 
         string[] outputLines = output.Split('\n');
