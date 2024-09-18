@@ -79,9 +79,7 @@ public class Program_Unit
         List<Cheep> cheeps = new()
         {
             new Cheep("Jakob", "Jakob's test cheep", 1726563255)
-        };
-        
-        string expectedOutput = "Jakob @ 17/09/2024 10:54:15: Jakob's test cheep\n";
+        }; ;
 
         // Act
         using StringWriter sw = new ();
@@ -90,6 +88,7 @@ public class Program_Unit
 
         // Assert
         string result = sw.ToString();
+        string expectedOutput = "Jakob @ 17/09/2024 10:54:15: Jakob's test cheep" + sw.NewLine;
         Assert.Equal(expectedOutput, result);
     }
 }
