@@ -3,16 +3,14 @@
 public class End2End
 {
     [Fact]
-    public void TestReadCheeps()
+    public void TestRead5FristsCheeps()
     {
-        // Arrange
-        ArrangeTestDatabase();
         // Act
         string output = "";
         using (var process = new Process())
         {
             process.StartInfo.FileName = "dotnet";
-            process.StartInfo.Arguments = "./bin/Debug/net7.0/Chirp.dll read 10";
+            process.StartInfo.Arguments = "./bin/Debug/net7.0/Chirp.dll read 5";
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.WorkingDirectory = "../../../../../src/Program/";
             process.StartInfo.RedirectStandardOutput = true;
@@ -24,10 +22,10 @@ public class End2End
         }
         string[] expectedLines = new string[]
         {
-            "ropf @ 08/01/2023 14:09:20: Hello, BDSA students!",
-            "adho @ 08/02/2023 14:19:38: Welcome to the course!",
-            "adho @ 08/02/2023 14:37:38: I hope you had a good summer.",
-            "ropf @ 08/02/2023 15:04:47: Cheeping cheeps on Chirp :)"
+            "ropf @ 01/08/2023 14:09:20: Hello, BDSA students!",
+            "adho @ 02/08/2023 14:19:38: Welcome to the course!",
+            "adho @ 02/08/2023 14:37:38: I hope you had a good summer.",
+            "ropf @ 02/08/2023 15:04:47: Cheeping cheeps on Chirp :)"
         };
 
         string[] outputLines = output.Split('\n');
@@ -37,18 +35,27 @@ public class End2End
             Assert.Equal(expectedLines[i], outputLines[i].Trim());
         }
     }
-    private void ArrangeTestDatabase()
+    
+    [Fact]
+    public void TestStoreCheep()
     {
-        /*
+        // Act
+        string output = "";
         using (var process = new Process())
         {
             process.StartInfo.FileName = "dotnet";
-            process.StartInfo.Arguments = "./src/Chirp.CLI.Client/bin/Debug/net7.0/Chirp.dll write ropf Hello, World!";
+            process.StartInfo.Arguments = "./bin/Debug/net7.0/Chirp.dll cheep \"Hello, world!\"";
             process.StartInfo.UseShellExecute = false;
-            process.StartInfo.WorkingDirectory = "../../../";
+            process.StartInfo.WorkingDirectory = "../../../../../src/Program/";
+            process.StartInfo.RedirectStandardOutput = true;
             process.Start();
+            // Synchronously read the standard output of the spawned process.
+            StreamReader reader = process.StandardOutput;
+            output = reader.ReadToEnd();
             process.WaitForExit();
         }
-        */
+        string expectedOutput = "Cheep posted successfully!\n";
+
+        Assert.Equal(expectedOutput, output);
     }
 }
