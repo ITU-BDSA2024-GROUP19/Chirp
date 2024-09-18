@@ -3,16 +3,14 @@
 public class End2End
 {
     [Fact]
-    public void TestReadCheeps()
+    public void TestRead5FristsCheeps()
     {
-        // Arrange
-        ArrangeTestDatabase();
         // Act
         string output = "";
         using (var process = new Process())
         {
             process.StartInfo.FileName = "dotnet";
-            process.StartInfo.Arguments = "./bin/Debug/net7.0/Chirp.dll read 10";
+            process.StartInfo.Arguments = "./bin/Debug/net7.0/Chirp.dll read 5";
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.WorkingDirectory = "../../../../../src/Program/";
             process.StartInfo.RedirectStandardOutput = true;
@@ -37,18 +35,27 @@ public class End2End
             Assert.Equal(expectedLines[i], outputLines[i].Trim());
         }
     }
-    private void ArrangeTestDatabase()
+    
+    [Fact]
+    public void TestStoreCheep()
     {
-        /*
+        // Act
+        string output = "";
         using (var process = new Process())
         {
             process.StartInfo.FileName = "dotnet";
-            process.StartInfo.Arguments = "./src/Chirp.CLI.Client/bin/Debug/net7.0/Chirp.dll write ropf Hello, World!";
+            process.StartInfo.Arguments = "./bin/Debug/net7.0/Chirp.dll cheep \"Hello, world!\"";
             process.StartInfo.UseShellExecute = false;
-            process.StartInfo.WorkingDirectory = "../../../";
+            process.StartInfo.WorkingDirectory = "../../../../../src/Program/";
+            process.StartInfo.RedirectStandardOutput = true;
             process.Start();
+            // Synchronously read the standard output of the spawned process.
+            StreamReader reader = process.StandardOutput;
+            output = reader.ReadToEnd();
             process.WaitForExit();
         }
-        */
+        string expectedOutput = "Cheep posted successfully!\r\n";
+
+        Assert.Equal(expectedOutput, output);
     }
 }
