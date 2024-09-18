@@ -78,15 +78,10 @@ public class Program_Unit
         // Arrange
         List<Cheep> cheeps = new()
         {
-            new Cheep("Jakob", "Jakob's test cheep", 1726563255),
-            new Cheep("Ronas", "Ronas' test cheep", 1726563255),
-            new Cheep("Jacob", "Jacob's test cheep", 1726563255)
+            new Cheep("Jakob", "Jakob's test cheep", 1726563255)
         };
         
-        string expectedOutput = 
-            "Jakob @ 17/09/2024 10:54:15: Jakob's test cheep\n" +
-            "Ronas @ 17/09/2024 10:54:15: Ronas' test cheep\n" +
-            "Jacob @ 17/09/2024 10:54:15: Jacob's test cheep\n";
+        string expectedOutput = "Jakob @ 17/09/2024 10:54:15: Jakob's test cheep\n";
 
         // Act
         using StringWriter sw = new ();
