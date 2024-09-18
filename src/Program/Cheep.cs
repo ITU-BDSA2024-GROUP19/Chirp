@@ -18,7 +18,7 @@ public record Cheep(string Author, string Message, long Timestamp)
         return Author + " @ " + TimecodeToCEST(Timestamp) + ": " + Message;
     }
     
-    private static string TimecodeToCEST(long timecode)
+    public static string TimecodeToCEST(long timecode)
     {
         DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeSeconds(timecode);
         TimeZoneInfo danishTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central Europe Standard Time");
