@@ -6,9 +6,6 @@ on:
       - main
     tags:
      - 'v*.*.*'
-  pull_request:
-    types:
-      - closed
 
 jobs:
   build:
@@ -89,7 +86,6 @@ jobs:
         rm -r "$release_name"
 
     - name: Publish
-      if: github.event.pull_request.merged == true
       uses: softprops/action-gh-release@v1
       with:
        files: "Chirp-*"
