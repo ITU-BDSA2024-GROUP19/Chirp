@@ -59,13 +59,19 @@ public static class Program
         }
         else if (arguments["bootLocalHost"].IsTrue)
         {
-            CsvDatabase<Cheep> db = CsvDatabase<Cheep>.Instance(path);
-            var cheeps = db.Read(arguments["<limit>"].AsInt);
-            app.MapGet("/readCheeps", () => cheeps);
+            //CsvDatabase<Cheep> db = CsvDatabase<Cheep>.Instance(path);
+            //var cheeps = db.Read(arguments["<limit>"].AsInt);
+            app.MapGet("/readCheeps", () =>
+            {
+                CsvDatabase<Cheep> db = CsvDatabase<Cheep>.Instance(path);
+                var cheeps = db.Read(arguments["<limit>"].AsInt);
+                return cheeps;
+            });
             app.MapPost("/storeCheep", (Cheep cheep) =>
             {
+                CsvDatabase<Cheep> db = CsvDatabase<Cheep>.Instance(path);
                 db.Store(cheep);
-                return Results.Ok("Cheep posted successfully!");
+                return Results.Ok("Cheep posted successfully");
             });
             app.Run();
         }
