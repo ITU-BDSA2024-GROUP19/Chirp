@@ -38,8 +38,8 @@ public static class Program
             CsvDatabase<Cheep> db = CsvDatabase<Cheep>.Instance(path);
             var cheeps = db.Read(arguments["<limit>"].AsInt);
             app.MapGet("/readCheeps", () => cheeps);
+            app.Run();
         }
-        app.Run();
     }
 
     private static void StoreCheeps(string message)

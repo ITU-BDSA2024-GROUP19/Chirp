@@ -26,6 +26,7 @@ public class Program_Unit
         Usage:
             chirp read [<limit>]
             chirp cheep <message>
+            chirp bootLocalHost
             chirp (-h | --help)
             chirp --version
 
