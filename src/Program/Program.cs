@@ -1,10 +1,8 @@
 ﻿using Chirp.SimpleDB;
 using DocoptNet;
 using Microsoft.AspNetCore.Builder;
-using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using System.Text.Json;
 
 namespace Chirp.Program;
 
@@ -74,13 +72,13 @@ public static class Program
     private static async Task ProcessCheeps(HttpClient client)
     {
         var cheeps = await client.GetFromJsonAsync<List<Cheep>>("/readCheeps");
-        UserInterface.PrintCheeps(cheeps);
+        if (cheeps is not null) UserInterface.PrintCheeps(cheeps);
     }
     
     private static async Task ProcessCheeps(HttpClient client, int limit)
     {
         var cheeps = await client.GetFromJsonAsync<List<Cheep>>("/readCheeps");
-        for (int i = 0; i < limit && i < cheeps.Count; i++)
+        for (int i = 0; i < limit && i < cheeps?.Count; i++)
         {
             Console.WriteLine(cheeps[i].ToString());
         }
