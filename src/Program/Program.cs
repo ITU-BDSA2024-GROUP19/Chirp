@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Text.Json;
 
 namespace Chirp.Program;
 
@@ -11,7 +12,7 @@ public static class Program
 {
     const string path = "../../data/chirp_cli_db.csv";
 
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
         var arguments = new Docopt().Apply(UserInterface.GetCLIMessage(), args, version: "0.1", exit: true);
         
@@ -34,14 +35,12 @@ public static class Program
         }
         if (arguments["webRead"].IsTrue)
         {
-            //CsvDatabase<Cheep> db = CsvDatabase<Cheep>.Instance(path);
-            Console.WriteLine("Web Read has runned");
             var baseURL = "http://localhost:5000";
             using HttpClient client = new();
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             client.BaseAddress = new Uri(baseURL);
-            ProcessCheeps(client);
+            await ProcessCheeps(client);
         }
         else if (arguments["cheep"].IsTrue)
         {
@@ -66,9 +65,7 @@ public static class Program
 
     private static async Task ProcessCheeps(HttpClient client)
     {
-        Console.WriteLine("Processing cheeps");
-        var cheep = await client.GetFromJsonAsync<Cheep>("/readCheeps");
-        Console.WriteLine("awaiting cheeps");
-        Console.WriteLine(cheep.ToString());
+        var cheeps = await client.GetFromJsonAsync<List<Cheep>>("/readCheeps");
+        UserInterface.PrintCheeps(cheeps);
     }
 }
