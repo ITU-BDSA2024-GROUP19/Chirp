@@ -1,6 +1,7 @@
 ﻿using Chirp.SimpleDB;
 using DocoptNet;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 
@@ -52,11 +53,20 @@ public static class Program
         {
             StoreCheeps(arguments["<message>"].ToString());
         }
+        else if (arguments["WebCheep"].IsTrue)
+        {
+            await StoreWebCheeps(arguments["<message>"].ToString());
+        }
         else if (arguments["bootLocalHost"].IsTrue)
         {
             CsvDatabase<Cheep> db = CsvDatabase<Cheep>.Instance(path);
             var cheeps = db.Read(arguments["<limit>"].AsInt);
             app.MapGet("/readCheeps", () => cheeps);
+            app.MapPost("/storeCheep", (Cheep cheep) =>
+            {
+                db.Store(cheep);
+                return Results.Ok("Cheep posted successfully!");
+            });
             app.Run();
         }
     }
@@ -68,6 +78,19 @@ public static class Program
         db.Store(c);
         Console.WriteLine("Cheep posted successfully!");
     }
+
+    private static async Task StoreWebCheeps(string message)
+    {
+        var baseURL = "http://localhost:5000";
+        using HttpClient client = new();
+        client.DefaultRequestHeaders.Accept.Clear();
+        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        client.BaseAddress = new Uri(baseURL);
+        Cheep cheep = Cheep.NewCheep(message);
+        HttpResponseMessage response = await client.PostAsJsonAsync("/storeCheep", cheep);
+        Console.WriteLine(response.IsSuccessStatusCode ? "Cheep posted successfully!" : "Cheep posted failed!");
+    }
+    
 
     private static async Task ProcessCheeps(HttpClient client)
     {
