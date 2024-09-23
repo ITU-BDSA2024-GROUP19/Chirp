@@ -16,4 +16,8 @@
     <ProjectReference Include="..\SimpleDB\SimpleDB.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
 </Project>
