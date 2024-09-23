@@ -53,7 +53,7 @@ public static class Program
         {
             StoreCheeps(arguments["<message>"].ToString());
         }
-        else if (arguments["WebCheep"].IsTrue)
+        else if (arguments["webCheep"].IsTrue)
         {
             await StoreWebCheeps(arguments["<message>"].ToString());
         }
