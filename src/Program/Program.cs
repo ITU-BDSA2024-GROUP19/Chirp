@@ -40,7 +40,15 @@ public static class Program
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             client.BaseAddress = new Uri(baseURL);
-            await ProcessCheeps(client);
+            int limit = arguments["<limit>"].AsInt;
+            if (limit != 0)
+            {
+                await ProcessCheeps(client, limit);
+            }
+            else
+            { 
+                await ProcessCheeps(client);
+            }
         }
         else if (arguments["cheep"].IsTrue)
         {
@@ -67,5 +75,14 @@ public static class Program
     {
         var cheeps = await client.GetFromJsonAsync<List<Cheep>>("/readCheeps");
         UserInterface.PrintCheeps(cheeps);
+    }
+    
+    private static async Task ProcessCheeps(HttpClient client, int limit)
+    {
+        var cheeps = await client.GetFromJsonAsync<List<Cheep>>("/readCheeps");
+        for (int i = 0; i < limit && i < cheeps.Count; i++)
+        {
+            Console.WriteLine(cheeps[i].ToString());
+        }
     }
 }
