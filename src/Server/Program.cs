@@ -23,7 +23,7 @@ public static class Program
         //if (arguments == null) return;
         
         CsvDatabase<Cheep> db = CsvDatabase<Cheep>.Instance(path);
-        var cheeps = db.Read(arguments["<limit>"].AsInt);
+        var cheeps = db.Read(4);
         app.MapGet("/read", () => cheeps);
         
         //TODO: make store cheerps
