@@ -34,7 +34,7 @@ public static class Program
         }
         if (arguments["webRead"].IsTrue)
         {
-            var baseURL = "http://localhost:5000";
+            var baseURL = "bdsagroup19chirpremotedb.azurewebsites.net";
             using HttpClient client = new();
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
