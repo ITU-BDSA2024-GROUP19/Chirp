@@ -54,7 +54,7 @@ public class End2End
             output = reader.ReadToEnd();
             process.WaitForExit();
         }
-        string expectedOutput = "Cheep posted successfully!\n";
+        string expectedOutput = "Cheep posted successfully!" + Environment.NewLine;
 
         Assert.Equal(expectedOutput, output);
     }
