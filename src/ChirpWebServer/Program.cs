@@ -5,7 +5,7 @@ namespace ChirpWebServer
 {
     public class Program
     {
-        const string path = "../../data/chirp_cli_db.csv";
+        const string path = "data/chirp_cli_db.csv";
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +16,7 @@ namespace ChirpWebServer
 
             // Configure the HTTP request pipeline.
             app.UseAuthorization();
+            app.UseDeveloperExceptionPage();
 
             app.MapGet("/readCheeps", () =>
             {
