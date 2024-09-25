@@ -17,7 +17,7 @@ public static class Program
         
         var builder = WebApplication.CreateBuilder(args);
         var app = builder.Build();
-
+        var baseURL = "https://bdsagroup19chirpremotedb.azurewebsites.net";
         
         if (!File.Exists(path))
         {
@@ -27,14 +27,8 @@ public static class Program
 
         if (arguments == null) return;
         
-        if (arguments["read"].IsTrue)
-        {
-            CsvDatabase<Cheep> db = CsvDatabase<Cheep>.Instance(path);
-            UserInterface.PrintCheeps(db.Read(arguments["<limit>"].AsInt));
-        }
         if (arguments["webRead"].IsTrue)
         {
-            var baseURL = "https://bdsagroup19chirpremotedb.azurewebsites.net";
             using HttpClient client = new();
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -49,64 +43,33 @@ public static class Program
                 await ProcessCheeps(client);
             }
         }
-        else if (arguments["cheep"].IsTrue)
-        {
-            StoreCheeps(arguments["<message>"].ToString());
-        }
         else if (arguments["webCheep"].IsTrue)
         {
-            await StoreWebCheeps(arguments["<message>"].ToString());
-        }
-        else if (arguments["bootLocalHost"].IsTrue)
-        {
-            //CsvDatabase<Cheep> db = CsvDatabase<Cheep>.Instance(path);
-            //var cheeps = db.Read(arguments["<limit>"].AsInt);
-            app.MapGet("/readCheeps", () =>
-            {
-                CsvDatabase<Cheep> db = CsvDatabase<Cheep>.Instance(path);
-                var cheeps = db.Read(arguments["<limit>"].AsInt);
-                return cheeps;
-            });
-            app.MapPost("/storeCheep", (Cheep cheep) =>
-            {
-                CsvDatabase<Cheep> db = CsvDatabase<Cheep>.Instance(path);
-                db.Store(cheep);
-                return Results.Ok("Cheep posted successfully");
-            });
-            app.Run();
+            await StoreWebCheeps(arguments["<message>"].ToString(), baseURL);
         }
     }
 
-    private static void StoreCheeps(string message)
+    private static async Task StoreWebCheeps(string message, string baseURL)
     {
-        CsvDatabase<Cheep> db = CsvDatabase<Cheep>.Instance(path);
-        Cheep c = Cheep.NewCheep(message);
-        db.Store(c);
-        Console.WriteLine("Cheep posted successfully!");
-    }
-
-    private static async Task StoreWebCheeps(string message)
-    {
-        var baseURL = "https://bdsagroup19chirpremotedb.azurewebsites.net";
         using HttpClient client = new();
         client.DefaultRequestHeaders.Accept.Clear();
         client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         client.BaseAddress = new Uri(baseURL);
         Cheep cheep = Cheep.NewCheep(message);
-        HttpResponseMessage response = await client.PostAsJsonAsync("/storeCheep", cheep);
-        Console.WriteLine(response.IsSuccessStatusCode ? "Cheep posted successfully!" : "Cheep posted failed!");
+        HttpResponseMessage response = await client.PostAsJsonAsync("/cheep", cheep);
+        Console.WriteLine(response.IsSuccessStatusCode ? "Cheep posted successfully!" : "Failed to post cheep!");
     }
     
 
     private static async Task ProcessCheeps(HttpClient client)
     {
-        var cheeps = await client.GetFromJsonAsync<List<Cheep>>("/readCheeps");
+        var cheeps = await client.GetFromJsonAsync<List<Cheep>>("/cheeps");
         if (cheeps is not null) UserInterface.PrintCheeps(cheeps);
     }
     
     private static async Task ProcessCheeps(HttpClient client, int limit)
     {
-        var cheeps = await client.GetFromJsonAsync<List<Cheep>>("/readCheeps");
+        var cheeps = await client.GetFromJsonAsync<List<Cheep>>("/cheeps");
         for (int i = 0; i < limit && i < cheeps?.Count; i++)
         {
             Console.WriteLine(cheeps[i].ToString());
