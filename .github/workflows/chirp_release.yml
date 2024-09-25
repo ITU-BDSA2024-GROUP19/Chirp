@@ -1,9 +1,7 @@
-name: Release Chirp Executables
+name: Release Chirp Web Client
 
 on:
   push:
-    branches:
-      - main
     tags:
      - 'v*.*.*'
 
@@ -29,6 +27,12 @@ jobs:
 
     needs: build
     steps: 
+      
+    - name: Exit if not on main branch
+      if: endsWith(github.ref, 'main') == false
+      run: exit -1
+      # Source for this step: https://stackoverflow.com/a/59894223/24573306
+
     - name: Checkout
       uses: actions/checkout@v3
 
