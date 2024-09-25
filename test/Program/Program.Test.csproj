@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Program\Program.csproj" />
+    <ProjectReference Include="..\..\src\ChirpWebClient\ChirpWebClient.csproj" />
   </ItemGroup>
 
 </Project>
