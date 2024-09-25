@@ -12,7 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Program\Program.csproj" />
+        <ProjectReference Include="..\ChirpWebClient\Program.csproj" />
     </ItemGroup>
 
     <ItemGroup>
