@@ -5,7 +5,7 @@ namespace ChirpWebServer
 {
     public class Program
     {
-        const string path = "data/chirp_cli_db.csv";
+        const string path = "wwwroot/data/chirp_cli_db.csv";
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);

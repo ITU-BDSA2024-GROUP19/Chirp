@@ -16,10 +16,10 @@
     </ItemGroup>
 
     <ItemGroup>
-      <EmbeddedResource Include="data\chirp_cli_db.csv" />
+      <EmbeddedResource Include="wwwroot\data\chirp_cli_db.csv" />
     </ItemGroup>
 
     <ItemGroup>
-      <None Include="data\chirp_cli_db.csv" />
+      <None Include="wwwroot\data\chirp_cli_db.csv" />
     </ItemGroup>
 </Project>
