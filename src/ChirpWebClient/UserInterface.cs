@@ -7,11 +7,8 @@ public static class UserInterface
         const string CLIMessage = @"Chirp CLI version.
 
         Usage:
-            chirp read [<limit>]
             chirp webRead [<limit>]
-            chirp cheep <message>
             chirp webCheep <message>
-            chirp bootLocalHost
             chirp (-h | --help)
             chirp --version
 
