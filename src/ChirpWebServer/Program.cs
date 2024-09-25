@@ -18,13 +18,13 @@ namespace ChirpWebServer
             app.UseAuthorization();
             app.UseDeveloperExceptionPage();
 
-            app.MapGet("/readCheeps", () =>
+            app.MapGet("/cheeps", () =>
             {
                 CsvDatabase<Cheep> db = CsvDatabase<Cheep>.Instance(path);
                 var cheeps = db.Read(0);
                 return cheeps;
             });
-            app.MapPost("/storeCheep", (Cheep cheep) =>
+            app.MapPost("/cheep", (Cheep cheep) =>
             {
                 CsvDatabase<Cheep> db = CsvDatabase<Cheep>.Instance(path);
                 db.Store(cheep);
