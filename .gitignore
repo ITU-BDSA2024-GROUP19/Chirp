@@ -34,3 +34,7 @@ data/
 
 # Visual Studio 17
 .vs/
+
+# Publish profiles including keys for Visual Studio
+.pubxml.user
+.pubxml
