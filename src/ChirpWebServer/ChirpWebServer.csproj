@@ -14,4 +14,8 @@
     <ItemGroup>
         <ProjectReference Include="..\ChirpWebClient\ChirpWebClient.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Include="data/**/*" />
+    </ItemGroup>
 </Project>
