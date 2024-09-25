@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Program.Test", "test\Progra
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleDB.Test", "test\SimpleDB\SimpleDB.Test.csproj", "{CB28E888-40E8-4FC5-B1A2-092566BD6BCD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server", "src\Server\Server.csproj", "{50394BD1-2696-4EC8-9EC4-4FA8BD82DFEF}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChirpWebServer", "src\ChirpWebServer\ChirpWebServer.csproj", "{2B21A0B7-FB5C-45AF-8049-DEC1F1600CEC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChirpWebClient", "src\ChirpWebClient\ChirpWebClient.csproj", "{72C62E19-0386-4837-B608-2797325B26FD}"
@@ -33,10 +31,6 @@ Global
 		{CB28E888-40E8-4FC5-B1A2-092566BD6BCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB28E888-40E8-4FC5-B1A2-092566BD6BCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CB28E888-40E8-4FC5-B1A2-092566BD6BCD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{50394BD1-2696-4EC8-9EC4-4FA8BD82DFEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{50394BD1-2696-4EC8-9EC4-4FA8BD82DFEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{50394BD1-2696-4EC8-9EC4-4FA8BD82DFEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{50394BD1-2696-4EC8-9EC4-4FA8BD82DFEF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2B21A0B7-FB5C-45AF-8049-DEC1F1600CEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2B21A0B7-FB5C-45AF-8049-DEC1F1600CEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B21A0B7-FB5C-45AF-8049-DEC1F1600CEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
