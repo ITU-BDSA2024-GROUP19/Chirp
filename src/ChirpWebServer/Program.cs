@@ -30,6 +30,14 @@ namespace ChirpWebServer
                 db.Store(cheep);
                 return Results.Ok("Cheep posted successfully");
             });
+
+
+
+            //Added this little area for fun :)
+
+
+
+
             app.Run();
         }
     }
