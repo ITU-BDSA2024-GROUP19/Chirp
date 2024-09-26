@@ -9,8 +9,6 @@ namespace Chirp.Program;
 
 public static class Program
 {
-    const string path = "../../data/chirp_cli_db.csv";
-
     public static async Task Main(string[] args)
     {
         var arguments = new Docopt().Apply(UserInterface.GetCLIMessage(), args, version: "0.1", exit: true);
@@ -18,12 +16,6 @@ public static class Program
         var builder = WebApplication.CreateBuilder(args);
         var app = builder.Build();
         var baseURL = "https://bdsagroup19chirpremotedb.azurewebsites.net";
-        
-        if (!File.Exists(path))
-        {
-            Console.WriteLine("No such file");
-            return;
-        }
 
         if (arguments == null) return;
         
