@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
@@ -14,4 +14,12 @@
     <ItemGroup>
         <ProjectReference Include="..\ChirpWebClient\ChirpWebClient.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="data\chirp_cli_db.csv">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
+
 </Project>
