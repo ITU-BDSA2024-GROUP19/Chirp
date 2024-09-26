@@ -2,7 +2,7 @@ name: Build and deploy .NET Core application to Web App bdsagroup19chirpremotedb
 on:
   push:
     branches:
-    - rco-server-workflow
+    - main
 env:
   AZURE_WEBAPP_NAME: bdsagroup19chirpremotedb
   AZURE_WEBAPP_PACKAGE_PATH: src/ChirpWebServer/published
