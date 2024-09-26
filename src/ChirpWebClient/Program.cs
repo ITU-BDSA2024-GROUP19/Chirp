@@ -50,6 +50,7 @@ public static class Program
         Cheep cheep = Cheep.NewCheep(message);
         HttpResponseMessage response = await client.PostAsJsonAsync("/cheep", cheep);
         Console.WriteLine(response.IsSuccessStatusCode ? "Cheep posted successfully!" : "Failed to post cheep!");
+        Console.WriteLine(response.ToString());
     }
     
 
