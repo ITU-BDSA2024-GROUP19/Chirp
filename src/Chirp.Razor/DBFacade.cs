@@ -13,11 +13,7 @@ namespace Chirp.Razor
             // Initialize SQLite provider ChatGPT help
             Batteries.Init();
 
-            string sqlDBFilePath = Environment.GetEnvironmentVariable("CHIRPDBPATH");
-            if (sqlDBFilePath == null)
-            {
-                sqlDBFilePath = "/tmp/chirp.db";
-            }
+            string sqlDBFilePath = Environment.GetEnvironmentVariable("CHIRPDBPATH") ?? "/tmp/chirp.db";
             
             string sqlQuery = @"SELECT u.username, m.text, m.pub_date FROM user u, message m WHERE u.user_id = m.author_id ORDER by m.pub_date desc";
 
