@@ -34,9 +34,10 @@ namespace Chirp.Razor
             }
             return cheeps;
         }
-        public static List<CheepViewModel> Read()
+        public static List<CheepViewModel> Read(int page)
         {
-            return getcheeps(@"SELECT u.username, m.text, m.pub_date FROM user u, message m WHERE u.user_id = m.author_id ORDER by m.pub_date desc");
+            int offset = (page - 1) * 32;
+            return getcheeps(@"SELECT u.username, m.text, m.pub_date FROM user u, message m WHERE u.user_id = m.author_id ORDER by m.pub_date desc LIMIT 32 OFFSET " + offset);
         }
         public static List<CheepViewModel> UserRead(string author)
         {
