@@ -6,10 +6,9 @@ namespace Chirp.Razor
 {
     public class DBFacade
     {
-        public static List<CheepViewModel> Read()
+        private static List<CheepViewModel> getcheeps(string sqlQuery)
         {
             List<CheepViewModel> cheeps = new List<CheepViewModel>();
-            
             // SQLite provider needs to be initialized before making any calls to SQLite
             // Call to SQLitePCL.Batteries.Init() initializes the necessary provider for SQLite before attempting to open a connection to the database.
             // Information retrieved from ChatGPT.
@@ -17,8 +16,6 @@ namespace Chirp.Razor
 
             string sqlDBFilePath = Environment.GetEnvironmentVariable("CHIRPDBPATH") ?? "/tmp/chirp.db";
             
-            string sqlQuery = @"SELECT u.username, m.text, m.pub_date FROM user u, message m WHERE u.user_id = m.author_id ORDER by m.pub_date desc";
-
             using var connection = new SqliteConnection($"Data Source={sqlDBFilePath}");
             {
                 connection.Open();
@@ -36,6 +33,16 @@ namespace Chirp.Razor
                 } 
             }
             return cheeps;
+        }
+        public static List<CheepViewModel> Read()
+        {
+            return getcheeps(@"SELECT u.username, m.text, m.pub_date FROM user u, message m WHERE u.user_id = m.author_id ORDER by m.pub_date desc");
+        }
+        public static List<CheepViewModel> UserRead(string author)
+        {
+            author = $"'{author}'";
+            return getcheeps(
+                $"SELECT u.username, m.text, m.pub_date FROM user u, message m WHERE u.user_id = m.author_id AND u.username = {author} ORDER by m.pub_date desc");
         }
         
         private static string UnixTimeStampToDateTimeString(double unixTimeStamp)

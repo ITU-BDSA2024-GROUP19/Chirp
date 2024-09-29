@@ -18,6 +18,6 @@ public class CheepService : ICheepService
     public List<CheepViewModel> GetCheepsFromAuthor(string author)
     {
         // filter by the provided author name
-        return DBFacade.Read().Where(x => x.Author == author).ToList();
+        return DBFacade.UserRead(author);
     }
 }
