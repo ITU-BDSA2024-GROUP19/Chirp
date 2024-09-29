@@ -44,4 +44,18 @@ public class ChirpRazorUnit
         //Assert
         Assert.Equal(expectedNumberOfCheeps, cheeps.Count);
     }
+
+    [Fact]
+    public void UnixTimeConversionTest()
+    {
+        //Arrange
+        string expectedUnixTime = "17/09/2024 10:54:15";
+        CheepViewModel cheep = new CheepViewModel("Jakob", "test message", "1726563255");
+        
+        //Act
+        string returnedTime = DBFacade.UnixTimeStampToDateTimeString(Convert.ToInt64(cheep.Timestamp));
+        
+        //Assert
+        Assert.Equal(expectedUnixTime, returnedTime);
+    }
 }
