@@ -48,7 +48,7 @@ namespace Chirp.Razor
             author = $"'{author}'";
             int offset = getoffset(page);
             return getcheeps(
-                $"SELECT u.username, m.text, m.pub_date FROM user u, message m WHERE u.user_id = m.author_id AND u.username = {author} ORDER by m.pub_date desc LIMIT 32 OFFSET" + offset);
+                $"SELECT u.username, m.text, m.pub_date FROM user u, message m WHERE u.user_id = m.author_id AND u.username = {author} ORDER by m.pub_date desc LIMIT 32 OFFSET " + offset);
         }
         
         private static string UnixTimeStampToDateTimeString(double unixTimeStamp)
