@@ -31,4 +31,17 @@ public class ChirpRazorUnit
         //Assert
         Assert.Equal(expectedNumberOfCheeps, cheeps.Count);
     }
+    
+    [Fact]
+    public void ReadAllCheepsOnPageAfterLastTest()
+    {
+        //Arrange
+        int expectedNumberOfCheeps = 0;
+        
+        //Act
+        List<CheepViewModel> cheeps = DBFacade.Read(2);
+        
+        //Assert
+        Assert.Equal(expectedNumberOfCheeps, cheeps.Count);
+    }
 }
