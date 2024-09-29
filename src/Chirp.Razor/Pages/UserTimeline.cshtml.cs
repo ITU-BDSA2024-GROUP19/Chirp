@@ -6,7 +6,7 @@ namespace Chirp.Razor.Pages;
 public class UserTimelineModel : PageModel
 {
     private readonly ICheepService _service;
-    public List<CheepViewModel> Cheeps { get; set; } = [];
+    public List<CheepViewModel> Cheeps { get; set; } = new List<CheepViewModel>();
 
     public UserTimelineModel(ICheepService service)
     {
@@ -15,7 +15,8 @@ public class UserTimelineModel : PageModel
 
     public ActionResult OnGet(string author)
     {
-        Cheeps = _service.GetCheepsFromAuthor(author);
+        var pageQuery = Request.Query["page"];
+        Cheeps = _service.GetCheepsFromAuthor(author,Convert.ToInt32(pageQuery));
         return Page();
     }
 }

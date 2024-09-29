@@ -6,6 +6,10 @@ namespace Chirp.Razor
 {
     public class DBFacade
     {
+        private static int getoffset(int page)
+        {
+            return (page - 1) * 32;
+        }
         private static List<CheepViewModel> getcheeps(string sqlQuery)
         {
             List<CheepViewModel> cheeps = new List<CheepViewModel>();
@@ -36,14 +40,15 @@ namespace Chirp.Razor
         }
         public static List<CheepViewModel> Read(int page)
         {
-            int offset = (page - 1) * 32;
+            int offset = getoffset(page);
             return getcheeps(@"SELECT u.username, m.text, m.pub_date FROM user u, message m WHERE u.user_id = m.author_id ORDER by m.pub_date desc LIMIT 32 OFFSET " + offset);
         }
-        public static List<CheepViewModel> UserRead(string author)
+        public static List<CheepViewModel> UserRead(string author, int page)
         {
             author = $"'{author}'";
+            int offset = getoffset(page);
             return getcheeps(
-                $"SELECT u.username, m.text, m.pub_date FROM user u, message m WHERE u.user_id = m.author_id AND u.username = {author} ORDER by m.pub_date desc");
+                $"SELECT u.username, m.text, m.pub_date FROM user u, message m WHERE u.user_id = m.author_id AND u.username = {author} ORDER by m.pub_date desc LIMIT 32 OFFSET" + offset);
         }
         
         private static string UnixTimeStampToDateTimeString(double unixTimeStamp)
