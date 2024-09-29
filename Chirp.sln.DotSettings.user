@@ -1,0 +1,13 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f6c8be4f_002Dde3b_002D4ad9_002Da322_002D51d6ecab5af4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="CSVDatabase_Integration" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::CB28E888-40E8-4FC5-B1A2-092566BD6BCD::net7.0::Chirp.Test.SimpleDB.CSVDatabase_Integration&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::2B77901F-94F1-4BBA-9732-8124CF27C49A::net7.0::End2End&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::2B77901F-94F1-4BBA-9732-8124CF27C49A::net7.0::Chirp.Test.Program.Program_Unit.PrintsExpectedOutputTest&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::2B77901F-94F1-4BBA-9732-8124CF27C49A::net7.0::Chirp.Test.Program.Program_Unit.NewCheepWithPresentTimestampAndUserTest&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::2B77901F-94F1-4BBA-9732-8124CF27C49A::net7.0::Chirp.Test.Program.Program_Unit.FormatOfCheepTest&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::2B77901F-94F1-4BBA-9732-8124CF27C49A::net7.0::Chirp.Test.Program.Program_Unit.CorrectCLIMessageTest&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::2B77901F-94F1-4BBA-9732-8124CF27C49A::net7.0::Chirp.Test.Program.Program_Unit.UnixTimeConversionTest&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::2B77901F-94F1-4BBA-9732-8124CF27C49A::net7.0::Chirp.Test.Program.Program_Unit&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

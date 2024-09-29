@@ -26,13 +26,9 @@ namespace ChirpWebServer
             });
             app.MapPost("/cheep", (Cheep cheep) =>
             {
-                try {
-                    CsvDatabase<Cheep> db = CsvDatabase<Cheep>.Instance(path);
-                    db.Store(cheep);
-                    return Results.Ok("Cheep posted successfully");
-                } catch (Exception ex) {
-                    return Results.Problem(ex.ToString());
-                }
+                CsvDatabase<Cheep> db = CsvDatabase<Cheep>.Instance(path);
+                db.Store(cheep);
+                return Results.Ok("Cheep posted successfully");
             });
             app.Run();
         }
