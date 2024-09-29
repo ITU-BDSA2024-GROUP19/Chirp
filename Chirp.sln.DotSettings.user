@@ -2,5 +2,6 @@
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f6c8be4f_002Dde3b_002D4ad9_002Da322_002D51d6ecab5af4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="CSVDatabase_Integration" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
     &lt;TestId&gt;xUnit::DBC24680-569F-4B1C-8D6A-4F88FE316D6D::net8.0::Chirp.Razor.Tests.ChirpRazorUnit&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::DBC24680-569F-4B1C-8D6A-4F88FE316D6D::net8.0::Chirp.Razor.Tests.ChirpRazorIntegration&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

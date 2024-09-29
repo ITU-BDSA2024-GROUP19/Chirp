@@ -7,17 +7,15 @@ namespace Chirp.Razor.Tests;
 public class ChirpRazorIntegration : IClassFixture<WebApplicationFactory<Program>>
 {  
     private readonly WebApplicationFactory<Program> _fixture;
-    private readonly ITestOutputHelper _testOutputHelper;
     private readonly HttpClient _client;
 
-    public ChirpRazorIntegration(WebApplicationFactory<Program> fixture, ITestOutputHelper testOutputHelper)
+    public ChirpRazorIntegration(WebApplicationFactory<Program> fixture)
     {
         _fixture = fixture;
-        _testOutputHelper = testOutputHelper;
         _client = _fixture.CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = true, HandleCookies = true });
     }
     [Fact]
-    public async void GETRequestToPublicTimelineEndpoint()
+    public async void GETRequestToPublicTimelineEndpointTest()
     {
         var response = await _client.GetAsync("/");
         response.EnsureSuccessStatusCode();
@@ -30,14 +28,25 @@ public class ChirpRazorIntegration : IClassFixture<WebApplicationFactory<Program
     [Theory]
     [InlineData("Helge")]
     [InlineData("Adrian")]
-    public async void GETRequestToUserTimelineEndpoint(string author)
+    public async void GETRequestToUserTimelineEndpointTest(string author)
     {
         var response = await _client.GetAsync($"/{author}");
         response.EnsureSuccessStatusCode();
         var content = await response.Content.ReadAsStringAsync();
-        _testOutputHelper.WriteLine(content);
 
         Assert.Contains("Chirp!", content);
         Assert.Contains($"{author}'s Timeline", content);
+    }
+
+    [Fact]
+    public async void GETRequestToSpecificAuthorReturnsCheepTest()
+    {
+        var response = await _client.GetAsync($"Helge");
+        response.EnsureSuccessStatusCode();
+        var content = await response.Content.ReadAsStringAsync();
+
+        Assert.Contains("Chirp!", content);
+        Assert.Contains("Helge's Timeline", content);
+        Assert.Contains("Hello, BDSA students!", content);
     }
 }
