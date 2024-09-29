@@ -10,7 +10,9 @@ namespace Chirp.Razor
         {
             List<CheepViewModel> cheeps = new List<CheepViewModel>();
             
-            // Initialize SQLite provider ChatGPT help
+            // SQLite provider needs to be initialized before making any calls to SQLite
+            // Call to SQLitePCL.Batteries.Init() initializes the necessary provider for SQLite before attempting to open a connection to the database.
+            // Information retrieved from ChatGPT.
             Batteries.Init();
 
             string sqlDBFilePath = Environment.GetEnvironmentVariable("CHIRPDBPATH") ?? "/tmp/chirp.db";
