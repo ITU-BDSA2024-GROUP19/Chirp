@@ -2,7 +2,7 @@ using Chirp.Razor;
 
 namespace Chirp.Razor.Tests;
 
-public class UnitTest1
+public class ChirpRazorIntegration
 {
     [Fact]
     public void Test1()
