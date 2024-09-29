@@ -24,6 +24,15 @@
                     </p>
                 </li>
             }
+            <div style="margin: auto; width: 50%; text-align: center;">
+                Showing @Model.Cheeps.Count messages <br>
+                @if (Model.CurrentPage > 1)
+                {
+                <a href="/@routeName?page=@(Model.CurrentPage - 1)">prev. page</a>
+                <span>-</span>
+                }
+                <a href="/@routeName?page=@(Model.CurrentPage + 1)">next page</a>
+            </div>
         </ul>
     }
     else
