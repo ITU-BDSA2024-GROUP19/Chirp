@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Mvc.Testing;
 
-using Xunit.Abstractions;
-
 namespace Chirp.Razor.Tests;
 
 public class ChirpRazorIntegration : IClassFixture<WebApplicationFactory<Program>>
@@ -23,6 +21,8 @@ public class ChirpRazorIntegration : IClassFixture<WebApplicationFactory<Program
 
         Assert.Contains("Chirp!", content);
         Assert.Contains("Public Timeline", content);
+        Assert.Contains("Hello, BDSA students!", content);
+        Assert.Contains("Hej, velkommen til kurset.", content);
     }
     
     [Theory]
