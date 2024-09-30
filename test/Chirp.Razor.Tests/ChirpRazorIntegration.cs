@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace Chirp.Razor.Tests;
 
-public class ChirpRazorIntegration : IClassFixture<WebApplicationFactory<Program>>
+public class ChirpRazorIntegration : IClassFixture<WebApplicationFactory<Program>>, IClassFixture<TestDBFixture>
 {  
     private readonly WebApplicationFactory<Program> _fixture;
     private readonly HttpClient _client;

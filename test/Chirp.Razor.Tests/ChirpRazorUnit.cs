@@ -4,23 +4,6 @@ using Xunit.Abstractions;
 
 namespace Chirp.Razor.Tests;
 
-public class TestDBFixture : IDisposable
-{
-    private string? originalDbPath;
-    private string dbPath;
-    
-    public TestDBFixture()
-    {
-        originalDbPath = Environment.GetEnvironmentVariable("CHIRPDBPATH");
-        dbPath = DBFacadeForTests.setupDBforTests();
-    }
-
-    public void Dispose()
-    {
-        DBFacadeForTests.removeDBforTests(originalDbPath, dbPath);
-    }
-}
-
 public class ChirpRazorUnit : IClassFixture<TestDBFixture>
 {
     [Theory]

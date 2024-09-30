@@ -1,4 +1,11 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AEnvironment_002Ecs_002Fl_003A_002E_002E_003F_002E_002E_003FAppData_003FRoaming_003FJetBrains_003FRider2024_002E2_003Fresharper_002Dhost_003FSourcesCache_003Fd5e26b7cbc3c8ffaa5eb6b56961c2ddefd21293d38d4a648eeb54d2d127492de_003FEnvironment_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=5a4e669b_002Df5d1_002D4675_002Db95e_002Dc48af64ee93b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="ChirpRazorUnit" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::DBC24680-569F-4B1C-8D6A-4F88FE316D6D::net8.0::Chirp.Razor.Tests.ChirpRazorUnit&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::DBC24680-569F-4B1C-8D6A-4F88FE316D6D::net8.0::Chirp.Razor.Tests.ChirpRazorIntegration&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f6c8be4f_002Dde3b_002D4ad9_002Da322_002D51d6ecab5af4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="CSVDatabase_Integration" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
     &lt;TestId&gt;xUnit::DBC24680-569F-4B1C-8D6A-4F88FE316D6D::net8.0::Chirp.Razor.Tests.ChirpRazorUnit&lt;/TestId&gt;

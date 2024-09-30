@@ -7,6 +7,7 @@ namespace Chirp.Razor
 {
     public class DBFacade
     {
+        
         private static int getoffset(int page)
         {
             return (page - 1) * 32;

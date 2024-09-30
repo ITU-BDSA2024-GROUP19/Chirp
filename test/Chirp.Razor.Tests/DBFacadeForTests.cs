@@ -15,16 +15,16 @@ namespace Chirp.Razor.Tests
         
         private static string createTestFile()
         {
-            string originalDB = "../../data/test.db";
+            string originalDB = "../../../../../data/chirp.db";
             string tmpDB = Path.GetTempFileName();
-            File.Copy(originalDB, tmpDB);
+            File.Copy(originalDB, tmpDB, true);
             return tmpDB;
         }
         
         public static void removeDBforTests(String? originalDB, String tmpDB)
         {
             Environment.SetEnvironmentVariable("CHIRPDBPATH", originalDB);
-            File.Delete(tmpDB);
+            //File.Delete(tmpDB);
         }
     }
 }

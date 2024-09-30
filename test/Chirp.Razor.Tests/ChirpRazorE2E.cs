@@ -2,7 +2,7 @@ using Chirp.Razor;
 
 namespace Chirp.Razor.Tests;
 
-public class ChirpRazorE2E
+public class ChirpRazorE2E : IClassFixture<TestDBFixture>
 {
     [Fact]
     public void Test1()
