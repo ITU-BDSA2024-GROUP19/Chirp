@@ -19,7 +19,7 @@ namespace Chirp.Razor
             // Information retrieved from ChatGPT.
             Batteries.Init();
 
-            string sqlDBFilePath = Environment.GetEnvironmentVariable("CHIRPDBPATH") ?? "/tmp/chirp.db";
+            string sqlDBFilePath = Environment.GetEnvironmentVariable("CHIRPDBPATH") ?? throw new NullReferenceException("No ChirpDBPATH environment variable");
             
             using var connection = new SqliteConnection($"Data Source={sqlDBFilePath}");
             {
