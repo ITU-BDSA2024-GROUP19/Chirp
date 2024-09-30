@@ -21,7 +21,7 @@ public class TestDBFixture : IDisposable
     }
 }
 
-public class ChirpRazorUnit
+public class ChirpRazorUnit : IClassFixture<TestDBFixture>
 {
     [Theory]
     [InlineData("Helge")]
