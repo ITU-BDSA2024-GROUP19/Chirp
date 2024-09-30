@@ -49,4 +49,17 @@ public class ChirpRazorIntegration : IClassFixture<WebApplicationFactory<Program
         Assert.Contains("Helge's Timeline", content);
         Assert.Contains("Hello, BDSA students!", content);
     }
+
+    [Theory]
+    [InlineData("/")]
+    [InlineData("/public")]
+    [InlineData("/Helge")]
+    [InlineData("/Adrian")]
+    public async void GETToEndpointsSuccessAndCorrectContentTypeTest(string endpoint)
+    {
+        var response = await _client.GetAsync(endpoint);
+        
+        response.EnsureSuccessStatusCode();
+        Assert.Equal("text/html; charset=utf-8", response.Content.Headers.ContentType?.ToString());
+    }
 }
