@@ -52,7 +52,7 @@ public class ChirpRazorIntegration : IClassFixture<WebApplicationFactory<Program
 
     [Theory]
     [InlineData("/")]
-    [InlineData("/public")]
+    [InlineData("/?page=1")]
     [InlineData("/Helge")]
     [InlineData("/Adrian")]
     public async void GETToEndpointsSuccessAndCorrectContentTypeTest(string endpoint)
