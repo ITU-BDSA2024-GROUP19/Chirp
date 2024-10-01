@@ -1,14 +1,14 @@
-name: Build and deploy .NET Core application to Web App bdsagroup19chirpremotedb
+name: Build and deploy .NET Core application to Web App bdsa2024group19chirprazor
 on:
   push:
     branches:
     - main
 env:
-  AZURE_WEBAPP_NAME: bdsagroup19chirpremotedb
-  AZURE_WEBAPP_PACKAGE_PATH: src/ChirpWebServer/published
+  AZURE_WEBAPP_NAME: bdsa2024group19chirprazor
+  AZURE_WEBAPP_PACKAGE_PATH: src/Chirp.Razor/published
   CONFIGURATION: Release
   DOTNET_CORE_VERSION: 8.0.x
-  WORKING_DIRECTORY: src/ChirpWebServer
+  WORKING_DIRECTORY: src/Chirp.Razor
 jobs:
   build:
     runs-on: ubuntu-latest

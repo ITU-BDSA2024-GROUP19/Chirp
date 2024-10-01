@@ -9,7 +9,6 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.8" />
     <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="8.0.8" />
-    <EmbeddedResource Include="data/**/*" />
     <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.10" />
     <PackageReference Include="SQLitePCLRaw.bundle_sqlite3" Version="2.1.0" />
   </ItemGroup>

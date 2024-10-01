@@ -21,6 +21,7 @@ public class Program
             app.UseHsts();
         }
 
+        app.UseDeveloperExceptionPage();
         app.UseHttpsRedirection();
         app.UseStaticFiles();
 
