@@ -23,7 +23,7 @@ class NewDBFacade : ICheepService, IDisposable
     {
         List<CheepViewModel> cheeps = new List<CheepViewModel>();
         var command = Connection.CreateCommand();
-        command.CommandText = "SELECT u.username, m.text, m.pub_date FROM user u, message m WHERE u.user_id = m.author_id ORDER by m.pub_date desc LIMIT CHEEPS_PER_PAGE OFFSET " + getPageOffset(page);
+        command.CommandText = "SELECT u.username, m.text, m.pub_date FROM user u, message m WHERE u.user_id = m.author_id ORDER by m.pub_date desc LIMIT " + CHEEPS_PER_PAGE + " OFFSET " + getPageOffset(page);
 
         using var reader = command.ExecuteReader();
         while (reader.Read())
@@ -40,7 +40,7 @@ class NewDBFacade : ICheepService, IDisposable
     {
         List<CheepViewModel> cheeps = new List<CheepViewModel>();
         var command = Connection.CreateCommand();
-        command.CommandText = $"SELECT u.username, m.text, m.pub_date FROM user u, message m WHERE u.user_id = m.author_id AND u.username = '{author}' ORDER by m.pub_date desc LIMIT {{CHEEPS_PER_PAGE}} OFFSET " + getPageOffset(page);
+        command.CommandText = $"SELECT u.username, m.text, m.pub_date FROM user u, message m WHERE u.user_id = m.author_id AND u.username = '{author}' ORDER by m.pub_date desc LIMIT " + CHEEPS_PER_PAGE + " OFFSET " + getPageOffset(page);
         
         using var reader = command.ExecuteReader();
         while (reader.Read())
