@@ -3,19 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35303.130
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleDB", "src\SimpleDB\SimpleDB.csproj", "{FA6BA2EE-FEBF-4AC4-964C-99620B774221}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chirp.Razor", "src\Chirp.Razor\Chirp.Razor.csproj", "{C4F8BF9F-8821-46F6-A0DA-B8554C7D184C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Program.Test", "test\Program\Program.Test.csproj", "{2B77901F-94F1-4BBA-9732-8124CF27C49A}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleDB.Test", "test\SimpleDB\SimpleDB.Test.csproj", "{CB28E888-40E8-4FC5-B1A2-092566BD6BCD}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChirpWebServer", "src\ChirpWebServer\ChirpWebServer.csproj", "{2B21A0B7-FB5C-45AF-8049-DEC1F1600CEC}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChirpWebClient", "src\ChirpWebClient\ChirpWebClient.csproj", "{72C62E19-0386-4837-B608-2797325B26FD}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chirp.Razor", "src\Chirp.Razor\Chirp.Razor.csproj", "{C4F8BF9F-8821-46F6-A0DA-B8554C7D184C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chirp.Razor.Tests", "test\Chirp.Razor.Tests\Chirp.Razor.Tests.csproj", "{DBC24680-569F-4B1C-8D6A-4F88FE316D6D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chirp.Razor.Tests", "test\Chirp.Razor.Tests\Chirp.Razor.Tests.csproj", "{DBC24680-569F-4B1C-8D6A-4F88FE316D6D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,26 +13,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{FA6BA2EE-FEBF-4AC4-964C-99620B774221}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FA6BA2EE-FEBF-4AC4-964C-99620B774221}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FA6BA2EE-FEBF-4AC4-964C-99620B774221}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FA6BA2EE-FEBF-4AC4-964C-99620B774221}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2B77901F-94F1-4BBA-9732-8124CF27C49A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2B77901F-94F1-4BBA-9732-8124CF27C49A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2B77901F-94F1-4BBA-9732-8124CF27C49A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2B77901F-94F1-4BBA-9732-8124CF27C49A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CB28E888-40E8-4FC5-B1A2-092566BD6BCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CB28E888-40E8-4FC5-B1A2-092566BD6BCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CB28E888-40E8-4FC5-B1A2-092566BD6BCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CB28E888-40E8-4FC5-B1A2-092566BD6BCD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2B21A0B7-FB5C-45AF-8049-DEC1F1600CEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2B21A0B7-FB5C-45AF-8049-DEC1F1600CEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2B21A0B7-FB5C-45AF-8049-DEC1F1600CEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2B21A0B7-FB5C-45AF-8049-DEC1F1600CEC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{72C62E19-0386-4837-B608-2797325B26FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{72C62E19-0386-4837-B608-2797325B26FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{72C62E19-0386-4837-B608-2797325B26FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{72C62E19-0386-4837-B608-2797325B26FD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C4F8BF9F-8821-46F6-A0DA-B8554C7D184C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C4F8BF9F-8821-46F6-A0DA-B8554C7D184C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4F8BF9F-8821-46F6-A0DA-B8554C7D184C}.Release|Any CPU.ActiveCfg = Release|Any CPU
