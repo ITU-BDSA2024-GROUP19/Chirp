@@ -3,7 +3,7 @@ using Microsoft.Data.Sqlite;
 
 namespace Chirp.Razor;
 
-class DBFacade : ICheepService, IDisposable
+public class DBFacade : ICheepService, IDisposable
 {
     private const int CHEEPS_PER_PAGE = 32;
     private readonly SqliteConnection Connection;
