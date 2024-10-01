@@ -1,6 +1,5 @@
 using System.Globalization;
 using Microsoft.Data.Sqlite;
-using SQLitePCL;
 
 namespace Chirp.Razor;
 
@@ -11,9 +10,6 @@ class NewDBFacade : ICheepService, IDisposable
 
     public NewDBFacade()
     {
-        // Call to SQLitePCL.Batteries.Init() initializes the necessary provider for SQLite before attempting to open a connection to the database.
-        // Information retrieved from ChatGPT.
-        //Batteries.Init();
         string sqlDBFilePath = Environment.GetEnvironmentVariable("CHIRPDBPATH") ?? Path.GetTempPath() + "chirp.db";
         Connection = new SqliteConnection($"Data Source={sqlDBFilePath}");
         Connection.Open();
