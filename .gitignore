@@ -37,3 +37,6 @@ obj/
 # Publish profiles including keys for Visual Studio
 .pubxml.user
 .pubxml
+
+# Dotsettings user setup
+.sln.Dotsettings.user
