@@ -1,3 +1,5 @@
+using System.Globalization;
+
 using Microsoft.Data.Sqlite;
 using SQLitePCL;
 
@@ -5,6 +7,7 @@ namespace Chirp.Razor
 {
     public class DBFacade
     {
+        
         private static int getoffset(int page)
         {
             return (page - 1) * 32;
@@ -17,7 +20,7 @@ namespace Chirp.Razor
             // Information retrieved from ChatGPT.
             Batteries.Init();
 
-            string sqlDBFilePath = Environment.GetEnvironmentVariable("CHIRPDBPATH") ?? "/tmp/chirp.db";
+            string sqlDBFilePath = Environment.GetEnvironmentVariable("CHIRPDBPATH") ?? throw new NullReferenceException("No ChirpDBPATH environment variable set");
             
             using var connection = new SqliteConnection($"Data Source={sqlDBFilePath}");
             {
@@ -32,7 +35,7 @@ namespace Chirp.Razor
                     Object[] values = new Object[reader.FieldCount];
                     int fieldCount = reader.GetValues(values);
                     for (int i = 0; i < fieldCount; i += 3)
-                        cheeps.Add(new CheepViewModel($"{values[i]}", $"{values[i+1]}", $"{UnixTimeStampToDateTimeString(Convert.ToDouble(values[i+2]))}"));
+                        cheeps.Add(new CheepViewModel($"{values[i]}", $"{values[i+1]}", $"{UnixTimeStampToDateTimeString(Convert.ToInt64(values[i+2]))}"));
                 } 
             }
             return cheeps;
@@ -50,11 +53,12 @@ namespace Chirp.Razor
                 $"SELECT u.username, m.text, m.pub_date FROM user u, message m WHERE u.user_id = m.author_id AND u.username = {author} ORDER by m.pub_date desc LIMIT 32 OFFSET " + offset);
         }
         
-        private static string UnixTimeStampToDateTimeString(double unixTimeStamp)
+        public static string UnixTimeStampToDateTimeString(long unixTimeStamp)
         {
-            DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-            dateTime = dateTime.AddSeconds(unixTimeStamp);
-            return dateTime.ToString("MM/dd/yy H:mm:ss");
+            DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeSeconds(unixTimeStamp);
+            TimeZoneInfo danishTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central Europe Standard Time");
+            DateTime dateTime = TimeZoneInfo.ConvertTime(dateTimeOffset.UtcDateTime, danishTimeZone);
+            return dateTime.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
         }
     }
 }
