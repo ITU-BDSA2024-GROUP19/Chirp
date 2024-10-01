@@ -16,13 +16,14 @@ class NewDBFacade : ICheepService, IDisposable
         //Batteries.Init();
         string sqlDBFilePath = Environment.GetEnvironmentVariable("CHIRPDBPATH") ?? Path.GetTempPath() + "chirp.db";
         Connection = new SqliteConnection($"Data Source={sqlDBFilePath}");
+        Connection.Open();
     }
     
     public List<CheepViewModel> GetCheeps(int page)
     {
         List<CheepViewModel> cheeps = new List<CheepViewModel>();
         var command = Connection.CreateCommand();
-        command.CommandText = @"SELECT u.username, m.text, m.pub_date FROM user u, message m WHERE u.user_id = m.author_id ORDER by m.pub_date desc LIMIT {CHEEPS_PER_PAGE} OFFSET " + getPageOffset(page);
+        command.CommandText = "SELECT u.username, m.text, m.pub_date FROM user u, message m WHERE u.user_id = m.author_id ORDER by m.pub_date desc LIMIT CHEEPS_PER_PAGE OFFSET " + getPageOffset(page);
 
         using var reader = command.ExecuteReader();
         while (reader.Read())
