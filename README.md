@@ -6,6 +6,11 @@ Project for BDSA course
 - **Weekly Scheduled Meeting:** Tuesday, 12:00 - 16:00 and Wednesday 14:00 - 16:00.
 
 - **Branch Naming:** When creating a new branch, name it according to the task you are working on, e.g., `feature/2a`.
+## Issue Creation: 
+- **Issue Title Format:** "('Session week number', 'issue number') 'Title of the issue at hand'"
+- **User Story Format:** "As a (user type), I want to (task) so that (goal)." (Please write in issue description)
+- **Acceptance Criteria:** Follow a point format of the intended outcomes of the issue. 
+##
 
 - **Project Organization:**
   - Organize your project work into issues (tickets) on GitHub.
