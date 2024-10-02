@@ -9,7 +9,7 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-        builder.Services.AddDbContext<ChatDBContext>(options => options.UseSqlite(connectionString));
+        builder.Services.AddDbContext<ChirpDBContext>(options => options.UseSqlite(connectionString));
         // Add services to the container.
         builder.Services.AddRazorPages();
         builder.Services.AddSingleton<ICheepService, CheepService>();

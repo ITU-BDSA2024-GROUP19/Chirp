@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Chirp.Razor.Migrations
 {
-    [DbContext(typeof(ChatDBContext))]
+    [DbContext(typeof(ChirpDBContext))]
     partial class ChatDBContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

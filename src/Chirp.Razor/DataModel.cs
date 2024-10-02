@@ -15,9 +15,9 @@ public class Author {
     public ICollection<Cheep> Cheeps {get; set;}
 }
 
-public class ChatDBContext : DbContext  {
+public class ChirpDBContext : DbContext  {
     public DbSet<Cheep> Cheeps {get; set;}
     public DbSet<Author> Authors {get; set;}
-    public ChatDBContext (DbContextOptions<ChatDBContext> options) : base(options){
+    public ChirpDBContext (DbContextOptions<ChirpDBContext> options) : base(options){
     }
 }
