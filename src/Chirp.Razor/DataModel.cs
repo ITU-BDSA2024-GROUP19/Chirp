@@ -3,16 +3,16 @@ using Microsoft.EntityFrameworkCore;
 
 public class Cheep {
     [Key]
-    public string Text {get; set;}
-    public DateTime TimeStamp {get; set;}
-    public Author Author {get; set;}
+    public required string Text {get; set;}
+    public required DateTime TimeStamp {get; set;}
+    public required Author Author {get; set;}
 }
 
 public class Author {
     [Key]
-    public string Name {get; set;}
-    public string Email {get; set;}
-    public ICollection<Cheep> Cheeps {get; set;}
+    public required string Name {get; set;}
+    public required string Email {get; set;}
+    public required ICollection<Cheep> Cheeps {get; set;}
 }
 
 public class ChirpDBContext : DbContext  {
