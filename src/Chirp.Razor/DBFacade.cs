@@ -13,11 +13,9 @@ public class DBFacade : ICheepService, IDisposable
         string sqlDBFilePath = Environment.GetEnvironmentVariable("CHIRPDBPATH") ?? CreateTemporaryDatabase();
 
         Connection = new SqliteConnection($"Data Source={sqlDBFilePath}");
-        bool databaseExists = File.Exists(sqlDBFilePath);
 
         Connection.Open();
 
-        if (!databaseExists)
         {
             using var cmd = Connection.CreateCommand();
             cmd.CommandText = File.OpenText("wwwroot/sample/schema.sql").ReadToEnd();
