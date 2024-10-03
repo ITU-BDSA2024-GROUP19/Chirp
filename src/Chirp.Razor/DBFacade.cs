@@ -13,6 +13,14 @@ public class DBFacade : ICheepService, IDisposable
         string sqlDBFilePath = Environment.GetEnvironmentVariable("CHIRPDBPATH") ?? CreateTemporaryDatabase();
         Connection = new SqliteConnection($"Data Source={sqlDBFilePath}");
         Connection.Open();
+
+        {
+            using var cmd = Connection.CreateCommand();
+            cmd.CommandText = File.OpenText("wwwroot/sample/schema.sql").ReadToEnd();
+            cmd.ExecuteNonQuery();
+            cmd.CommandText = File.OpenText("wwwroot/sample/dump.sql").ReadToEnd();
+            cmd.ExecuteNonQuery();
+        }
     }
     
     public List<CheepViewModel> GetCheeps(int page)
