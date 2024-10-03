@@ -42,4 +42,4 @@ obj/
 .sln.Dotsettings.user
 
 # Azure Config
-.azure/config
+src/Chirp.Razor/.azure/
