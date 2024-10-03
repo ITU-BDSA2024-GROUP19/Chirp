@@ -16,11 +16,15 @@ public class DBFacade : ICheepService, IDisposable
 
         Connection.Open();
 
+        string schema = "wwwroot/sample/schema.sql";
+        string dump = "wwwroot/sample/dump.sql";
+
+        if (File.Exists(schema) && File.Exists(dump))
         {
             using var cmd = Connection.CreateCommand();
-            cmd.CommandText = File.OpenText("wwwroot/sample/schema.sql").ReadToEnd();
+            cmd.CommandText = File.OpenText(schema).ReadToEnd();
             cmd.ExecuteNonQuery();
-            cmd.CommandText = File.OpenText("wwwroot/sample/dump.sql").ReadToEnd();
+            cmd.CommandText = File.OpenText(dump).ReadToEnd();
             cmd.ExecuteNonQuery();
         }
     }
