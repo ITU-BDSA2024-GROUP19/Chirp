@@ -1,5 +1,5 @@
 ﻿namespace Chirp.Razor.Tests;
-
+/*
 public class TestDBFixture
 {
     private string? originalDbPath;
@@ -16,3 +16,4 @@ public class TestDBFixture
         DBFacadeForTests.removeDBforTests(originalDbPath, dbPath);
     }
 }
+*/
