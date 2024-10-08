@@ -13,6 +13,7 @@ public class Program
         // Add services to the container.
         builder.Services.AddRazorPages();
         builder.Services.AddSingleton<ICheepService, DBFacade>();
+        builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 
 
         var app = builder.Build();
