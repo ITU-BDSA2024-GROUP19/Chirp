@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+
 namespace Chirp.Razor;
 
 public interface ICheepRepository
@@ -10,22 +12,45 @@ public interface ICheepRepository
 
 public class CheepRepository : ICheepRepository
 {
-    public Task<List<Cheep>> GetCheeps(int page)
+    private readonly ChirpDBContext _dbContext;
+    private const int CHEEPS_PER_PAGE = 32;
+
+    public CheepRepository(ChirpDBContext dbContext)
+    {
+        _dbContext = dbContext;
+    }
+    
+    public async Task<List<Cheep>> GetCheeps(int page)
+    {
+        var query = (from cheep in _dbContext.Cheeps 
+                orderby cheep.TimeStamp descending
+                select cheep)
+            .Include(c => c.Author)
+            .Skip(page * CHEEPS_PER_PAGE)
+            .Take(CHEEPS_PER_PAGE);
+        var result = await query.ToListAsync();
+        return result;
+    }
+
+    public async Task<List<Cheep>> GetCheepsFromAuthor(string authorName, int page)
+    {
+        var query = (from cheep in _dbContext.Cheeps 
+                where cheep.Author.Name == authorName 
+                orderby cheep.TimeStamp descending
+                select cheep)
+            .Include(c => c.Author)
+            .Skip(page * CHEEPS_PER_PAGE)
+            .Take(CHEEPS_PER_PAGE);
+        var result = await query.ToListAsync();
+        return result;
+    }
+
+    public async Task AddCheep(Cheep cheep)
     {
         throw new NotImplementedException();
     }
 
-    public Task<List<Cheep>> GetCheepsFromAuthor(string authorName, int page)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task AddCheep(Cheep cheep)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task AddAuthor(Author author)
+    public async Task AddAuthor(Author author)
     {
         throw new NotImplementedException();
     }
