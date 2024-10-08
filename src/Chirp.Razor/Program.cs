@@ -15,7 +15,6 @@ public class Program
         builder.Services.AddSingleton<ICheepService, DBFacade>();
         builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 
-
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
