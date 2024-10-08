@@ -45,11 +45,13 @@ public class CheepRepository : ICheepRepository
 
     public async Task AddCheep(Cheep cheep)
     {
-        throw new NotImplementedException();
+        _dbContext.Add(cheep);
+        await _dbContext.SaveChangesAsync();
     }
 
     public async Task AddAuthor(Author author)
     {
-        throw new NotImplementedException();
+        _dbContext.Add(author);
+        await _dbContext.SaveChangesAsync();
     }
 }
