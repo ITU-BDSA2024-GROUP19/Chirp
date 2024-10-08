@@ -26,21 +26,21 @@ public class CheepRepository : ICheepRepository
                 orderby cheep.TimeStamp descending
                 select cheep)
             .Include(c => c.Author)
-            .Skip(page * CHEEPS_PER_PAGE)
+            .Skip((page - 1) * CHEEPS_PER_PAGE)
             .Take(CHEEPS_PER_PAGE);
         return query.ToListAsync();
     }
 
-    public Task<List<Cheep>> GetCheepsFromAuthor(string authorName, int page)
+    public async Task<List<Cheep>> GetCheepsFromAuthor(string authorName, int page)
     {
         var query = (from cheep in _dbContext.Cheeps 
                 where cheep.Author.Name == authorName 
                 orderby cheep.TimeStamp descending
                 select cheep)
             .Include(c => c.Author)
-            .Skip(page * CHEEPS_PER_PAGE)
+            .Skip((page - 1) * CHEEPS_PER_PAGE)
             .Take(CHEEPS_PER_PAGE); 
-        return query.ToListAsync();
+        return await query.ToListAsync();
     }
 
     public async Task AddCheep(Cheep cheep)
