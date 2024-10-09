@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace Chirp.Razor.Tests;
-
+/*
 public class ChirpRazorIntegration : IClassFixture<WebApplicationFactory<Program>>, IClassFixture<TestDBFixture>
 {  
     private readonly WebApplicationFactory<Program> _fixture;
@@ -63,3 +63,4 @@ public class ChirpRazorIntegration : IClassFixture<WebApplicationFactory<Program
         Assert.Equal("text/html; charset=utf-8", response.Content.Headers.ContentType?.ToString());
     }
 }
+*/

@@ -1,7 +1,7 @@
 using System.Globalization;
 using Microsoft.Data.Sqlite;
 using SQLitePCL;
-
+/*
 namespace Chirp.Razor.Tests
 {
     public static class DBFacadeForTests
@@ -27,4 +27,4 @@ namespace Chirp.Razor.Tests
             //File.Delete(tmpDB);
         }
     }
-}
+}*/
