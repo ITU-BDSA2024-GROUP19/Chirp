@@ -61,8 +61,8 @@ public class CheepRepository : ICheepRepository
     {
         var query = (from cheep in _dbContext.Cheeps
                 orderby cheep.TimeStamp descending
-                select new CheepDTO(cheep.Author.Name, cheep.Text, cheep.TimeStamp.ToFileTimeUtc()))
-            .Include(c => c.Author)
+                select new CheepDTO(cheep.Author.Name, cheep.Text, (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds))
+            //.Include(c => c.Author)
             .Skip((page - 1) * CHEEPS_PER_PAGE)
             .Take(CHEEPS_PER_PAGE);
         return query.ToListAsync();
@@ -73,8 +73,8 @@ public class CheepRepository : ICheepRepository
         var query = (from cheep in _dbContext.Cheeps
                 where cheep.Author.Name == authorName
                 orderby cheep.TimeStamp descending
-                select new CheepDTO(cheep.Author.Name, cheep.Text, cheep.TimeStamp.ToFileTimeUtc()))
-            .Include(c => c.Author)
+                select new CheepDTO(cheep.Author.Name, cheep.Text, (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds))
+            //.Include(c => c.Author)
             .Skip((page - 1) * CHEEPS_PER_PAGE)
             .Take(CHEEPS_PER_PAGE);
         return query.ToListAsync();
