@@ -8,6 +8,7 @@ public interface ICheepRepository
     Task<List<Cheep>> GetCheepsFromAuthor(string authorName, int page);
     Task AddCheep(Cheep cheep);
     Task AddAuthor(Author author);
+    Task<List<CheepDTO>> GetCheepDTO(int page);
 }
 
 public class CheepRepository : ICheepRepository
@@ -31,7 +32,7 @@ public class CheepRepository : ICheepRepository
         return query.ToListAsync();
     }
 
-    public async Task<List<Cheep>> GetCheepsFromAuthor(string authorName, int page)
+    public Task<List<Cheep>> GetCheepsFromAuthor(string authorName, int page)
     {
         var query = (from cheep in _dbContext.Cheeps 
                 where cheep.Author.Name == authorName 
@@ -40,7 +41,7 @@ public class CheepRepository : ICheepRepository
             .Include(c => c.Author)
             .Skip((page - 1) * CHEEPS_PER_PAGE)
             .Take(CHEEPS_PER_PAGE); 
-        return await query.ToListAsync();
+        return query.ToListAsync();
     }
 
     public async Task AddCheep(Cheep cheep)
@@ -53,5 +54,16 @@ public class CheepRepository : ICheepRepository
     {
         _dbContext.Add(author);
         await _dbContext.SaveChangesAsync();
+    }
+
+    public Task<List<CheepDTO>> GetCheepDTO(int page)
+    {
+        var query = (from cheep in _dbContext.Cheeps
+                orderby cheep.TimeStamp descending
+                select new CheepDTO(cheep.Author.Name, cheep.Text, cheep.TimeStamp.ToFileTimeUtc()))
+            .Include(c => c.Author)
+            .Skip((page - 1) * CHEEPS_PER_PAGE)
+            .Take(CHEEPS_PER_PAGE);
+        return query.ToListAsync();
     }
 }
