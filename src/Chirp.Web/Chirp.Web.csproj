@@ -17,5 +17,10 @@
     <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="2.1.10" />
     <PackageReference Include="SQLitePCLRaw.bundle_sqlite3" Version="2.1.0" />
   </ItemGroup>
+    
+    <ItemGroup>
+        <ProjectReference Include="../Chirp.Core/Chirp.Core.csproj" /> 
+        <ProjectReference Include="../Chirp.Infrastructure/Chirp.Infrastructure.csproj" /> 
+    </ItemGroup>
 
 </Project>

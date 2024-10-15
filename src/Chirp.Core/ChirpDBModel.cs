@@ -1,6 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 
+namespace Chirp.Core;
+
 public class Cheep {
     [Key]
     public required int CheepId { get; set; }
