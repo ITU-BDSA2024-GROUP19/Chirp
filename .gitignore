@@ -39,7 +39,7 @@ obj/
 .pubxml
 
 # Dotsettings user setup
-.sln.Dotsettings.user
+Chirp.sln.Dotsettings.user
 
 # Azure Config
 src/Chirp.Web/.azure/
