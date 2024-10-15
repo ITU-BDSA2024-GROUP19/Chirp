@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using Chirp.Infrastructure;
-using Chirp.Core;
 
 namespace Chirp.Web;
 

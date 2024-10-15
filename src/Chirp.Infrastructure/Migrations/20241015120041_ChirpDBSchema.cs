@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Chirp.Core.Migrations
+namespace Chirp.Infrastructure.Migrations
 {
     /// <inheritdoc />
     public partial class ChirpDBSchema : Migration
