@@ -9,11 +9,10 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+        builder.Services.AddRazorPages();
 
         string? connectionString = "Data Source=" + Environment.GetEnvironmentVariable("CHIRPDBPATH");
         builder.Services.AddDbContext<ChirpDBContext>(options => options.UseSqlite(connectionString));
-        // Add services to the container.
-        builder.Services.AddRazorPages();
         builder.Services.AddScoped<ICheepRepository, CheepRepository>();
         builder.Services.AddScoped<ICheepService, CheepService>();
 
@@ -26,24 +25,19 @@ public class Program
             // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             app.UseHsts();
         }
-        
-        // Create a disposable service scope
+
+        // Database currently migrated and seeded on every start. 
+        // Remove when data needs to be persistent on server. 
         using (var scope = app.Services.CreateScope())
         {
-            // From the scope, get an instance of our database context.
-            // Through the `using` keyword, we make sure to dispose it after we are done.
             using var context = scope.ServiceProvider.GetRequiredService<ChirpDBContext>();
-            
-            // Execute the migration from code.
             context.Database.Migrate();
-
             DbInitializer.SeedDatabase(context);
         }
 
         app.UseDeveloperExceptionPage();
         app.UseHttpsRedirection();
         app.UseStaticFiles();
-
         app.UseRouting();
 
         app.MapRazorPages();
