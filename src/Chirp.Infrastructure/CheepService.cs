@@ -1,6 +1,7 @@
 using System.Globalization;
+using Chirp.Core;
 
-namespace Chirp.Razor;
+namespace Chirp.Infrastructure;
 
 public record CheepViewModel(string Author, string Message, string TimeStamp);
 

@@ -1,6 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 
+namespace Chirp.Core;
+
 public class Cheep {
     [Key]
     public required int CheepId { get; set; }
@@ -16,11 +18,4 @@ public class Author {
     public required string Name {get; set;}
     public required string Email {get; set;}
     public required ICollection<Cheep> Cheeps {get; set;}
-}
-
-public class ChirpDBContext : DbContext  {
-    public DbSet<Cheep> Cheeps {get; set;}
-    public DbSet<Author> Authors {get; set;}
-    public ChirpDBContext (DbContextOptions<ChirpDBContext> options) : base(options){
-    }
 }

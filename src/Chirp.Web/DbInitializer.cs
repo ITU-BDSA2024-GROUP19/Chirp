@@ -1,4 +1,8 @@
 using System;
+using Chirp.Infrastructure;
+using Chirp.Core;
+
+namespace Chirp.Web;
 
 public static class DbInitializer
 {
