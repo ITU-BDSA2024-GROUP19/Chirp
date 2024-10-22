@@ -41,4 +41,16 @@ public class CheepService : ICheepService
         DateTime dateTime = TimeZoneInfo.ConvertTime(dateTimeOffset.UtcDateTime, danishTimeZone);
         return dateTime.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture); // ensures the right format that is required
     }
+
+    public Author GetAuthorByName(string name)
+    {
+        Author author = _repository.GetAuthorsByName(name).Result;
+        return author;
+    }
+    
+    public Author GetAuthorByEmail(string email)
+    {
+        Author author = _repository.GetAuthorsByName(email).Result;
+        return author;
+    }
 }

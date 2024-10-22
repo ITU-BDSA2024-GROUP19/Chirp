@@ -9,6 +9,9 @@ public interface ICheepRepository
     Task AddAuthor(Author author);
     Task<List<CheepDTO>> GetCheepDTO(int page);
     Task<List<CheepDTO>> GetCheepDTOFromAuthor(int page, string authorName);
+    Task<Author> GetAuthorsByName(string name);
+    Task<Author> GetAuthorsByEmail(string email);
+    
 }
 
 public class CheepRepository : ICheepRepository
@@ -32,14 +35,14 @@ public class CheepRepository : ICheepRepository
         await _dbContext.SaveChangesAsync();
     }
 
-    public Task<Author> GetAuthorByName(String name)
+    public Task<Author> GetAuthorByName(string name)
     {
         var query = (from author in _dbContext.Authors where author.Name == name select author);
         
         return query.FirstOrDefaultAsync()!;
     }
     
-    public Task<Author> GetAuthorByEmail(String email)
+    public Task<Author> GetAuthorByEmail(string email)
     {
         var query = (from author in _dbContext.Authors where author.Name == email select author);
         
