@@ -32,6 +32,20 @@ public class CheepRepository : ICheepRepository
         await _dbContext.SaveChangesAsync();
     }
 
+    public Task<Author> GetAuthorByName(String name)
+    {
+        var query = (from author in _dbContext.Authors where author.Name == name select author);
+        
+        return query.FirstOrDefaultAsync()!;
+    }
+    
+    public Task<Author> GetAuthorByEmail(String email)
+    {
+        var query = (from author in _dbContext.Authors where author.Name == email select author);
+        
+        return query.FirstOrDefaultAsync()!;
+    }
+
     public Task<List<CheepDTO>> GetCheepDTO(int page)
     {
         var query = (from cheep in _dbContext.Cheeps
