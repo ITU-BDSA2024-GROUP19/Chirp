@@ -9,8 +9,8 @@ public interface ICheepRepository
     Task AddAuthor(Author author);
     Task<List<CheepDTO>> GetCheepDTO(int page);
     Task<List<CheepDTO>> GetCheepDTOFromAuthor(int page, string authorName);
-    Task<Author> GetAuthorsByName(string name);
-    Task<Author> GetAuthorsByEmail(string email);
+    Task<Author> GetAuthorByName(string name);
+    Task<Author> GetAuthorByEmail(string email);
     
 }
 

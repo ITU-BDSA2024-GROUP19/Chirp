@@ -44,13 +44,13 @@ public class CheepService : ICheepService
 
     public Author GetAuthorByName(string name)
     {
-        Author author = _repository.GetAuthorsByName(name).Result;
+        Author author = _repository.GetAuthorByName(name).Result;
         return author;
     }
     
     public Author GetAuthorByEmail(string email)
     {
-        Author author = _repository.GetAuthorsByName(email).Result;
+        Author author = _repository.GetAuthorByName(email).Result;
         return author;
     }
 }
