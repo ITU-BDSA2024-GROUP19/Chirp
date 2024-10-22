@@ -159,6 +159,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
         Assert.Equal(3, cheeps.Count);
         Assert.Equal("Message 3", cheeps[0].Message);
     }
+
     [Fact]
     public async Task GetCheepDTO_WithNoCheepsOnPage_ReturnsEmptyList()
     {
@@ -171,6 +172,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
         // Assert
         Assert.Empty(cheeps);
     }
+
     [Fact]
     public async Task GetCheepDTOFromAuthor_ReturnsCheepsByAuthor()
     {
@@ -184,6 +186,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
         Assert.NotEmpty(cheepsByAuthor);
         Assert.All(cheepsByAuthor, cheep => Assert.Equal("Author1", cheep.Author));
     }
+    
     [Fact]
     public async Task GetCheepDTOFromAuthor_WithNoCheepsForAuthor_ReturnsEmptyList()
     {
