@@ -44,7 +44,7 @@ public class CheepRepository : ICheepRepository
     
     public Task<Author> GetAuthorByEmail(string email)
     {
-        var query = (from author in _dbContext.Authors where author.Name == email select author);
+        var query = (from author in _dbContext.Authors where author.Email == email select author);
         
         return query.FirstOrDefaultAsync()!;
     }

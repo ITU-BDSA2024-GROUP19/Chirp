@@ -46,4 +46,14 @@ public class CheepRepositoryStub : ICheepRepository
         
         return Task.FromResult(mockCheeps);
     }
+    public Task<Author> GetAuthorByName(string name)
+    {
+        var author = _authors.FirstOrDefault(a => a.Name == name);
+        return Task.FromResult(author);
+    }
+    public Task<Author> GetAuthorByEmail(string email)
+    {
+        var author = _authors.FirstOrDefault(a => a.Email == email);
+        return Task.FromResult(author);
+    }
 }
