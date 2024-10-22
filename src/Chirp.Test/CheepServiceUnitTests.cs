@@ -21,6 +21,7 @@ public class CheepServiceUnitTests
         Assert.NotNull(cheeps);
         Assert.NotEmpty(cheeps);
     }
+    
     [Fact] 
     public void GetCheepsFromAuthor_ReturnsCheeps()
     {
