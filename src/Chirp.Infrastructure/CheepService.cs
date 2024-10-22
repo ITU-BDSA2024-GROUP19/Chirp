@@ -9,6 +9,10 @@ public interface ICheepService
 {
     List<CheepViewModel> GetCheeps(int page);
     List<CheepViewModel> GetCheepsFromAuthor(int page, string author);
+    Author GetAuthorByName(string name);
+    Author GetAuthorByEmail(string email);
+    void AddCheep(Cheep cheep);
+    void AddAuthor(Author author);
 }
 
 public class CheepService : ICheepService
@@ -52,5 +56,15 @@ public class CheepService : ICheepService
     {
         Author author = _repository.GetAuthorByName(email).Result;
         return author;
+    }
+
+    public void AddCheep(Cheep cheep)
+    {
+        _repository.AddCheep(cheep);
+    }
+
+    public void AddAuthor(Author author)
+    {
+        _repository.AddAuthor(author);
     }
 }
