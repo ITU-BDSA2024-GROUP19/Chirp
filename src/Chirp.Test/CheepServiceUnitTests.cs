@@ -95,8 +95,8 @@ public class CheepServiceUnitTests
     public void TimestampToCEST_ConvertsCorrectly()
     {
         // Arrange
-        var timestamp = 1634567890L; // Unix timestamp en segundos
-        var expectedTime = "18/10/2021 16:38:10"; // Hora convertida en CEST
+        var timestamp = 1634567890L;
+        var expectedTime = "18/10/2021 16:38:10";
 
         var mockRepository = new Mock<ICheepRepository>();
         mockRepository.Setup(repo => repo.GetCheepDTO(1))
@@ -150,6 +150,22 @@ public class CheepServiceUnitTests
         // Assert
         Assert.NotNull(cheeps);
         Assert.NotEmpty(cheeps);
+    }
+    
+    [Fact]
+    public void TimestampToCEST_ConvertsCorrectly()
+    {
+        // Arrange
+        var expectedTime = "18/10/2021 11:18:30";
+
+        ICheepRepository cheepRepo = new CheepRepositoryStub();
+        ICheepService service = new CheepService(cheepRepo);
+
+        // Act
+        var result = service.GetCheeps(1);
+
+        // Assert
+        Assert.Equal(expectedTime, result[0].TimeStamp);
     }
     */
 }
