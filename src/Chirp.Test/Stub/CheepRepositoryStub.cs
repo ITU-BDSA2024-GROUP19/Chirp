@@ -46,4 +46,14 @@ public class CheepRepositoryStub : ICheepRepository
         
         return Task.FromResult(mockCheeps);
     }
+    public Task<Author> GetAuthorByName(string name)
+    {
+        var mockAuthor = new Author() { AuthorId = 1, Name = "Author1", Email = "au1@itu.dk", Cheeps = new List<Cheep>() };
+        return Task.FromResult(mockAuthor);
+    }
+    public Task<Author> GetAuthorByEmail(string email)
+    {
+        var mockAuthor = new Author() { AuthorId = 1, Name = "Author1", Email = "au1@itu.dk", Cheeps = new List<Cheep>() };
+        return Task.FromResult(mockAuthor);
+    }
 }

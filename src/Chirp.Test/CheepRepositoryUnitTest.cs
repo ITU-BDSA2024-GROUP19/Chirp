@@ -76,6 +76,75 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
         Assert.NotNull(storedAuthor);
         Assert.Equal("Test Author", storedAuthor.Name);
     }
+
+    [Fact]
+    public async Task GetAuthorByName_ReturnsAuthor()
+    {
+        // Arrange
+        var author = new Author()
+        {
+            AuthorId = 13, Name = "Test Author", Email = "test@itu.dk", Cheeps = new List<Cheep>()
+        };
+
+        // Act
+        await _cheepRepo.AddAuthor(author);
+
+        // Assert
+        var storedAuthor = await _cheepRepo.GetAuthorByName("Test Author");
+        Assert.NotNull(storedAuthor);
+    }
+    
+    [Fact]
+    public async Task GetAuthorByName_WithUnknownAuthor_ReturnsNull()
+    {
+        // Arrange
+        var author = new Author()
+        {
+            AuthorId = 13, Name = "Test Author", Email = "test@itu.dk", Cheeps = new List<Cheep>()
+        };
+        
+        // Act
+        await _cheepRepo.AddAuthor(author);
+        
+        // Assert
+        var storedAuthor = await _cheepRepo.GetAuthorByName("Unknown Author");
+        Assert.Null(storedAuthor);
+    }
+    
+    [Fact]
+    public async Task GetAuthorByEmail_ReturnsAuthor()
+    {
+        // Arrange
+        var author = new Author()
+        {
+            AuthorId = 13, Name = "Test Author", Email = "test@itu.dk", Cheeps = new List<Cheep>()
+        };
+        
+        // Act
+        await _cheepRepo.AddAuthor(author);
+        
+        // Assert
+        var storedAuthor = await _cheepRepo.GetAuthorByEmail("test@itu.dk");
+        Assert.NotNull(storedAuthor);
+    }
+    
+    [Fact]
+    public async Task GetAuthorByEmail_WithUnknownEmail_ReturnsNull()
+    {
+        // Arrange
+        var author = new Author()
+        {
+            AuthorId = 13, Name = "Test Author", Email = "test@itu.dk", Cheeps = new List<Cheep>()
+        };
+        
+        // Act
+        await _cheepRepo.AddAuthor(author);
+        
+        // Assert
+        var storedAuthor = await _cheepRepo.GetAuthorByEmail("Unknown Email");
+        Assert.Null(storedAuthor);
+    }
+
     [Fact]
     public async Task GetCheepDTO_ReturnsPagedCheeps()
     {
@@ -90,6 +159,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
         Assert.Equal(3, cheeps.Count);
         Assert.Equal("Message 3", cheeps[0].Message);
     }
+
     [Fact]
     public async Task GetCheepDTO_WithNoCheepsOnPage_ReturnsEmptyList()
     {
@@ -102,6 +172,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
         // Assert
         Assert.Empty(cheeps);
     }
+
     [Fact]
     public async Task GetCheepDTOFromAuthor_ReturnsCheepsByAuthor()
     {
@@ -115,6 +186,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
         Assert.NotEmpty(cheepsByAuthor);
         Assert.All(cheepsByAuthor, cheep => Assert.Equal("Author1", cheep.Author));
     }
+    
     [Fact]
     public async Task GetCheepDTOFromAuthor_WithNoCheepsForAuthor_ReturnsEmptyList()
     {

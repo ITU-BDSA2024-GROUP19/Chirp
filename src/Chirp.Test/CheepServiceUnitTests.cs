@@ -21,7 +21,9 @@ public class CheepServiceUnitTests
         Assert.NotNull(cheeps);
         Assert.NotEmpty(cheeps);
     }
-    [Fact] public void GetCheepsFromAuthor_ReturnsCheeps()
+    
+    [Fact] 
+    public void GetCheepsFromAuthor_ReturnsCheeps()
     {
         // Arrange
         ICheepRepository cheepRepo = new CheepRepositoryStub();
@@ -49,6 +51,35 @@ public class CheepServiceUnitTests
         // Assert
         Assert.Equal(expectedTime, result[0].TimeStamp);
     }
+    
+    [Fact]
+    public void GetAuthorByName_ReturnsAuthor()
+    {
+        // Arrange
+        ICheepRepository cheepRepo = new CheepRepositoryStub();
+        ICheepService cheepService = new CheepService(cheepRepo);
+        // Act
+        Author author = cheepService.GetAuthorByName("Author1");
+
+        // Assert
+        Assert.NotNull(author);
+        Assert.Equal("Author1", author.Name);
+    }
+    
+    [Fact]
+    public void GetAuthorByEmail_ReturnsAuthor()
+    {
+        // Arrange
+        ICheepRepository cheepRepo = new CheepRepositoryStub();
+        ICheepService cheepService = new CheepService(cheepRepo);
+        // Act
+        Author author = cheepService.GetAuthorByEmail("au1@itu.dk");
+        
+        // Assert
+        Assert.NotNull(author);
+        Assert.Equal("Author1", author.Name);
+    }
+    
     /*
     [Fact]
     public void GetCheeps_WithValidPage_ReturnsCheeps()

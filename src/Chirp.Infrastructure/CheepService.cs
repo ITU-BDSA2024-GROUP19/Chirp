@@ -9,6 +9,10 @@ public interface ICheepService
 {
     List<CheepViewModel> GetCheeps(int page);
     List<CheepViewModel> GetCheepsFromAuthor(int page, string author);
+    Author GetAuthorByName(string name);
+    Author GetAuthorByEmail(string email);
+    void AddCheep(Cheep cheep);
+    void AddAuthor(Author author);
 }
 
 public class CheepService : ICheepService
@@ -40,5 +44,27 @@ public class CheepService : ICheepService
         TimeZoneInfo danishTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central Europe Standard Time");
         DateTime dateTime = TimeZoneInfo.ConvertTime(dateTimeOffset.UtcDateTime, danishTimeZone);
         return dateTime.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture); // ensures the right format that is required
+    }
+
+    public Author GetAuthorByName(string name)
+    {
+        Author author = _repository.GetAuthorByName(name).Result;
+        return author;
+    }
+    
+    public Author GetAuthorByEmail(string email)
+    {
+        Author author = _repository.GetAuthorByName(email).Result;
+        return author;
+    }
+
+    public void AddCheep(Cheep cheep)
+    {
+        _repository.AddCheep(cheep);
+    }
+
+    public void AddAuthor(Author author)
+    {
+        _repository.AddAuthor(author);
     }
 }
