@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Chirp.Infrastructure;
 
+using Microsoft.AspNetCore.Identity;
+
 namespace Chirp.Web;
 
 public class Program
@@ -14,6 +16,8 @@ public class Program
         builder.Services.AddDbContext<ChirpDBContext>(options => options.UseSqlite(connectionString));
         builder.Services.AddScoped<ICheepRepository, CheepRepository>();
         builder.Services.AddScoped<ICheepService, CheepService>();
+        builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            .AddEntityFrameworkStores<ChirpDBContext>();
 
         var app = builder.Build();
     
