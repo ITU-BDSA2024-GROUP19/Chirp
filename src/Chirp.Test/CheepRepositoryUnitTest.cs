@@ -17,7 +17,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
     {
         var authors = new List<Author>
         {
-            new Author() { AuthorId = 1, Name = "Author1", Email = "au1@itu.dk", Cheeps = new List<Cheep>() }
+            new Author() { AuthorId = 1, UserName = "Author1", Email = "au1@itu.dk", Cheeps = new List<Cheep>() }
         };
         var cheeps = new List<Cheep>
         {
@@ -50,7 +50,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
     public async Task AddCheep_SavesCheepToDatabase()
     {
         // Arrange
-        var a13 = new Author() { AuthorId = 13, Name = "Test Author", Email = "test@itu.dk", Cheeps = new List<Cheep>() };
+        var a13 = new Author() { AuthorId = 13, UserName = "Test Author", Email = "test@itu.dk", Cheeps = new List<Cheep>() };
         var cheep = new Cheep() { CheepId = 658, AuthorId = a13.AuthorId, Author = a13, Text = "Test Message", TimeStamp = DateTime.UtcNow };
         
         // Act
@@ -59,14 +59,14 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
         // Assert
         var storedCheep = await _context.Cheeps.Include(c => c.Author).FirstOrDefaultAsync();
         Assert.NotNull(storedCheep);
-        Assert.Equal("Test Author", storedCheep.Author.Name);
+        Assert.Equal("Test Author", storedCheep.Author.UserName);
         Assert.Equal("Test Message", storedCheep.Text);
     }
     [Fact]
     public async Task AddAuthor_SavesAuthorToDatabase()
     {
         // Arrange
-        var author = new Author() { AuthorId = 13, Name = "Test Author", Email = "test@itu.dk", Cheeps = new List<Cheep>() };
+        var author = new Author() { AuthorId = 13, UserName = "Test Author", Email = "test@itu.dk", Cheeps = new List<Cheep>() };
 
         // Act
         await _cheepRepo.AddAuthor(author);
@@ -74,7 +74,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
         // Assert
         var storedAuthor = await _context.Authors.FirstOrDefaultAsync();
         Assert.NotNull(storedAuthor);
-        Assert.Equal("Test Author", storedAuthor.Name);
+        Assert.Equal("Test Author", storedAuthor.UserName);
     }
 
     [Fact]
@@ -83,7 +83,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
         // Arrange
         var author = new Author()
         {
-            AuthorId = 13, Name = "Test Author", Email = "test@itu.dk", Cheeps = new List<Cheep>()
+            AuthorId = 13, UserName = "Test Author", Email = "test@itu.dk", Cheeps = new List<Cheep>()
         };
 
         // Act
@@ -100,7 +100,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
         // Arrange
         var author = new Author()
         {
-            AuthorId = 13, Name = "Test Author", Email = "test@itu.dk", Cheeps = new List<Cheep>()
+            AuthorId = 13, UserName = "Test Author", Email = "test@itu.dk", Cheeps = new List<Cheep>()
         };
         
         // Act
@@ -117,7 +117,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
         // Arrange
         var author = new Author()
         {
-            AuthorId = 13, Name = "Test Author", Email = "test@itu.dk", Cheeps = new List<Cheep>()
+            AuthorId = 13, UserName = "Test Author", Email = "test@itu.dk", Cheeps = new List<Cheep>()
         };
         
         // Act
@@ -134,7 +134,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
         // Arrange
         var author = new Author()
         {
-            AuthorId = 13, Name = "Test Author", Email = "test@itu.dk", Cheeps = new List<Cheep>()
+            AuthorId = 13, UserName = "Test Author", Email = "test@itu.dk", Cheeps = new List<Cheep>()
         };
         
         // Act
