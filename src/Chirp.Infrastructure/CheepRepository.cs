@@ -37,7 +37,7 @@ public class CheepRepository : ICheepRepository
 
     public Task<Author> GetAuthorByName(string name)
     {
-        var query = (from author in _dbContext.Authors where author.Name == name select author);
+        var query = (from author in _dbContext.Authors where author.UserName == name select author);
         
         return query.FirstOrDefaultAsync()!;
     }
@@ -53,7 +53,7 @@ public class CheepRepository : ICheepRepository
     {
         var query = (from cheep in _dbContext.Cheeps
                 orderby cheep.TimeStamp descending
-                select new CheepDTO(cheep.Author.Name, cheep.Text, (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds))
+                select new CheepDTO(cheep.Author.UserName ?? "", cheep.Text, (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds))
             //.Include(c => c.Author)
             .Skip((page - 1) * CHEEPS_PER_PAGE)
             .Take(CHEEPS_PER_PAGE);
@@ -63,9 +63,9 @@ public class CheepRepository : ICheepRepository
     public Task<List<CheepDTO>> GetCheepDTOFromAuthor(int page, string authorName)
     {
         var query = (from cheep in _dbContext.Cheeps
-                where cheep.Author.Name == authorName
+                where cheep.Author.UserName == authorName
                 orderby cheep.TimeStamp descending
-                select new CheepDTO(cheep.Author.Name, cheep.Text, (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds))
+                select new CheepDTO(cheep.Author.UserName ?? "", cheep.Text, (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds))
             //.Include(c => c.Author)
             .Skip((page - 1) * CHEEPS_PER_PAGE)
             .Take(CHEEPS_PER_PAGE);
