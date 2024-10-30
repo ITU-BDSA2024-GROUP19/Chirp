@@ -210,6 +210,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
         var cheep = new Cheep() { CheepId = 658, AuthorId = a14.AuthorId, Author = a14, Text = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH", TimeStamp = DateTime.UtcNow };
         
         // Act And Assert
-        await Assert.ThrowsAnyAsync<ValidationException>(() => _cheepRepo.AddCheep(cheep));
+        var exception = await Assert.ThrowsAnyAsync<ValidationException>(() => _cheepRepo.AddCheep(cheep));
+        Assert.Equal("Cheep content must be less than 160 characters!", exception.Message);
     }
 }
