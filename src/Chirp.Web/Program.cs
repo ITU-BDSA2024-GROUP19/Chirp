@@ -35,8 +35,9 @@ public class Program
         using (var scope = app.Services.CreateScope())
         {
             using var context = scope.ServiceProvider.GetRequiredService<ChirpDBContext>();
+            using var userManager = scope.ServiceProvider.GetRequiredService<UserManager<Author>>();
             context.Database.Migrate();
-            DbInitializer.SeedDatabase(context);
+            DbInitializer.SeedDatabase(context, userManager);
         }
 
         app.UseDeveloperExceptionPage();

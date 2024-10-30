@@ -1,12 +1,13 @@
 using System;
 using Chirp.Infrastructure;
 using Chirp.Core;
+using Microsoft.AspNetCore.Identity;
 
 namespace Chirp.Web;
 
 public static class DbInitializer
 {
-    public static void SeedDatabase(ChirpDBContext chirpContext)
+    public static async void SeedDatabase(ChirpDBContext chirpContext, UserManager<Author> userManager)
     {
         if (!(chirpContext.Authors.Any() && chirpContext.Cheeps.Any()))
         {
@@ -22,6 +23,14 @@ public static class DbInitializer
             var a10 = new Author() { UserName = "Jacqualine Gilcoine", Email = "Jacqualine.Gilcoine@gmail.com", Cheeps = new List<Cheep>() };
             var a11 = new Author() { UserName = "Helge", Email = "ropf@itu.dk", Cheeps = new List<Cheep>() };
             var a12 = new Author() { UserName = "Adrian", Email = "adho@itu.dk", Cheeps = new List<Cheep>() };
+
+            // Default passwords for Helge and Adrian.
+            // https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.identity.usermanager-1.addpasswordasync?view=aspnetcore-8.0#microsoft-aspnetcore-identity-usermanager-1-addpasswordasync(-0-system-string)
+            var r1 = await userManager.AddPasswordAsync(a11, "LetM31n!");
+            var r2 = await userManager.AddPasswordAsync(a12, "M32Want_Access");
+            Console.WriteLine("Add default password result:");
+            Console.WriteLine("R1: " + r1.ToString());
+            Console.WriteLine("R2: " + r2.ToString());
 
             var authors = new List<Author>() { a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12 };
 
@@ -699,6 +708,7 @@ public static class DbInitializer
 
             chirpContext.Authors.AddRange(authors);
             chirpContext.Cheeps.AddRange(cheeps);
+
             chirpContext.SaveChanges();
         }
     }
