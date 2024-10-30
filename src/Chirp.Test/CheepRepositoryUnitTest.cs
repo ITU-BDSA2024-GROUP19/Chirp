@@ -1,4 +1,6 @@
-﻿using Chirp.Core;
+﻿using System.ComponentModel.DataAnnotations;
+
+using Chirp.Core;
 using Chirp.Infrastructure;
 
 using Microsoft.Data.Sqlite;
@@ -197,5 +199,20 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
 
         // Assert
         Assert.Empty(cheepsByUnknownAuthor);
+    }
+
+    [Fact]
+    public async Task AddCheepWithTooManyCharacters()
+    {
+        // Arrange
+        DbTestInitializer();
+        var a14 = new Author() { AuthorId = 14, Name = "Test Author", Email = "test@itu.dk", Cheeps = new List<Cheep>() };
+        var cheep = new Cheep() { CheepId = 658, AuthorId = a14.AuthorId, Author = a14, Text = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH", TimeStamp = DateTime.UtcNow };
+        
+        // Act
+        
+
+        // Assert
+        var exception = await Assert.ThrowsAnyAsync<ValidationException>(() => _cheepRepo.AddCheep(cheep));
     }
 }

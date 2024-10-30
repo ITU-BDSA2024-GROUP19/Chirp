@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Chirp.Core;
+using System.ComponentModel.DataAnnotations;
 
 namespace Chirp.Infrastructure;
 
@@ -25,8 +26,13 @@ public class CheepRepository : ICheepRepository
     }
     public async Task AddCheep(Cheep cheep)
     {
-        _dbContext.Add(cheep);
-        await _dbContext.SaveChangesAsync();
+        if (cheep.Text.Length > 160){
+            throw new ValidationException("Cheep content must be less than 160 characters!");
+        }
+        else {
+            _dbContext.Add(cheep);
+            await _dbContext.SaveChangesAsync();
+        }
     }
 
     public async Task AddAuthor(Author author)
