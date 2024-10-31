@@ -63,7 +63,7 @@ public class CheepServiceUnitTests
 
         // Assert
         Assert.NotNull(author);
-        Assert.Equal("Author1", author.Name);
+        Assert.Equal("Author1", author.UserName);
     }
     
     [Fact]
@@ -77,7 +77,7 @@ public class CheepServiceUnitTests
         
         // Assert
         Assert.NotNull(author);
-        Assert.Equal("Author1", author.Name);
+        Assert.Equal("Author1", author.UserName);
     }
     
     /*

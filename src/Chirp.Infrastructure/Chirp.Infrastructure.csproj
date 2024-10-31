@@ -9,6 +9,8 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.8" />
         <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="8.0.8" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.10" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.10" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>

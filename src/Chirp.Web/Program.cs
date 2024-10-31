@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Chirp.Infrastructure;
+using Chirp.Core;
+using Microsoft.AspNetCore.Identity;
+using SQLitePCL;
 
 namespace Chirp.Web;
 
@@ -8,12 +11,17 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-        builder.Services.AddRazorPages();
 
         string? connectionString = "Data Source=" + Environment.GetEnvironmentVariable("CHIRPDBPATH");
         builder.Services.AddDbContext<ChirpDBContext>(options => options.UseSqlite(connectionString));
         builder.Services.AddScoped<ICheepRepository, CheepRepository>();
         builder.Services.AddScoped<ICheepService, CheepService>();
+        builder.Services.AddDefaultIdentity<Author>(options => {
+            options.SignIn.RequireConfirmedAccount = true;
+        })
+            .AddEntityFrameworkStores<ChirpDBContext>();
+        
+        builder.Services.AddRazorPages();
 
         var app = builder.Build();
     
@@ -30,14 +38,17 @@ public class Program
         using (var scope = app.Services.CreateScope())
         {
             using var context = scope.ServiceProvider.GetRequiredService<ChirpDBContext>();
+            using var userManager = scope.ServiceProvider.GetRequiredService<UserManager<Author>>();
             context.Database.Migrate();
-            DbInitializer.SeedDatabase(context);
+            DbInitializer.SeedDatabase(context, userManager);
         }
 
         app.UseDeveloperExceptionPage();
         app.UseHttpsRedirection();
         app.UseStaticFiles();
         app.UseRouting();
+        app.UseAuthentication();
+        app.UseAuthorization();
 
         app.MapRazorPages();
 
