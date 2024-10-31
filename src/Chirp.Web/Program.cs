@@ -3,6 +3,7 @@ using Chirp.Infrastructure;
 using Chirp.Core;
 using Microsoft.AspNetCore.Identity;
 using SQLitePCL;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Chirp.Web;
 
@@ -16,6 +17,21 @@ public class Program
         builder.Services.AddDbContext<ChirpDBContext>(options => options.UseSqlite(connectionString));
         builder.Services.AddScoped<ICheepRepository, CheepRepository>();
         builder.Services.AddScoped<ICheepService, CheepService>();
+        builder.Services.AddAuthentication(options => 
+        {
+            options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = "GitHub";
+        })
+        .AddCookie()
+        .AddGitHub(o => 
+        {
+            //You shouldnt store secrets in code. See session 8 README_PROJECT.md
+            //o.ClientId = builder.Configuration["authentication:github:clientId"];
+            //o.ClientSecret = builder.Configuration["authentication:github:clientSecret"];
+            o.CallbackPath = "/signin-github";
+        });
+
         builder.Services.AddDefaultIdentity<Author>(options => {
             options.SignIn.RequireConfirmedAccount = true;
         })
@@ -49,6 +65,7 @@ public class Program
         app.UseRouting();
         app.UseAuthentication();
         app.UseAuthorization();
+        app.UseSession();
 
         app.MapRazorPages();
 
