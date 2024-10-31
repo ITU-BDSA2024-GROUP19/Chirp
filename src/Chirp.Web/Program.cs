@@ -26,9 +26,9 @@ public class Program
         .AddCookie()
         .AddGitHub(o => 
         {
-            //You shouldnt store secrets in code. See session 8 README_PROJECT.md
-            //o.ClientId = builder.Configuration["authentication:github:clientId"];
-            //o.ClientSecret = builder.Configuration["authentication:github:clientSecret"];
+           
+            o.ClientId = builder.Configuration["authentication:github:clientId"];
+            o.ClientSecret = builder.Configuration["authentication:github:clientSecret"];
             o.CallbackPath = "/signin-github";
         });
 
@@ -65,7 +65,8 @@ public class Program
         app.UseRouting();
         app.UseAuthentication();
         app.UseAuthorization();
-        app.UseSession();
+        //Not sure why UseSession is included in the code examples in session 8 README_PROJECT.md
+       // app.UseSession();
 
         app.MapRazorPages();
 
