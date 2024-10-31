@@ -1,0 +1,48 @@
+﻿name: Auto release Web Application when Main merge
+on:
+    push:
+      branches:
+        - main
+env:
+  AZURE_WEBAPP_NAME: bdsa2024group19chirprazor
+  AZURE_WEBAPP_PACKAGE_PATH: src/Chirp.Web/published
+  CONFIGURATION: Release
+  DOTNET_CORE_VERSION: 8.0.x
+  WORKING_DIRECTORY: src/Chirp.Web
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
+      - name: Restore
+        run: dotnet restore "${{ env.WORKING_DIRECTORY }}"
+      - name: Build
+        run: dotnet build "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-restore
+      - name: Test
+        run: dotnet test "${{ env.WORKING_DIRECTORY }}" --no-build
+      - name: Publish
+        run: dotnet publish "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-build --output "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}"
+      - name: Publish Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: webapp
+          path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+          name: webapp
+          path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+      - name: Package tar.gz
+        run: tar czvf "Chirp_Razor_${{ github.run_id }}.tar.gz" "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}"
+      - name: Publish as Github release
+        uses: softprops/action-gh-release@v1
+        with: 
+          files: Chirp_Razor_${{ github.run_id }}.tar.gz
