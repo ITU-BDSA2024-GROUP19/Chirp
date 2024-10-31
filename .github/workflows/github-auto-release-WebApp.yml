@@ -1,4 +1,4 @@
-﻿name: Auto-Release Web Application when Tagged
+name: Auto-Release Web Application when Tagged
 on:
   push:
     tags:
@@ -9,7 +9,6 @@ env:
   CONFIGURATION: Release
   DOTNET_CORE_VERSION: 8.0.x
   WORKING_DIRECTORY: src/Chirp.Web
-  TAG: $(git describe --tags --abbrev=0)
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -42,8 +41,8 @@ jobs:
           name: webapp
           path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
       - name: Package tar.gz
-        run: tar czvf "Chirp_Razor_${{ env.TAG }}.tar.gz" "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}"
+        run: tar czvf "Chirp_Razor_${{  github.ref_name }}.tar.gz" "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}"
       - name: Publish as Github release
         uses: softprops/action-gh-release@v1
         with: 
-          files: Chirp_Razor_${{ env.TAG }}.tar.gz
+          files: Chirp_Razor_${{  github.ref_name }}.tar.gz
