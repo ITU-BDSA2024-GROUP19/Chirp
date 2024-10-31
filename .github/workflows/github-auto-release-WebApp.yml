@@ -1,6 +1,6 @@
 name: Auto-Release Web Application when Pushed
 on:
-  pull_request:
+  push:
     branches:
       - main
 env:
