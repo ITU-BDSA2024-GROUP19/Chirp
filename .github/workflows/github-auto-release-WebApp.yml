@@ -1,27 +1,15 @@
-﻿name: Auto release Web Application when Main merge
+﻿name: Auto-Release Web Application when Tagged
 on:
-    push:
-      branches:
-        - main
-    pull_request:
-      branches:
-        - main
-    workflow_dispatch:
-      inputs:
-        logLevel:
-          description: 'Log level'
-          required: true
-          default: 'warning'
-        environment:
-          description: 'Environment to deploy'
-          required: false
-          default: 'staging'
+  push:
+    tags:
+     - 'v*.*.*'
 env:
   AZURE_WEBAPP_NAME: bdsa2024group19chirprazor
   AZURE_WEBAPP_PACKAGE_PATH: src/Chirp.Web/published
   CONFIGURATION: Release
   DOTNET_CORE_VERSION: 8.0.x
   WORKING_DIRECTORY: src/Chirp.Web
+  TAG: $(git describe --tags --abbrev=0)
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -54,8 +42,8 @@ jobs:
           name: webapp
           path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
       - name: Package tar.gz
-        run: tar czvf "Chirp_Razor_${{ github.run_id }}.tar.gz" "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}"
+        run: tar czvf "Chirp_Razor_${{ env.TAG }}.tar.gz" "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}"
       - name: Publish as Github release
         uses: softprops/action-gh-release@v1
         with: 
-          files: Chirp_Razor_${{ github.run_id }}.tar.gz
+          files: Chirp_Razor_${{ env.TAG }}.tar.gz
