@@ -47,4 +47,4 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{  env.TAGNB }}
-          files: Chirp_Razor_${TAGNB////_}.tar.gz
+          files: Chirp_Razor_*.tar.gz
