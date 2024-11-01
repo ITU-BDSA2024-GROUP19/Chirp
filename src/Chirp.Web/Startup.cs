@@ -17,19 +17,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Web;
 
-public class Startup
+public class Startup(IConfiguration configuration, string connectionString)
  {
-    public IConfiguration ?Configuration {get; set;}
-    public string ?ConnectionString {get; set;}
-
     public void ConfigureServices(IServiceCollection services)
     {
-        if (Configuration == null) throw new NullReferenceException("Missing builder configuration");
-        if (ConnectionString == null) throw new NullReferenceException("ConnectionString not set");
+        if (configuration == null) throw new NullReferenceException("Missing builder configuration");
+        if (connectionString == null) throw new NullReferenceException("ConnectionString not set");
 
         services.AddRouting();
 
-        services.AddDbContext<ChirpDBContext>(options => options.UseSqlite(ConnectionString));
+        services.AddDbContext<ChirpDBContext>(options => options.UseSqlite(connectionString));
 
         services.AddScoped<ICheepRepository, CheepRepository>();
 
@@ -44,8 +41,8 @@ public class Startup
 
         .AddGitHub(options =>
         {
-            options.ClientId = Configuration["authentication:github:clientId"] ?? throw new InvalidOperationException("Configuration missing a GitHub clientId");
-            options.ClientSecret = Configuration["authentication:github:clientSecret"] ?? throw new InvalidOperationException("Configuration missing a GitHub clientSecret");
+            options.ClientId = configuration["authentication:github:clientId"] ?? throw new InvalidOperationException("Configuration missing a GitHub clientId");
+            options.ClientSecret = configuration["authentication:github:clientSecret"] ?? throw new InvalidOperationException("Configuration missing a GitHub clientSecret");
             options.CallbackPath = "/signin-github";
         });
 
