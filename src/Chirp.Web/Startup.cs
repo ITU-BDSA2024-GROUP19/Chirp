@@ -1,8 +1,8 @@
 /*
  * The following methods are derived from the GitHub OAuth sample client:
  * https://github.com/aspnet-contrib/AspNet.Security.OAuth.Providers/blob/dev/samples/Mvc.Client/Startup.cs
- * The methods have been adopted to help produce a cleaner code that is easier to test. 
- * They have been modified to suit the startup tasks of the Chirp web app. 
+ * The class is adopted to help produce a cleaner code that is easier to test. 
+ * It has been modified to suit the startup tasks of the Chirp web app. 
  *
  * Original header:
  *
