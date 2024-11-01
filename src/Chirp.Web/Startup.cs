@@ -4,6 +4,8 @@
  * The methods have been adopted to help produce a cleaner code that is easier to test. 
  * They have been modified to suit the startup tasks of the Chirp web app. 
  *
+ * Original header:
+ *
  * Licensed under the Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0)
  * See https://github.com/aspnet-contrib/AspNet.Security.OAuth.Providers
  * for more information concerning the license and the contributors participating to this project.
