@@ -4,7 +4,6 @@ using Chirp.Test.Stub;
 namespace Chirp.Test;
 using Xunit;
 using Infrastructure;
-using Moq;
 
 public class CheepServiceUnitTests
 {
