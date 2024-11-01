@@ -12,6 +12,7 @@
 using Chirp.Core;
 using Chirp.Infrastructure;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Web;
@@ -19,7 +20,6 @@ namespace Chirp.Web;
 public class Startup
  {
     public IConfiguration ?Configuration {get; set;}
-    public IWebHostEnvironment ?Environment {get; set;}
     public string ?ConnectionString {get; set;}
 
     public void ConfigureServices(IServiceCollection services)
@@ -56,5 +56,37 @@ public class Startup
             .AddEntityFrameworkStores<ChirpDBContext>();
         
         services.AddRazorPages();
+    }
+
+    public void Configure(WebApplication app) 
+    {
+        if (!app.Environment.IsDevelopment())
+        {
+            app.UseExceptionHandler("/Error");
+            app.UseHsts();  // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+        }
+
+        // Database currently migrated and seeded on every start. 
+        // Remove when data needs to be persistent on server. 
+        using (var scope = app.Services.CreateScope())
+        {
+            using var context = scope.ServiceProvider.GetRequiredService<ChirpDBContext>();
+            using var userManager = scope.ServiceProvider.GetRequiredService<UserManager<Author>>();
+            context.Database.Migrate();
+            DbInitializer.SeedDatabase(context, userManager);
+        }
+
+        app.UseDeveloperExceptionPage();
+
+        app.UseHttpsRedirection();
+
+        app.UseStaticFiles();
+
+        app.UseRouting();
+
+        app.UseAuthentication();
+        app.UseAuthorization();
+
+        app.MapRazorPages();
     }
  }
