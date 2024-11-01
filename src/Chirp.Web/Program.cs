@@ -1,7 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using Chirp.Infrastructure;
-using Chirp.Core;
-using Microsoft.AspNetCore.Identity;
 using InvalidOperationException = System.InvalidOperationException;
 
 namespace Chirp.Web;
