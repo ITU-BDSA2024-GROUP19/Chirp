@@ -18,11 +18,10 @@ public class Program
         builder.Services.AddDbContext<ChirpDBContext>(options => options.UseSqlite(connectionString));
         builder.Services.AddScoped<ICheepRepository, CheepRepository>();
         builder.Services.AddScoped<ICheepService, CheepService>();
+        builder.Services.AddRouting();
         builder.Services.AddAuthentication(options => 
         {
-            options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            options.DefaultChallengeScheme = "GitHub";
+            options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
         })
         .AddCookie()
         .AddGitHub(o => 
@@ -66,8 +65,6 @@ public class Program
         app.UseRouting();
         app.UseAuthentication();
         app.UseAuthorization();
-        //Not sure why UseSession is included in the code examples in session 8 README_PROJECT.md
-       // app.UseSession();
 
         app.MapRazorPages();
 
