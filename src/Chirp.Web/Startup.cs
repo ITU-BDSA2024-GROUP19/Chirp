@@ -13,20 +13,18 @@ using Chirp.Core;
 using Chirp.Infrastructure;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Web;
 
-public class Startup(IConfiguration configuration, string connectionString)
+public class Startup(IConfiguration configuration, SqliteConnection dbConn)
  {
     public void ConfigureServices(IServiceCollection services)
     {
-        if (configuration == null) throw new NullReferenceException("Missing builder configuration");
-        if (connectionString == null) throw new NullReferenceException("ConnectionString not set");
-
         services.AddRouting();
 
-        services.AddDbContext<ChirpDBContext>(options => options.UseSqlite(connectionString));
+        services.AddDbContext<ChirpDBContext>(options => options.UseSqlite(dbConn));
 
         services.AddScoped<ICheepRepository, CheepRepository>();
 
