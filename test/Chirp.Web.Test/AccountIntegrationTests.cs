@@ -13,7 +13,7 @@ public class AccountIntegrationTests(ITestOutputHelper output)
     private readonly ITestOutputHelper _output = output;
 
     [Fact]
-    public async Task OnMissingAccount_NoThrowOnUserDatabaseMiss() 
+    public async Task Login_OnPostAsync_NoThrowOnUserDatabaseMiss() 
     {
         // Arrange
         using var fixture = new AppTestFixture();
