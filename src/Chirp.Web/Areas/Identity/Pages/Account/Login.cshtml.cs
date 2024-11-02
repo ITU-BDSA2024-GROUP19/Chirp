@@ -115,6 +115,10 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var user = await _userManager.FindByEmailAsync(Input.Email);
+                if (user == null) {
+                    ModelState.AddModelError("Input.Email", "Error: Invalid email");
+                    return Page();
+                }
                 var result = await _signInManager.PasswordSignInAsync(user, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
