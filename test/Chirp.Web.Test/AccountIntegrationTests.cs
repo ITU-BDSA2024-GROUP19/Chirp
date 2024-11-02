@@ -4,11 +4,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Identity;
 using Chirp.Core;
+using Xunit.Abstractions;
 
 namespace Chirp.Web.Test;
 
-public class AccountIntegrationTests 
+public class AccountIntegrationTests(ITestOutputHelper output)
 {
+    private readonly ITestOutputHelper _output = output;
+
     [Fact]
     public async Task OnMissingAccount_NoThrowOnUserDatabaseMiss() 
     {
@@ -30,6 +33,6 @@ public class AccountIntegrationTests
         await login_cs.OnPostAsync("/");
 
         // Assert
-        // Success if completed without an exception.
+        _output.WriteLine("Test success as no exception was thrown.");
     }
 }
