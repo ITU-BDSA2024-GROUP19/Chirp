@@ -28,7 +28,7 @@ public class AccountIntegrationTests {
     }
 
     [Fact]
-    public void OnMissingAccount_HandlesDatabaseMissCorrectly() {
+    public async Task OnMissingAccount_NoThrowOnUserDatabaseMiss() {
         // Arrange
         using var app = PrepareTestApplication();
         using var scope = app.Services.CreateScope();
@@ -38,5 +38,12 @@ public class AccountIntegrationTests {
         var logger = scope.ServiceProvider.GetRequiredService<ILogger<LoginModel>>();
 
         var login_cs = new LoginModel(signInManager, logger, userManager);
+        login_cs.Input.Email = "strangeuser@example.com";
+
+        // Act
+        await login_cs.OnPostAsync();
+
+        // Assert
+        // Success if completed without an exception.
     }
 }
