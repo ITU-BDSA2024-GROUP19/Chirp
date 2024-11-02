@@ -27,6 +27,10 @@ input[type="password"] {
     color: #571010;
 }
 
+.text-danger {
+  color: #dc3545; /* Or any other shade of red you prefer */
+}
+
 input[type="submit"] {
   background: #571010;
   border: 1px solid #3b0707;
