@@ -5,7 +5,7 @@ namespace Chirp.Core;
 
 public class Cheep {
     [Key]
-    public required int CheepId { get; set; }
+    public int CheepId { get; set; }
     [Required]
     [StringLength(160)]
     public required string Text {get; set;}

@@ -11,7 +11,7 @@ public interface ICheepService
     List<CheepViewModel> GetCheepsFromAuthor(int page, string author);
     Author GetAuthorByName(string name);
     Author GetAuthorByEmail(string email);
-    void AddCheep(Cheep cheep);
+    void AddCheep(Author author, string message);
     void AddAuthor(Author author);
 }
 
@@ -58,8 +58,14 @@ public class CheepService : ICheepService
         return author;
     }
 
-    public void AddCheep(Cheep cheep)
+    public void AddCheep(Author author, string message)
     {
+        Cheep cheep = new()
+        {
+            Author = author,
+            Text = message,
+            TimeStamp = DateTime.Now
+        };
         _repository.AddCheep(cheep);
     }
 
