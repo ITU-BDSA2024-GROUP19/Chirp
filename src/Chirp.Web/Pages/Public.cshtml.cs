@@ -58,7 +58,6 @@ public class PublicModel : PageModel
         }
         prepareContents();
 
-
-        return Page();
+        return RedirectToPage();
     }
 }
