@@ -47,17 +47,22 @@ public class PublicModel : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
-        if (ModelState.IsValid)
+        if (!ModelState.IsValid)
+        {
+            prepareContents();
+            return Page();
+        }
+        else
         {
             Author ?author = await _signInManager.UserManager.GetUserAsync(User);
             if (author == null)
             {
                 return Forbid("You are not logged in!!!");
             }
-            _service.AddCheep(author, Input.Message);
-        }
-        prepareContents();
+            _service.AddCheep(author, Input.Message ?? throw new NullReferenceException());
 
-        return RedirectToPage();
+            prepareContents();
+            return RedirectToPage();
+        }
     }
 }
