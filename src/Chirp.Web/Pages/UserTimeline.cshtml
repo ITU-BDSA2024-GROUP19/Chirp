@@ -1,5 +1,6 @@
 ﻿@page "/{author}"
 @model Chirp.Web.Pages.UserTimelineModel
+
 @{
     ViewData["Title"] = "Chirp!";
     Layout = "Shared/_Layout";
@@ -9,7 +10,10 @@
 <div>
     <h2> @routeName's Timeline </h2>
 
-    <partial name="_CheepForm" model="Model.Input" />
+    @if (User.Identity!.Name == (string)routeName!)
+    {
+         <partial name="_CheepForm" model="Model.Input" />
+    }
 
     @if (Model.Cheeps.Any())
     {
