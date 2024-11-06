@@ -3,6 +3,7 @@ using Microsoft.Playwright;
 using NUnit.Framework;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Chirp.Web.Test;
 
@@ -35,13 +36,17 @@ public class Playwright_statuscheck : PageTest
     [Test]
     public async Task PublicTimelineIsDisplayed()
     {
-        await Page.GotoAsync("https://localhost:5273/");
-        await Expect(Page.GetByRole(AriaRole.Heading, new() { Name = "Public Timeline" })).ToBeVisibleAsync();
-        await Expect(Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine The train" })).ToBeVisibleAsync();
-        await Expect(Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine That must" })).ToBeVisibleAsync();
-        await Expect(Page.GetByText("Showing 32 messages next page")).ToBeVisibleAsync();
-        await Expect(Page.Locator("#messagelist")).ToContainTextAsync("— 01/08/2023 15:17:39");
-        await Page.GotoAsync("https://localhost:5273/?page=1");
+        // Arrange
+        var context = await Browser.NewContextAsync(new BrowserNewContextOptions { IgnoreHTTPSErrors = true });
+        var page = await context.NewPageAsync();
+
+        // Act & Assert
+        await page.GotoAsync("https://localhost:5273/");
+        await Expect(page.GetByRole(AriaRole.Heading, new() { Name = "Public Timeline" })).ToBeVisibleAsync();
+        await Expect(page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine The train" })).ToBeVisibleAsync();
+        await Expect(page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine That must" })).ToBeVisibleAsync();
+        await Expect(page.GetByText("Showing 32 messages next page")).ToBeVisibleAsync();
+        await Expect(page.Locator("#messagelist")).ToContainTextAsync("— 01/08/2023 15:17:39");
     }
 
     /// <summary>
