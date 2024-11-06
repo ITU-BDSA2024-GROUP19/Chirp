@@ -13,14 +13,14 @@ public class Playwright_statuscheck : PageTest
 
     private Process _serverProcess;
 
-    [SetUp]
+    [OneTimeSetUp]
     public async Task Init()
     {
         // Start the server using your custom utility method
         _serverProcess = await MyEndToEndUtil.StartServer();
     }
 
-    [TearDown]
+    [OneTimeTearDown]
     public async Task Cleanup()
     {
         // Kill and dispose of the server process after the test is complete

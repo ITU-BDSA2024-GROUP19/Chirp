@@ -5,8 +5,9 @@ public static class MyEndToEndUtil
 {
     public static async Task<Process> StartServer()
     {
+        Environment.SetEnvironmentVariable("CHIRPDBPATH", ":memory");
         // Path to the project directory containing the `Chirp.Web` project
-        var projectDirectory = @"path\Chirp\src\Chirp.Web"; // Update this path to your Chirp.Web project folder
+        var projectDirectory = @"C:\Users\ronas\BDSA_Project\Chirp\src\Chirp.Web"; // Update this path to your Chirp.Web project folder
 
         // Start the server process
         var startInfo = new ProcessStartInfo
@@ -28,7 +29,7 @@ public static class MyEndToEndUtil
         process.Start();
 
         // Optional: Wait for the server to start before proceeding (e.g., check the server log)
-        await Task.Delay(2000); // Wait for the server to be fully initialized
+        await Task.Delay(6000); // Wait for the server to be fully initialized
 
         return process;
     }
