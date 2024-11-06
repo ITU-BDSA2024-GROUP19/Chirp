@@ -5,7 +5,7 @@ public static class MyEndToEndUtil
 {
     public static async Task<Process> StartServer()
     {
-        Environment.SetEnvironmentVariable("CHIRPDBPATH", ":memory");
+        Environment.SetEnvironmentVariable("CHIRPDBPATH", ":memory:");
         // Path to the project directory containing the `Chirp.Web` project
         var projectDirectory = @"C:\Users\ronas\BDSA_Project\Chirp\src\Chirp.Web"; // Update this path to your Chirp.Web project folder
 
