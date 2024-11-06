@@ -28,11 +28,10 @@ public class Playwright_statuscheck : PageTest
     public async Task PageOnRootSameAsPageOne()
     {
         var response_1 = await Page.GotoAsync("https://localhost:5273/");
+        var body_1 = await response_1!.TextAsync();
         var response_2 = await Page.GotoAsync("https://localhost:5273/?page=1");
-        var body_1 = await response_1!.BodyAsync();
-        var body_2 = await response_2!.BodyAsync();
+        var body_2 = await response_2!.TextAsync();
         Assert.True(body_1.SequenceEqual(body_2));
-        
     }
 
     [Test]
