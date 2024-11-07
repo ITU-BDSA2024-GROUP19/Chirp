@@ -1,4 +1,5 @@
 using Microsoft.Playwright;
+using System.Diagnostics;
 
 namespace Chirp.Web.Test;
 
@@ -7,6 +8,24 @@ namespace Chirp.Web.Test;
 public class Playwright_statuscheck : PageTest
 {
     readonly string _baseUrl = "https://localhost:5273";
+    private Process task;
+
+    [OneTimeSetUp]
+    public async Task StartServer()
+    { 
+        await RunCommandCerts();
+        task = await RunCommandServer();
+    }
+    
+    [OneTimeTearDown]
+    public void StopServer()
+    {
+        if (!task.HasExited)
+        {
+            task.Kill();
+        }
+        task.Dispose();
+    }
     
     [Test]
     public async Task PublicTimelineIsDisplayed()
@@ -50,5 +69,59 @@ public class Playwright_statuscheck : PageTest
             IgnoreHTTPSErrors = true,
             BaseURL = _baseUrl
         };
+    }
+    
+    public static async Task<Process> RunCommandCerts()
+    {
+        Environment.SetEnvironmentVariable("CHIRPDBPATH", ":memory:");
+        var projectDirectory = @"C:\Users\ssxjs\RiderProjects\Chirp\src\Chirp.Web";
+        var startInfo = new ProcessStartInfo
+        {
+            FileName = "dotnet",
+            Arguments = "dev-certs https", // Command to run the application
+            WorkingDirectory = projectDirectory, // Set the working directory to the Chirp.Web project
+            RedirectStandardOutput = true, // Optional: Capture output
+            RedirectStandardError = true,
+            UseShellExecute = false, // Ensures that the process is launched correctly
+            CreateNoWindow = true // Run without opening a new window
+        };
+
+        var process = new Process
+        {
+            StartInfo = startInfo
+        };
+
+        process.Start();
+        
+        await Task.Delay(500);
+
+        return process;
+    }
+    
+    public static async Task<Process> RunCommandServer()
+    {
+        Environment.SetEnvironmentVariable("CHIRPDBPATH", ":memory:");
+        var projectDirectory = @"C:\Users\ssxjs\RiderProjects\Chirp\src\Chirp.Web";
+        var startInfo = new ProcessStartInfo
+        {
+            FileName = "dotnet",
+            Arguments = "run", // Command to run the application
+            WorkingDirectory = projectDirectory, // Set the working directory to the Chirp.Web project
+            RedirectStandardOutput = true, // Optional: Capture output
+            RedirectStandardError = true,
+            UseShellExecute = false, // Ensures that the process is launched correctly
+            CreateNoWindow = true // Run without opening a new window
+        };
+
+        var process = new Process
+        {
+            StartInfo = startInfo
+        };
+
+        process.Start();
+        
+        await Task.Delay(3000);
+
+        return process;
     }
 }
