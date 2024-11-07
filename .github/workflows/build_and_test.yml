@@ -8,7 +8,7 @@ env:
   CHIRPDBPATH: ":memory:"
   AZURE_WEBAPP_NAME: bdsa2024group19chirprazor
   AZURE_WEBAPP_PACKAGE_PATH: src/Chirp.Web/published
-  CONFIGURATION: Release
+  CONFIGURATION: Debug
   DOTNET_CORE_VERSION: 8.0.x
   WORKING_DIRECTORY: src/Chirp.Web
 jobs:
@@ -21,9 +21,9 @@ jobs:
       with:
         dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
     - name: Restore
-      run: dotnet restore "${{ env.WORKING_DIRECTORY }}"
+      run: dotnet restore
     - name: Build
-      run: dotnet build "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-restore
+      run: dotnet build --configuration ${{ env.CONFIGURATION }} --no-restore
     - name: Start Server
       run: |
         dotnet run --project "${{ env.WORKING_DIRECTORY }}" &
