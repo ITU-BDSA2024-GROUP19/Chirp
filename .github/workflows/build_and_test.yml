@@ -5,6 +5,7 @@ on:
     branches: [ main ]
 
 env:
+  CHIRPDBPATH: ":memory:"
   AZURE_WEBAPP_NAME: bdsa2024group19chirprazor
   AZURE_WEBAPP_PACKAGE_PATH: src/Chirp.Web/published
   CONFIGURATION: Release
@@ -28,4 +29,4 @@ jobs:
         dotnet run --project "${{ env.WORKING_DIRECTORY }}" &
         sleep 10 # Wait for the server to start
     - name: Test
-      run: dotnet test "${{ env.WORKING_DIRECTORY }}" --no-build
+      run: dotnet test --no-build
