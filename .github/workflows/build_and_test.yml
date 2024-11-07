@@ -19,6 +19,6 @@ jobs:
     - name: Build & Install
       run: dotnet build
     - name: Ensure browsers are installed
-      run: pwsh test/Chirp.Web.Test/bin/debug/net8.0/playwright.ps1 install --with-deps
+      run: pwsh /home/runner/work/Chirp/Chirp/test/Chirp.Web.Test/bin/debug/net8.0/playwright.ps1 install --with-deps
     - name: Test
       run: dotnet test --no-build
