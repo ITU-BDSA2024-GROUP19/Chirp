@@ -74,7 +74,7 @@ public class Playwright_statuscheck : PageTest
     public static async Task<Process> RunCommandCerts()
     {
         Environment.SetEnvironmentVariable("CHIRPDBPATH", ":memory:");
-        var projectDirectory = @"C:\Users\ssxjs\RiderProjects\Chirp\src\Chirp.Web";
+        var projectDirectory = @"../../../../../src/Chirp.Web"; // Escape from "test/Chirp.Web.Test/bin/Debug/net8.0"
         var startInfo = new ProcessStartInfo
         {
             FileName = "dotnet",
@@ -101,7 +101,7 @@ public class Playwright_statuscheck : PageTest
     public static async Task<Process> RunCommandServer()
     {
         Environment.SetEnvironmentVariable("CHIRPDBPATH", ":memory:");
-        var projectDirectory = @"C:\Users\ssxjs\RiderProjects\Chirp\src\Chirp.Web";
+        var projectDirectory = @"../../../../../src/Chirp.Web"; // Escape from "test/Chirp.Web.Test/bin/Debug/net8.0"
         var startInfo = new ProcessStartInfo
         {
             FileName = "dotnet",
