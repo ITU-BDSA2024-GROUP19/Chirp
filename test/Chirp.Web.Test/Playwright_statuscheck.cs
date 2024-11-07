@@ -1,6 +1,4 @@
-using Microsoft.Playwright.NUnit;
 using Microsoft.Playwright;
-using NUnit.Framework;
 
 namespace Chirp.Web.Test;
 
@@ -11,13 +9,13 @@ public class Playwright_statuscheck : PageTest
     [Test]
     public async Task PublicTimelineIsDisplayed()
     {
-        await Page.GotoAsync("https://localhost:5273/");
+        await Page.GotoAsync("/");
         await Expect(Page.GetByRole(AriaRole.Heading, new() { Name = "Public Timeline" })).ToBeVisibleAsync();
         await Expect(Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine The train" })).ToBeVisibleAsync();
         await Expect(Page.Locator("li").Filter(new() { HasText = "Jacqualine Gilcoine That must" })).ToBeVisibleAsync();
         await Expect(Page.GetByText("Showing 32 messages next page")).ToBeVisibleAsync();
         await Expect(Page.Locator("#messagelist")).ToContainTextAsync("— 01/08/2023 15:17:39");
-        await Page.GotoAsync("https://localhost:5273/?page=1");
+        await Page.GotoAsync("/?page=1");
     }
 
     /// <summary>
@@ -27,9 +25,9 @@ public class Playwright_statuscheck : PageTest
     [Test]
     public async Task PageOnRootSameAsPageOne()
     {
-        var response_1 = await Page.GotoAsync("https://localhost:5273/");
+        var response_1 = await Page.GotoAsync("/");
         var body_1 = await response_1!.TextAsync();
-        var response_2 = await Page.GotoAsync("https://localhost:5273/?page=1");
+        var response_2 = await Page.GotoAsync("/?page=1");
         var body_2 = await response_2!.TextAsync();
         Assert.True(body_1.SequenceEqual(body_2));
     }
@@ -37,9 +35,18 @@ public class Playwright_statuscheck : PageTest
     [Test]
     public async Task HelgesPrivateTimelineIsDisplayed()
     {
-        await Page.GotoAsync("https://localhost:5273/Helge");
+        await Page.GotoAsync("/Helge");
         await Expect(Page.GetByRole(AriaRole.Heading, new() { Name = "Helge's Timeline" })).ToBeVisibleAsync();
         await Expect(Page.GetByText("Showing 1 messages next page")).ToBeVisibleAsync();
         await Expect(Page.GetByRole(AriaRole.Paragraph)).ToContainTextAsync("Helge Hello, BDSA students! — 01/08/2023 14:16:48");
+    }
+    
+    public override BrowserNewContextOptions ContextOptions()
+    {
+        return new BrowserNewContextOptions()
+        {
+            IgnoreHTTPSErrors = true,
+            BaseURL = "https://localhost:5273"
+        };
     }
 }
