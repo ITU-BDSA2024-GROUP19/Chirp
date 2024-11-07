@@ -6,6 +6,8 @@ namespace Chirp.Web.Test;
 [TestFixture]
 public class Playwright_statuscheck : PageTest
 {
+    readonly string _baseUrl = "https://localhost:5273";
+    
     [Test]
     public async Task PublicTimelineIsDisplayed()
     {
@@ -46,7 +48,7 @@ public class Playwright_statuscheck : PageTest
         return new BrowserNewContextOptions()
         {
             IgnoreHTTPSErrors = true,
-            BaseURL = "https://localhost:5273"
+            BaseURL = _baseUrl
         };
     }
 }
