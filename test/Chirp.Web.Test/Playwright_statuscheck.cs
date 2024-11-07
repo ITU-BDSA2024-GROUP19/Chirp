@@ -8,24 +8,6 @@ namespace Chirp.Web.Test;
 public class Playwright_statuscheck : PageTest
 {
     readonly string _baseUrl = "https://localhost:5273";
-    private Process task;
-
-    [OneTimeSetUp]
-    public async Task StartServer()
-    { 
-        await RunCommandCerts();
-        task = await RunCommandServer();
-    }
-    
-    [OneTimeTearDown]
-    public void StopServer()
-    {
-        if (!task.HasExited)
-        {
-            task.Kill();
-        }
-        task.Dispose();
-    }
     
     [Test]
     public async Task PublicTimelineIsDisplayed()

@@ -1,24 +1,31 @@
 name: .NET Build and Test
 
 on:
-  push:
-    branches: [ main ]
   pull_request:
     branches: [ main ]
 
+env:
+  AZURE_WEBAPP_NAME: bdsa2024group19chirprazor
+  AZURE_WEBAPP_PACKAGE_PATH: src/Chirp.Web/published
+  CONFIGURATION: Release
+  DOTNET_CORE_VERSION: 8.0.x
+  WORKING_DIRECTORY: src/Chirp.Web
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup .NET
+    - uses: actions/checkout@v4
+    - name: Setup .NET SDK
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 8.0.x
-    - name: Build & Install
-      run: dotnet build
-    - name: Ensure browsers are installed
-      run: pwsh test/Chirp.Web.Test/bin/Debug/net8.0/playwright.ps1 install --with-deps
+        dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
+    - name: Restore
+      run: dotnet restore "${{ env.WORKING_DIRECTORY }}"
+    - name: Build
+      run: dotnet build "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-restore
+    - name: Start Server
+      run: |
+        dotnet run --project "${{ env.WORKING_DIRECTORY }}" &
+        sleep 10 # Wait for the server to start
     - name: Test
-      run: dotnet test --no-build
+      run: dotnet test "${{ env.WORKING_DIRECTORY }}" --no-build
