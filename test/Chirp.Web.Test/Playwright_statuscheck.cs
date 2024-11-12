@@ -1,9 +1,4 @@
-using Microsoft.Playwright.NUnit;
 using Microsoft.Playwright;
-using NUnit.Framework;
-using System.Threading.Tasks;
-using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Chirp.Web.Test;
 
@@ -11,28 +6,6 @@ namespace Chirp.Web.Test;
 [TestFixture]
 public class Playwright_statuscheck : PageTest
 {
-
-    private Process _serverProcess;
-
-    [OneTimeSetUp]
-    public async Task Init()
-    {
-        // Start the server using your custom utility method
-        _serverProcess = await MyEndToEndUtil.StartServer();
-    }
-
-    [OneTimeTearDown]
-    public async Task Cleanup()
-    {
-        // Kill and dispose of the server process after the test is complete
-        if (_serverProcess != null && !_serverProcess.HasExited)
-        {
-            _serverProcess.Kill();
-            _serverProcess.Dispose();
-        }
-    }
-
-
     [Test]
     public async Task PublicTimelineIsDisplayed()
     {
