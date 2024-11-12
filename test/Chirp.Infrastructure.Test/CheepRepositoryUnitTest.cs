@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 using Xunit;
 
-namespace Chirp.Test;
+namespace Chirp.Infrastructure.Test;
 
 public class CheepRepositoryUnitTest : IAsyncLifetime
 {
@@ -19,13 +19,13 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
     {
         var authors = new List<Author>
         {
-            new Author() {UserName = "Author1", Email = "au1@itu.dk", Cheeps = new List<Cheep>() }
+            new() {UserName = "Author1", Email = "au1@itu.dk", Cheeps = new List<Cheep>() }
         };
         var cheeps = new List<Cheep>
         {
-            new Cheep() { CheepId = 1, Author = authors[0], Text = "Message 1", TimeStamp = DateTime.UtcNow },
-            new Cheep() { CheepId = 2, Author = authors[0], Text = "Message 2", TimeStamp = DateTime.UtcNow },
-            new Cheep() { CheepId = 3, Author = authors[0], Text = "Message 3", TimeStamp = DateTime.UtcNow }
+            new() { CheepId = 1, Author = authors[0], Text = "Message 1", TimeStamp = DateTime.UtcNow },
+            new() { CheepId = 2, Author = authors[0], Text = "Message 2", TimeStamp = DateTime.UtcNow.AddSeconds(5) },
+            new() { CheepId = 3, Author = authors[0], Text = "Message 3", TimeStamp = DateTime.UtcNow.AddSeconds(10) }
         };
         _context.Authors.AddRange(authors);
         _context.Cheeps.AddRange(cheeps);
