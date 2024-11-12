@@ -18,10 +18,10 @@ public class Playwright_statuscheck : PageTest
     }
 
     [OneTimeTearDown]
-    public void Cleanup()
+    public async Task Cleanup()
     {
         // Kill and dispose of the server process after the test is complete
-        if (_serverProcess != null && !_serverProcess.HasExited)
+        if (!_serverProcess.HasExited)
         {
             _serverProcess.Kill();
             _serverProcess.Dispose();

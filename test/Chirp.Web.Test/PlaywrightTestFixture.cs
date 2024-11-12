@@ -14,7 +14,7 @@ public class PlaywrightTestFixture
         var startInfo = new ProcessStartInfo
         {
             FileName = "dotnet",
-            Arguments = "run", // Command to run the application
+            Arguments = "run --no-build", // Command to run the application
             WorkingDirectory = projectDirectory, // Set the working directory to the Chirp.Web project
             RedirectStandardOutput = true, // Optional: Capture output
             RedirectStandardError = true,
