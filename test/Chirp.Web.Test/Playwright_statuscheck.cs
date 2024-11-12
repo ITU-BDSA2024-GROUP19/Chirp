@@ -1,6 +1,8 @@
 using Microsoft.Playwright;
 using System.Diagnostics;
 
+using NuGet.ProjectModel;
+
 namespace Chirp.Web.Test;
 
 [Parallelizable(ParallelScope.Self)]
@@ -18,12 +20,12 @@ public class Playwright_statuscheck : PageTest
     }
 
     [OneTimeTearDown]
-    public async Task Cleanup()
+    public void Cleanup()
     {
         // Kill and dispose of the server process after the test is complete
         if (!_serverProcess.HasExited)
         {
-            _serverProcess.Kill();
+            _serverProcess.Kill(true);
             _serverProcess.Dispose();
         }
     }
