@@ -35,4 +35,10 @@ public class AccountIntegrationTests(ITestOutputHelper output)
         // Assert
         _output.WriteLine("Test success as no exception was thrown.");
     }
+
+    [Fact]
+    public async Task PostCheeps_OnSqlInjectionAttack_DoesNotDropTable()
+    {
+        
+    }
 }
