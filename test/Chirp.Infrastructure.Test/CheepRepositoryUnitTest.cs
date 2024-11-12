@@ -24,8 +24,8 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
         var cheeps = new List<Cheep>
         {
             new Cheep() { CheepId = 1, Author = authors[0], Text = "Message 1", TimeStamp = DateTime.UtcNow },
-            new Cheep() { CheepId = 2, Author = authors[0], Text = "Message 2", TimeStamp = DateTime.UtcNow },
-            new Cheep() { CheepId = 3, Author = authors[0], Text = "Message 3", TimeStamp = DateTime.UtcNow }
+            new Cheep() { CheepId = 2, Author = authors[0], Text = "Message 2", TimeStamp = DateTime.UtcNow.AddSeconds(5) },
+            new Cheep() { CheepId = 3, Author = authors[0], Text = "Message 3", TimeStamp = DateTime.UtcNow.AddSeconds(10) }
         };
         _context.Authors.AddRange(authors);
         _context.Cheeps.AddRange(cheeps);
