@@ -26,8 +26,8 @@ public class Playwright_statuscheck : PageTest
         if (!_serverProcess.HasExited)
         {
             _serverProcess.Kill();
-            _serverProcess.Dispose();
         }
+        _serverProcess.Dispose();
     }
 
 
