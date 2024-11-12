@@ -26,7 +26,8 @@ public class AccountIntegrationTests(ITestOutputHelper output)
         var login_cs = new LoginModel(signInManager, logger, userManager);
         login_cs.Input = new()
         {
-            Email = "strangeuser@example.com"
+            Email = "strangeuser@example.com",
+            Password = "password"
         };
 
         // Act
@@ -34,11 +35,5 @@ public class AccountIntegrationTests(ITestOutputHelper output)
 
         // Assert
         _output.WriteLine("Test success as no exception was thrown.");
-    }
-
-    [Fact]
-    public async Task PostCheeps_OnSqlInjectionAttack_DoesNotDropTable()
-    {
-        
     }
 }
