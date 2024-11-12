@@ -3,6 +3,10 @@ using System.Diagnostics;
 
 namespace Chirp.Web.Test;
 
+/// <summary>
+/// Playwright test safety checks. Recorded using Codegen on a local instance of Chirp.Web program.
+/// https://playwright.dev/dotnet/docs/codegen-intro
+/// </summary>
 [Parallelizable(ParallelScope.Self)]
 [TestFixture]
 public class Playwright_safetyTests : PageTest

@@ -5,6 +5,12 @@ using NuGet.ProjectModel;
 
 namespace Chirp.Web.Test;
 
+/// <summary>
+/// Playwright site status checks. Recorded using Codegen on a local instance of Chirp.Web program, 
+/// then modified and refactored. https://playwright.dev/dotnet/docs/codegen-intro
+/// <br />
+/// The tests are intended to mimic those run on https://itu-bdsa.github.io/status/report_razor_apps.html
+/// </summary>
 [Parallelizable(ParallelScope.Self)]
 [TestFixture]
 public class Playwright_statuscheck : PageTest
