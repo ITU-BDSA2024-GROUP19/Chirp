@@ -1,11 +1,8 @@
 using Xunit;
-using Chirp.Web.Areas.Identity.Pages.Account;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Identity;
 using Chirp.Core;
 using Chirp.Infrastructure;
-using Chirp.Web.Pages;
 
 using Xunit.Abstractions;
 
@@ -27,7 +24,6 @@ public class SafetyIntegrationTests(ITestOutputHelper output)
 
         var signInManager = scope.ServiceProvider.GetRequiredService<SignInManager<Author>>();
         var cheepService = scope.ServiceProvider.GetRequiredService<ICheepService>();
-        PublicModel publicModel = new(cheepService, signInManager);
         
         // Act
         var author = await signInManager.UserManager.FindByEmailAsync("ropf@itu.dk");
