@@ -56,4 +56,9 @@ public class CheepRepositoryStub : ICheepRepository
         var mockAuthor = new Author() { UserName = "Author1", Email = "au1@itu.dk", Cheeps = new List<Cheep>(), Following = new List<Author>() };
         return Task.FromResult(mockAuthor);
     }
+    
+    public Task FollowAndUnfollowAuthor(string followerName, string authorName)
+    {
+        return Task.CompletedTask;
+    }
 }

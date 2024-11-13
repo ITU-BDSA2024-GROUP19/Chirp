@@ -12,6 +12,7 @@ public interface ICheepRepository
     Task<List<CheepDTO>> GetCheepDTOFromAuthor(int page, string authorName);
     Task<Author> GetAuthorByName(string name);
     Task<Author> GetAuthorByEmail(string email);
+    Task FollowAndUnfollowAuthor(string followerName, string authorName);
     
 }
 
@@ -78,4 +79,22 @@ public class CheepRepository : ICheepRepository
         return query.ToListAsync();
     }
     
+    public async Task FollowAndUnfollowAuthor(string followerName, string authorName)
+    {
+        var follower = await GetAuthorByName(followerName);
+        var author = await GetAuthorByName(authorName);
+        if (follower == null || author == null)
+        {
+            throw new ValidationException("Author or follower not found!");
+        }
+        else if (follower.Following.Contains(author))
+        {
+            follower.Following.Remove(author);
+        }
+        else
+        {
+            follower.Following.Add(author);
+            await _dbContext.SaveChangesAsync();
+        }
+    }
 }
