@@ -1,3 +1,5 @@
+using System.Security.Principal;
+
 using Chirp.Core;
 
 using Microsoft.AspNetCore.Identity;
@@ -9,7 +11,7 @@ namespace Chirp.Infrastructure;
 
 public interface IChirpAccountRepository
 {
-    Task AddAuthor(Author author);
+    Task<IdentityResult> AddAuthor(Author author, string password);
 }
 
 public class ChirpAccountRepository : IChirpAccountRepository
@@ -43,10 +45,9 @@ public class ChirpAccountRepository : IChirpAccountRepository
         _emailSender = emailSender;
     }
     
-    public async Task AddAuthor(Author author)
+    public Task<IdentityResult> AddAuthor(Author user, string password)
     {
-        _dbContext.Add(author);
-        await _dbContext.SaveChangesAsync();
+        return _userManager.CreateAsync(user, password);
     }
     
     private IUserEmailStore<Author> GetEmailStore()
