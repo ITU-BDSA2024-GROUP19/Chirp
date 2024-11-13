@@ -2,17 +2,17 @@ using Chirp.Core;
 
 namespace Chirp.Infrastructure;
 
-public interface IAccountService
+public interface IChirpAccountService
 {
     void AddAuthor(Author author);
 }
 
-public class AccountService : IAccountService
+public class ChirpAccountService : IChirpAccountService
 {
     
-    private readonly IAccountRepository _repository;
+    private readonly IChirpAccountRepository _repository;
     
-    public AccountService(IAccountRepository repository)
+    public ChirpAccountService(IChirpAccountRepository repository)
     {
         _repository = repository;
     }

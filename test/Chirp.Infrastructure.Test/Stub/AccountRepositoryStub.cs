@@ -2,7 +2,7 @@ using Chirp.Core;
 
 namespace Chirp.Infrastructure.Test.Stub;
 
-public class AccountRepositoryStub : IAccountRepository
+public class ChirpAccountRepositoryStub : IChirpAccountRepository
 {
     private readonly List<Author> _authors = new();
 

@@ -2,16 +2,16 @@ using Chirp.Core;
 
 namespace Chirp.Infrastructure;
 
-public interface IAccountRepository
+public interface IChirpAccountRepository
 {
     Task AddAuthor(Author author);
 }
 
-public class AccountRepository : IAccountRepository
+public class ChirpAccountRepository : IChirpAccountRepository
 {
     private readonly ChirpDBContext _dbContext;
     
-    public AccountRepository(ChirpDBContext dbContext)
+    public ChirpAccountRepository(ChirpDBContext dbContext)
     {
         _dbContext = dbContext;
     }
