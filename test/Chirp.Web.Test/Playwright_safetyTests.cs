@@ -7,11 +7,11 @@ namespace Chirp.Web.Test;
 /// Playwright test safety checks. Recorded using Codegen on a local instance of Chirp.Web program.
 /// https://playwright.dev/dotnet/docs/codegen-intro
 /// </summary>
-[Parallelizable(ParallelScope.Self)]
+[Parallelizable(ParallelScope.None)]
 [TestFixture]
 public class Playwright_safetyTests : PageTest
 {
-    private Process _serverProcess;
+    public required Process _serverProcess;
 
     [OneTimeSetUp]
     public async Task Init()
@@ -26,9 +26,10 @@ public class Playwright_safetyTests : PageTest
         // Kill and dispose of the server process after the test is complete
         if (!_serverProcess.HasExited)
         {
-            _serverProcess.Kill(true);
-            _serverProcess.Dispose();
+            _serverProcess.Kill();
         }
+        _serverProcess.Dispose();
+        Thread.Sleep(500);
     }
     
     [Test]
