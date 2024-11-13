@@ -14,6 +14,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
 {
     private ChirpDBContext _context = null!;
     private ICheepRepository _cheepRepo = null!;
+    private IAccountRepository _accountRepo = null!;
 
     private void DbTestInitializer()
     {
@@ -42,6 +43,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
         await _context.Database.EnsureCreatedAsync();
         
         _cheepRepo = new CheepRepository(_context);
+        _accountRepo = new AccountRepository(_context);
     }
     
     public Task DisposeAsync()
@@ -71,7 +73,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
         var author = new Author() { UserName = "Test Author", Email = "test@itu.dk", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>() };
 
         // Act
-        await _cheepRepo.AddAuthor(author);
+        await _accountRepo.AddAuthor(author);
 
         // Assert
         var storedAuthor = await _context.Authors.FirstOrDefaultAsync();
@@ -89,7 +91,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
         };
 
         // Act
-        await _cheepRepo.AddAuthor(author);
+        await _accountRepo.AddAuthor(author);
 
         // Assert
         var storedAuthor = await _cheepRepo.GetAuthorByName("Test Author");
@@ -106,7 +108,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
         };
         
         // Act
-        await _cheepRepo.AddAuthor(author);
+        await _accountRepo.AddAuthor(author);
         
         // Assert
         var storedAuthor = await _cheepRepo.GetAuthorByName("Unknown Author");
@@ -123,7 +125,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
         };
         
         // Act
-        await _cheepRepo.AddAuthor(author);
+        await _accountRepo.AddAuthor(author);
         
         // Assert
         var storedAuthor = await _cheepRepo.GetAuthorByEmail("test@itu.dk");
@@ -140,7 +142,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
         };
         
         // Act
-        await _cheepRepo.AddAuthor(author);
+        await _accountRepo.AddAuthor(author);
         
         // Assert
         var storedAuthor = await _cheepRepo.GetAuthorByEmail("Unknown Email");
