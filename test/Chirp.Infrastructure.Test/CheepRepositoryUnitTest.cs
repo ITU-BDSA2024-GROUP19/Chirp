@@ -154,7 +154,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
         DbTestInitializer();
         
         // Act
-        var cheeps = await _cheepRepo.GetCheepDTO(1);
+        var cheeps = await _cheepRepo.GetCheepDTO(1, "Author1");
 
         // Assert
         Assert.NotEmpty(cheeps);
@@ -169,7 +169,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
         DbTestInitializer();
         
         // Act
-        var cheeps = await _cheepRepo.GetCheepDTO(2);
+        var cheeps = await _cheepRepo.GetCheepDTO(2,"UnknownAuthor");
 
         // Assert
         Assert.Empty(cheeps);
@@ -182,7 +182,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
         DbTestInitializer();
         
         // Act
-        var cheepsByAuthor = await _cheepRepo.GetCheepDTOFromAuthor(1, "Author1");
+        var cheepsByAuthor = await _cheepRepo.GetCheepDTOFromAuthor(1, "Author1", "Author1");
 
         // Assert
         Assert.NotEmpty(cheepsByAuthor);
@@ -195,7 +195,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
         // Arrange
         DbTestInitializer();
         // Act
-        var cheepsByUnknownAuthor = await _cheepRepo.GetCheepDTOFromAuthor(1, "UnknownAuthor");
+        var cheepsByUnknownAuthor = await _cheepRepo.GetCheepDTOFromAuthor(1, "UnknownAuthor", "UnknownAuthor");
 
         // Assert
         Assert.Empty(cheepsByUnknownAuthor);
