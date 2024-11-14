@@ -8,8 +8,8 @@ public interface ICheepRepository
 {
     Task AddCheep(Cheep cheep);
     Task AddAuthor(Author author);
-    Task<List<CheepDTO>> GetCheepDTO(int page);
-    Task<List<CheepDTO>> GetCheepDTOFromAuthor(int page, string authorName);
+    Task<List<CheepDTO>> GetCheepDTO(int page, string userName);
+    Task<List<CheepDTO>> GetCheepDTOFromAuthor(int page, string authorName, string userName);
     Task<Author> GetAuthorByName(string name);
     Task<Author> GetAuthorByEmail(string email);
     Task FollowAndUnfollowAuthor(string followerName, string authorName);
@@ -56,45 +56,67 @@ public class CheepRepository : ICheepRepository
         return query.FirstOrDefaultAsync()!;
     }
 
-    public Task<List<CheepDTO>> GetCheepDTO(int page)
+    public Task<List<CheepDTO>> GetCheepDTO(int page, string userName)
     {
-        var query = (from cheep in _dbContext.Cheeps
-                orderby cheep.TimeStamp descending
-                select new CheepDTO(cheep.Author.UserName ?? "", cheep.Text, (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds))
-            //.Include(c => c.Author)
-            .Skip((page - 1) * CHEEPS_PER_PAGE)
-            .Take(CHEEPS_PER_PAGE);
-        return query.ToListAsync();
+        var user = _dbContext.Authors.FirstOrDefaultAsync(a => a.UserName == userName);
+        if (user.Result == null)
+        {
+            var query = (from cheep in _dbContext.Cheeps
+                    orderby cheep.TimeStamp descending
+                    select new CheepDTO(cheep.Author.UserName ?? "", cheep.Text, (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds, false))
+                .Skip((page - 1) * CHEEPS_PER_PAGE)
+                .Take(CHEEPS_PER_PAGE);
+            return query.ToListAsync();
+        }
+        else
+        {
+            var query = (from cheep in _dbContext.Cheeps
+                    orderby cheep.TimeStamp descending
+                    select new CheepDTO(cheep.Author.UserName ?? "", cheep.Text, (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds, cheep.Author.Followers.Contains(user.Result)))
+                .Skip((page - 1) * CHEEPS_PER_PAGE)
+                .Take(CHEEPS_PER_PAGE);
+            return query.ToListAsync();
+        }
     }
     
-    public Task<List<CheepDTO>> GetCheepDTOFromAuthor(int page, string authorName)
+    public Task<List<CheepDTO>> GetCheepDTOFromAuthor(int page, string authorName, string userName)
     {
-        var query = (from cheep in _dbContext.Cheeps
-                where cheep.Author.UserName == authorName
-                orderby cheep.TimeStamp descending
-                select new CheepDTO(cheep.Author.UserName ?? "", cheep.Text, (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds))
-            //.Include(c => c.Author)
-            .Skip((page - 1) * CHEEPS_PER_PAGE)
-            .Take(CHEEPS_PER_PAGE);
-        return query.ToListAsync();
+        var user = _dbContext.Authors.FirstOrDefaultAsync(a => a.UserName == userName);
+        if (user.Result == null)
+        {
+            var query = (from cheep in _dbContext.Cheeps
+                    where cheep.Author.UserName == authorName
+                    orderby cheep.TimeStamp descending
+                    select new CheepDTO(cheep.Author.UserName ?? "", cheep.Text, (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds, false))
+                .Skip((page - 1) * CHEEPS_PER_PAGE)
+                .Take(CHEEPS_PER_PAGE);
+            return query.ToListAsync();
+        }
+        else
+        {
+            var query = (from cheep in _dbContext.Cheeps
+                    where cheep.Author.UserName == authorName
+                    orderby cheep.TimeStamp descending
+                    select new CheepDTO(cheep.Author.UserName ?? "", cheep.Text, (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds, cheep.Author.Followers.Contains(user.Result)))
+                .Skip((page - 1) * CHEEPS_PER_PAGE)
+                .Take(CHEEPS_PER_PAGE);
+            return query.ToListAsync();
+        }
     }
     
     public async Task FollowAndUnfollowAuthor(string followerName, string authorName)
     {
         var follower = await GetAuthorByName(followerName);
         var author = await GetAuthorByName(authorName);
-        if (follower == null || author == null)
-        {
-            throw new ValidationException("Author or follower not found!");
-        }
-        else if (follower.Following.Contains(author))
+        if (follower.Following.Contains(author))
         {
             follower.Following.Remove(author);
         }
         else
         {
             follower.Following.Add(author);
-            await _dbContext.SaveChangesAsync();
+            
         }
+        await _dbContext.SaveChangesAsync();
     }
 }
