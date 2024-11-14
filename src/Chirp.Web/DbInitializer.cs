@@ -11,18 +11,18 @@ public static class DbInitializer
     {
         if (!(chirpContext.Authors.Any() && chirpContext.Cheeps.Any()))
         {
-            var a1 = new Author() {UserName = "Roger Histand", Email = "Roger+Histand@hotmail.com", Cheeps = new List<Cheep>(), Following = new List<Author>() };
-            var a2 = new Author() {UserName = "Luanna Muro", Email = "Luanna-Muro@ku.dk", Cheeps = new List<Cheep>(), Following = new List<Author>() };
-            var a3 = new Author() {UserName = "Wendell Ballan", Email = "Wendell-Ballan@gmail.com", Cheeps = new List<Cheep>(), Following = new List<Author>() };
-            var a4 = new Author() {UserName = "Nathan Sirmon", Email = "Nathan+Sirmon@dtu.dk", Cheeps = new List<Cheep>(), Following = new List<Author>() };
-            var a5 = new Author() {UserName = "Quintin Sitts", Email = "Quintin+Sitts@itu.dk", Cheeps = new List<Cheep>(), Following = new List<Author>() };
-            var a6 = new Author() {UserName = "Mellie Yost", Email = "Mellie+Yost@ku.dk", Cheeps = new List<Cheep>(), Following = new List<Author>() };
-            var a7 = new Author() {UserName = "Malcolm Janski", Email = "Malcolm-Janski@gmail.com", Cheeps = new List<Cheep>(), Following = new List<Author>() };
-            var a8 = new Author() {UserName = "Octavio Wagganer", Email = "Octavio.Wagganer@dtu.dk", Cheeps = new List<Cheep>(), Following = new List<Author>() };
-            var a9 = new Author() { UserName = "Johnnie Calixto", Email = "Johnnie+Calixto@itu.dk", Cheeps = new List<Cheep>(), Following = new List<Author>() };
-            var a10 = new Author() { UserName = "Jacqualine Gilcoine", Email = "Jacqualine.Gilcoine@gmail.com", Cheeps = new List<Cheep>(), Following = new List<Author>()};
-            var a11 = new Author() { UserName = "Helge", Email = "ropf@itu.dk", Cheeps = new List<Cheep>(), Following = new List<Author>(), LockoutEnabled = true, EmailConfirmed = true };
-            var a12 = new Author() { UserName = "Adrian", Email = "adho@itu.dk", Cheeps = new List<Cheep>(), Following = new List<Author>(), LockoutEnabled = true, EmailConfirmed = true };
+            var a1 = new Author() {UserName = "Roger Histand", Email = "Roger+Histand@hotmail.com", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>() };
+            var a2 = new Author() {UserName = "Luanna Muro", Email = "Luanna-Muro@ku.dk", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>() };
+            var a3 = new Author() {UserName = "Wendell Ballan", Email = "Wendell-Ballan@gmail.com", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>() };
+            var a4 = new Author() {UserName = "Nathan Sirmon", Email = "Nathan+Sirmon@dtu.dk", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>() };
+            var a5 = new Author() {UserName = "Quintin Sitts", Email = "Quintin+Sitts@itu.dk", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>() };
+            var a6 = new Author() {UserName = "Mellie Yost", Email = "Mellie+Yost@ku.dk", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>() };
+            var a7 = new Author() {UserName = "Malcolm Janski", Email = "Malcolm-Janski@gmail.com", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>() };
+            var a8 = new Author() {UserName = "Octavio Wagganer", Email = "Octavio.Wagganer@dtu.dk", Cheeps = new List<Cheep>(), Following = new List<Author>(),Followers = new List<Author>() };
+            var a9 = new Author() { UserName = "Johnnie Calixto", Email = "Johnnie+Calixto@itu.dk", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>() };
+            var a10 = new Author() { UserName = "Jacqualine Gilcoine", Email = "Jacqualine.Gilcoine@gmail.com", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>()};
+            var a11 = new Author() { UserName = "Helge", Email = "ropf@itu.dk", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>(), LockoutEnabled = true, EmailConfirmed = true };
+            var a12 = new Author() { UserName = "Adrian", Email = "adho@itu.dk", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>(), LockoutEnabled = true, EmailConfirmed = true };
 
             var authors = new List<Author>() { a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12 };
 

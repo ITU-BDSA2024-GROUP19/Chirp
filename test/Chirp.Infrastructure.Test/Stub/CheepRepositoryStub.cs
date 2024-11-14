@@ -48,12 +48,12 @@ public class CheepRepositoryStub : ICheepRepository
     }
     public Task<Author> GetAuthorByName(string name)
     {
-        var mockAuthor = new Author() { UserName = "Author1", Email = "au1@itu.dk", Cheeps = new List<Cheep>(), Following = new List<Author>() };
+        var mockAuthor = new Author() { UserName = "Author1", Email = "au1@itu.dk", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>() };
         return Task.FromResult(mockAuthor);
     }
     public Task<Author> GetAuthorByEmail(string email)
     {
-        var mockAuthor = new Author() { UserName = "Author1", Email = "au1@itu.dk", Cheeps = new List<Cheep>(), Following = new List<Author>() };
+        var mockAuthor = new Author() { UserName = "Author1", Email = "au1@itu.dk", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>() };
         return Task.FromResult(mockAuthor);
     }
     
