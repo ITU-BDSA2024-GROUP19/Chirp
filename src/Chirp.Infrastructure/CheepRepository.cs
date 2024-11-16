@@ -106,8 +106,19 @@ public class CheepRepository : ICheepRepository
     
     public async Task FollowAndUnfollowAuthor(string followerName, string authorName)
     {
-        var follower = await GetAuthorByName(followerName);
-        var author = await GetAuthorByName(authorName);
+        var follower = await _dbContext.Authors
+            .Include(a => a.Following)
+            .FirstOrDefaultAsync(a => a.UserName == followerName);
+
+        var author = await _dbContext.Authors
+            .Include(a => a.Followers)
+            .FirstOrDefaultAsync(a => a.UserName == authorName);
+
+        if (follower == null || author == null)
+        {
+            throw new ArgumentException("El usuario seguidor o el autor no existen.");
+        }
+
         if (follower.Following.Contains(author))
         {
             follower.Following.Remove(author);
@@ -115,8 +126,8 @@ public class CheepRepository : ICheepRepository
         else
         {
             follower.Following.Add(author);
-            
         }
+
         await _dbContext.SaveChangesAsync();
     }
 }
