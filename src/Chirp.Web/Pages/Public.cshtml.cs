@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Drawing.Printing;
+
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Chirp.Infrastructure;
 using Chirp.Web.Pages.Shared.Models;
@@ -35,7 +37,7 @@ public class PublicModel : PageModel
     {
         var pageQuery = Request.Query["page"];
         CurrentPage = Convert.ToInt32(pageQuery) == 0 ? 1 : Convert.ToInt32(pageQuery);
-        Cheeps = _service.GetCheeps(CurrentPage);
+        Cheeps = _service.GetCheeps(CurrentPage,User.Identity?.Name!);
     }
 
 
@@ -64,5 +66,17 @@ public class PublicModel : PageModel
             prepareContents();
             return RedirectToPage();
         }
+    }
+    public async Task<IActionResult> OnGetFollowAsync(string authorName)
+    {
+        _service.FollowAuthor(User.Identity?.Name!, authorName);
+        prepareContents();
+        return RedirectToPage();
+    }
+    public async Task<IActionResult> OnGetUnfollowAsync(string authorName)
+    {
+        _service.UnfollowAuthor(User.Identity?.Name!, authorName);
+        prepareContents();
+        return RedirectToPage();
     }
 }
