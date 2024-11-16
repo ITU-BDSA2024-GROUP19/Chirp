@@ -61,49 +61,24 @@ public class CheepRepository : ICheepRepository
     public Task<List<CheepDTO>> GetCheepDTO(int page, string userName)
     {
         var user = _dbContext.Authors.FirstOrDefaultAsync(a => a.UserName == userName);
-        if (user.Result == null)
-        {
-            var query = (from cheep in _dbContext.Cheeps
-                    orderby cheep.TimeStamp descending
-                    select new CheepDTO(cheep.Author.UserName ?? "", cheep.Text, (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds, false))
-                .Skip((page - 1) * CHEEPS_PER_PAGE)
-                .Take(CHEEPS_PER_PAGE);
-            return query.ToListAsync();
-        }
-        else
-        {
-            var query = (from cheep in _dbContext.Cheeps
-                    orderby cheep.TimeStamp descending
-                    select new CheepDTO(cheep.Author.UserName ?? "", cheep.Text, (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds, cheep.Author.Followers.Contains(user.Result)))
-                .Skip((page - 1) * CHEEPS_PER_PAGE)
-                .Take(CHEEPS_PER_PAGE);
-            return query.ToListAsync();
-        }
+        var query = (from cheep in _dbContext.Cheeps
+                orderby cheep.TimeStamp descending
+                select new CheepDTO(cheep.Author.UserName ?? "", cheep.Text, (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds, user != null && cheep.Author.Followers.Contains(user.Result)))
+            .Skip((page - 1) * CHEEPS_PER_PAGE)
+            .Take(CHEEPS_PER_PAGE);
+        return query.ToListAsync();
     }
     
     public Task<List<CheepDTO>> GetCheepDTOFromAuthor(int page, string authorName, string userName)
     {
         var user = _dbContext.Authors.FirstOrDefaultAsync(a => a.UserName == userName);
-        if (user.Result == null)
-        {
-            var query = (from cheep in _dbContext.Cheeps
-                    where cheep.Author.UserName == authorName
-                    orderby cheep.TimeStamp descending
-                    select new CheepDTO(cheep.Author.UserName ?? "", cheep.Text, (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds, false))
-                .Skip((page - 1) * CHEEPS_PER_PAGE)
-                .Take(CHEEPS_PER_PAGE);
-            return query.ToListAsync();
-        }
-        else
-        {
-            var query = (from cheep in _dbContext.Cheeps
-                    where cheep.Author.UserName == authorName
-                    orderby cheep.TimeStamp descending
-                    select new CheepDTO(cheep.Author.UserName ?? "", cheep.Text, (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds, cheep.Author.Followers.Contains(user.Result)))
-                .Skip((page - 1) * CHEEPS_PER_PAGE)
-                .Take(CHEEPS_PER_PAGE);
-            return query.ToListAsync();
-        }
+        var query = (from cheep in _dbContext.Cheeps
+                where cheep.Author.UserName == authorName
+                orderby cheep.TimeStamp descending
+                select new CheepDTO(cheep.Author.UserName ?? "", cheep.Text, (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds, user != null && cheep.Author.Followers.Contains(user.Result)))
+            .Skip((page - 1) * CHEEPS_PER_PAGE)
+            .Take(CHEEPS_PER_PAGE);
+        return query.ToListAsync();
     }
     public Task<List<CheepDTO>> GetCheepDTOFromMe(int page, string userName)
     {
