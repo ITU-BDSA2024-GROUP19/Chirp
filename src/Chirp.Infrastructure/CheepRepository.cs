@@ -12,7 +12,8 @@ public interface ICheepRepository
     Task<List<CheepDTO>> GetCheepDTOFromAuthor(int page, string authorName, string userName);
     Task<Author> GetAuthorByName(string name);
     Task<Author> GetAuthorByEmail(string email);
-    Task FollowAndUnfollowAuthor(string followerName, string authorName);
+    Task FollowAuthor(string followerName, string authorName);
+    Task UnfollowAuthor(string followerName, string authorName);
     
 }
 
@@ -104,7 +105,7 @@ public class CheepRepository : ICheepRepository
         }
     }
     
-    public async Task FollowAndUnfollowAuthor(string followerName, string authorName)
+    public async Task FollowAuthor(string followerName, string authorName)
     {
         var follower = await _dbContext.Authors
             .Include(a => a.Following)
@@ -116,17 +117,29 @@ public class CheepRepository : ICheepRepository
 
         if (follower == null || author == null)
         {
-            throw new ArgumentException("El usuario seguidor o el autor no existen.");
+            throw new ArgumentException("User or author does not exist.");
         }
+        
+        follower.Following.Add(author);
 
-        if (follower.Following.Contains(author))
+        await _dbContext.SaveChangesAsync();
+    }
+    public async Task UnfollowAuthor(string followerName, string authorName)
+    {
+        var follower = await _dbContext.Authors
+            .Include(a => a.Following)
+            .FirstOrDefaultAsync(a => a.UserName == followerName);
+
+        var author = await _dbContext.Authors
+            .Include(a => a.Followers)
+            .FirstOrDefaultAsync(a => a.UserName == authorName);
+
+        if (follower == null || author == null)
         {
-            follower.Following.Remove(author);
+            throw new ArgumentException("User or author does not exist");
         }
-        else
-        {
-            follower.Following.Add(author);
-        }
+        
+        follower.Following.Remove(author);
 
         await _dbContext.SaveChangesAsync();
     }
