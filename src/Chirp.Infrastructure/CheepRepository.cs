@@ -10,6 +10,7 @@ public interface ICheepRepository
     Task AddAuthor(Author author);
     Task<List<CheepDTO>> GetCheepDTO(int page, string userName);
     Task<List<CheepDTO>> GetCheepDTOFromAuthor(int page, string authorName, string userName);
+    Task<List<CheepDTO>> GetCheepDTOFromMe(int page, string userName);
     Task<Author> GetAuthorByName(string name);
     Task<Author> GetAuthorByEmail(string email);
     Task FollowAuthor(string followerName, string authorName);
@@ -103,6 +104,17 @@ public class CheepRepository : ICheepRepository
                 .Take(CHEEPS_PER_PAGE);
             return query.ToListAsync();
         }
+    }
+    public Task<List<CheepDTO>> GetCheepDTOFromMe(int page, string userName)
+    {
+        var query = (from cheep in _dbContext.Cheeps
+                where cheep.Author.UserName == userName || 
+                      cheep.Author.Followers.Any(f => f.UserName == userName)
+                orderby cheep.TimeStamp descending
+                select new CheepDTO(cheep.Author.UserName ?? "", cheep.Text, (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds, false))
+            .Skip((page - 1) * CHEEPS_PER_PAGE)
+            .Take(CHEEPS_PER_PAGE);
+        return query.ToListAsync();
     }
     
     public async Task FollowAuthor(string followerName, string authorName)
