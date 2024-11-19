@@ -16,7 +16,7 @@ namespace Chirp.Infrastructure;
 
 public interface IChirpAccountService
 {
-    Task<IdentityResult> AddAuthor(ChirpAccountService.NewAccountInputModel input);
+    Task<ChirpAccountService.AddAuthorResult> AddAuthor(ChirpAccountService.NewAccountInputModel input);
 }
 
 public class ChirpAccountService : IChirpAccountService
@@ -54,13 +54,16 @@ public class ChirpAccountService : IChirpAccountService
         
         public required string Password { get; set; }
     }
+
+    public record AddAuthorResult(Author User, IdentityResult Result);
     
-    public async Task<IdentityResult> AddAuthor(NewAccountInputModel input)
+    public async Task<AddAuthorResult> AddAuthor(NewAccountInputModel input)
     {
         Author user = CreateUser();
         await _userStore.SetUserNameAsync(user, input.UserName, CancellationToken.None);
         await _emailStore.SetEmailAsync(user, input.Email, CancellationToken.None);
-        return await _repository.AddAuthor(user, input.Password);
+        var result = await _repository.AddAuthor(user, input.Password);
+        return new AddAuthorResult(user, result);
     }
     
     private Author CreateUser()
