@@ -63,7 +63,7 @@ public class CheepRepository : ICheepRepository
         var user = _dbContext.Authors.FirstOrDefaultAsync(a => a.UserName == userName);
         var query = (from cheep in _dbContext.Cheeps
                 orderby cheep.TimeStamp descending
-                select new CheepDTO(cheep.Author.UserName ?? "", cheep.Text, (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds, user != null && cheep.Author.Followers.Contains(user.Result)))
+                select new CheepDTO(cheep.Author.UserName ?? "", cheep.Text, (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds, user.Result != null && cheep.Author.Followers.Contains(user.Result)))
             .Skip((page - 1) * CHEEPS_PER_PAGE)
             .Take(CHEEPS_PER_PAGE);
         return query.ToListAsync();
@@ -75,7 +75,7 @@ public class CheepRepository : ICheepRepository
         var query = (from cheep in _dbContext.Cheeps
                 where cheep.Author.UserName == authorName
                 orderby cheep.TimeStamp descending
-                select new CheepDTO(cheep.Author.UserName ?? "", cheep.Text, (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds, user != null && cheep.Author.Followers.Contains(user.Result)))
+                select new CheepDTO(cheep.Author.UserName ?? "", cheep.Text, (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds, user.Result != null && cheep.Author.Followers.Contains(user.Result)))
             .Skip((page - 1) * CHEEPS_PER_PAGE)
             .Take(CHEEPS_PER_PAGE);
         return query.ToListAsync();
@@ -87,7 +87,7 @@ public class CheepRepository : ICheepRepository
                 where cheep.Author.UserName == userName || 
                       cheep.Author.Followers.Any(f => f.UserName == userName)
                 orderby cheep.TimeStamp descending
-                select new CheepDTO(cheep.Author.UserName ?? "", cheep.Text, (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds, user != null && cheep.Author.Followers.Contains(user.Result)))
+                select new CheepDTO(cheep.Author.UserName ?? "", cheep.Text, (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds, user.Result != null && cheep.Author.Followers.Contains(user.Result)))
             .Skip((page - 1) * CHEEPS_PER_PAGE)
             .Take(CHEEPS_PER_PAGE);
         return query.ToListAsync();
