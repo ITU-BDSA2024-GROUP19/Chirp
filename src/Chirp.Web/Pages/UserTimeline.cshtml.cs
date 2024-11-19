@@ -66,17 +66,18 @@ public class UserTimelineModel : PageModel
         }
     }
     
-    public async Task<IActionResult> OnGetFollowAsync(string author, string authorName)
-    {
-        _service.FollowAuthor(User.Identity?.Name!, authorName);
-        prepareContents(author);
-        return RedirectToPage();
+    public async Task<IActionResult> OnGetFollowAsync(string authorName) {
+        string userName = User.Identity?.Name!;
+        _service.FollowAuthor(userName, authorName);
+        prepareContents(userName);
+        return RedirectToPage("/UserTimeline", new { author = userName });
     }
-    public async Task<IActionResult> OnGetUnfollowAsync(string author, string authorName)
+    public async Task<IActionResult> OnGetUnfollowAsync(string authorName)
     {
-        _service.UnfollowAuthor(User.Identity?.Name!, authorName);
-        prepareContents(author);
-        return RedirectToPage();
+        string userName = User.Identity?.Name!;
+        _service.UnfollowAuthor(userName, authorName);
+        prepareContents(userName);
+        return RedirectToPage("/UserTimeline", new { author = userName });
     }
 
 }
