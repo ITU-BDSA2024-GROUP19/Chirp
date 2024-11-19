@@ -82,11 +82,12 @@ public class CheepRepository : ICheepRepository
     }
     public Task<List<CheepDTO>> GetCheepDTOFromMe(int page, string userName)
     {
+        var user = _dbContext.Authors.FirstOrDefaultAsync(a => a.UserName == userName);
         var query = (from cheep in _dbContext.Cheeps
                 where cheep.Author.UserName == userName || 
                       cheep.Author.Followers.Any(f => f.UserName == userName)
                 orderby cheep.TimeStamp descending
-                select new CheepDTO(cheep.Author.UserName ?? "", cheep.Text, (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds, false))
+                select new CheepDTO(cheep.Author.UserName ?? "", cheep.Text, (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds, user != null && cheep.Author.Followers.Contains(user.Result)))
             .Skip((page - 1) * CHEEPS_PER_PAGE)
             .Take(CHEEPS_PER_PAGE);
         return query.ToListAsync();
