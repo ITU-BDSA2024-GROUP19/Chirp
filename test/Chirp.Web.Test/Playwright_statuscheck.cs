@@ -11,12 +11,12 @@ namespace Chirp.Web.Test;
 /// <br />
 /// The tests are intended to mimic those run on https://itu-bdsa.github.io/status/report_razor_apps.html
 /// </summary>
-[Parallelizable(ParallelScope.Self)]
+[Parallelizable(ParallelScope.None)]
 [TestFixture]
 public class Playwright_statuscheck : PageTest
 {
 
-    private Process _serverProcess;
+    public required Process _serverProcess;
 
     [OneTimeSetUp]
     public async Task Init()
@@ -34,6 +34,7 @@ public class Playwright_statuscheck : PageTest
             _serverProcess.Kill();
         }
         _serverProcess.Dispose();
+        Thread.Sleep(500);
     }
 
 
