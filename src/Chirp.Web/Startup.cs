@@ -32,6 +32,10 @@ public class Startup(IConfiguration configuration, SqliteConnection dbConn)
 
         services.AddScoped<ICheepService, CheepService>();
 
+        services.AddScoped<IChirpAccountRepository, ChirpAccountRepository>();
+
+        services.AddScoped<IChirpAccountService, ChirpAccountService>();
+
         services.AddAuthentication(options =>
         {
             options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
