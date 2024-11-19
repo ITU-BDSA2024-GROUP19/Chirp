@@ -15,4 +15,7 @@ public class Cheep {
 
 public class Author : IdentityUser {
     public required ICollection<Cheep> Cheeps {get; set;}
+
+    public ICollection<Author> Following { get; set; } = new List<Author>();
+    public ICollection<Author> Followers {get; set;} = new List<Author>();
 }

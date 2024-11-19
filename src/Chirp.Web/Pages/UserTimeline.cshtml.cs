@@ -29,7 +29,13 @@ public class UserTimelineModel : PageModel
     {
         var pageQuery = Request.Query["page"];
         CurrentPage = Convert.ToInt32(pageQuery) == 0 ? 1 : Convert.ToInt32(pageQuery);
-        Cheeps = _service.GetCheepsFromAuthor(CurrentPage, author);
+        var userName = User.Identity?.Name!;
+        if (author == userName)
+        {
+            Cheeps = _service.GetCheepsFromMe(CurrentPage, userName);
+        }
+        else
+            Cheeps = _service.GetCheepsFromAuthor(CurrentPage, author, userName);
     }
 
 
@@ -58,6 +64,20 @@ public class UserTimelineModel : PageModel
             prepareContents(author);
             return RedirectToPage();
         }
+    }
+    
+    public async Task<IActionResult> OnGetFollowAsync(string authorName) {
+        string userName = User.Identity?.Name!;
+        _service.FollowAuthor(userName, authorName);
+        prepareContents(userName);
+        return RedirectToPage("/UserTimeline", new { author = userName });
+    }
+    public async Task<IActionResult> OnGetUnfollowAsync(string authorName)
+    {
+        string userName = User.Identity?.Name!;
+        _service.UnfollowAuthor(userName, authorName);
+        prepareContents(userName);
+        return RedirectToPage("/UserTimeline", new { author = userName });
     }
 
 }

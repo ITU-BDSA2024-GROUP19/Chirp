@@ -9,4 +9,13 @@ public class ChirpDBContext : IdentityDbContext<Author>  {
     public DbSet<Author> Authors {get; set;}
     public ChirpDBContext (DbContextOptions<ChirpDBContext> options) : base(options){
     }
+    
+    protected override void OnModelCreating(ModelBuilder builder) {
+        base.OnModelCreating(builder);
+        builder.Entity<Author>()
+            .HasMany(a => a.Following)
+            .WithMany(a => a.Followers)
+            .UsingEntity(j => j.ToTable("AuthorFollows"));
+    }
+    
 }

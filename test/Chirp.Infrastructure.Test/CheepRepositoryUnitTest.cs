@@ -19,7 +19,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
     {
         var authors = new List<Author>
         {
-            new() {UserName = "Author1", Email = "au1@itu.dk", Cheeps = new List<Cheep>() }
+            new() {UserName = "Author1", Email = "au1@itu.dk", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>() }
         };
         var cheeps = new List<Cheep>
         {
@@ -52,7 +52,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
     public async Task AddCheep_SavesCheepToDatabase()
     {
         // Arrange
-        var a13 = new Author() { UserName = "Test Author", Email = "test@itu.dk", Cheeps = new List<Cheep>() };
+        var a13 = new Author() { UserName = "Test Author", Email = "test@itu.dk", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>() };
         var cheep = new Cheep() { CheepId = 658, Author = a13, Text = "Test Message", TimeStamp = DateTime.UtcNow };
         
         // Act
@@ -68,7 +68,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
     public async Task AddAuthor_SavesAuthorToDatabase()
     {
         // Arrange
-        var author = new Author() { UserName = "Test Author", Email = "test@itu.dk", Cheeps = new List<Cheep>() };
+        var author = new Author() { UserName = "Test Author", Email = "test@itu.dk", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>() };
 
         // Act
         await _cheepRepo.AddAuthor(author);
@@ -85,7 +85,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
         // Arrange
         var author = new Author()
         {
-            UserName = "Test Author", Email = "test@itu.dk", Cheeps = new List<Cheep>()
+            UserName = "Test Author", Email = "test@itu.dk", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>()
         };
 
         // Act
@@ -102,7 +102,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
         // Arrange
         var author = new Author()
         {
-            UserName = "Test Author", Email = "test@itu.dk", Cheeps = new List<Cheep>()
+            UserName = "Test Author", Email = "test@itu.dk", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>()
         };
         
         // Act
@@ -119,7 +119,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
         // Arrange
         var author = new Author()
         {
-            UserName = "Test Author", Email = "test@itu.dk", Cheeps = new List<Cheep>()
+            UserName = "Test Author", Email = "test@itu.dk", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>()
         };
         
         // Act
@@ -136,7 +136,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
         // Arrange
         var author = new Author()
         {
-            UserName = "Test Author", Email = "test@itu.dk", Cheeps = new List<Cheep>()
+            UserName = "Test Author", Email = "test@itu.dk", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>()
         };
         
         // Act
@@ -154,7 +154,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
         DbTestInitializer();
         
         // Act
-        var cheeps = await _cheepRepo.GetCheepDTO(1);
+        var cheeps = await _cheepRepo.GetCheepDTO(1, "Author1");
 
         // Assert
         Assert.NotEmpty(cheeps);
@@ -169,7 +169,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
         DbTestInitializer();
         
         // Act
-        var cheeps = await _cheepRepo.GetCheepDTO(2);
+        var cheeps = await _cheepRepo.GetCheepDTO(2,"UnknownAuthor");
 
         // Assert
         Assert.Empty(cheeps);
@@ -182,7 +182,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
         DbTestInitializer();
         
         // Act
-        var cheepsByAuthor = await _cheepRepo.GetCheepDTOFromAuthor(1, "Author1");
+        var cheepsByAuthor = await _cheepRepo.GetCheepDTOFromAuthor(1, "Author1", "Author1");
 
         // Assert
         Assert.NotEmpty(cheepsByAuthor);
@@ -195,7 +195,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
         // Arrange
         DbTestInitializer();
         // Act
-        var cheepsByUnknownAuthor = await _cheepRepo.GetCheepDTOFromAuthor(1, "UnknownAuthor");
+        var cheepsByUnknownAuthor = await _cheepRepo.GetCheepDTOFromAuthor(1, "UnknownAuthor", "UnknownAuthor");
 
         // Assert
         Assert.Empty(cheepsByUnknownAuthor);
@@ -206,7 +206,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
     {
         // Arrange
         DbTestInitializer();
-        var a14 = new Author() { UserName = "Test Author", Email = "test@itu.dk", Cheeps = new List<Cheep>() };
+        var a14 = new Author() { UserName = "Test Author", Email = "test@itu.dk", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>() };
         var cheep = new Cheep() { CheepId = 658, Author = a14, Text = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH", TimeStamp = DateTime.UtcNow };
         
         // Act And Assert

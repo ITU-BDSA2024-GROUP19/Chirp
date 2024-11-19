@@ -30,7 +30,7 @@ public class SafetyIntegrationTests(ITestOutputHelper output)
         cheepService.AddCheep(author!, "Hello'); DROP TABLE Cheeps; --");
         
         // Assert
-        var cheeps = cheepService.GetCheeps(1);
+        var cheeps = cheepService.GetCheeps(1, "");
         Assert.NotEmpty(cheeps);
     }
 }

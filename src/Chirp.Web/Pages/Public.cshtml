@@ -1,5 +1,7 @@
 ﻿@page "/"
 @model Chirp.Web.Pages.PublicModel
+@inject SignInManager<Author> SignInManager
+@inject UserManager<Author> UserManager
 @{
     ViewData["Title"] = "Chirp!";
     Layout = "Shared/_Layout";
@@ -20,6 +22,17 @@
                         <strong>
                             <a href="/@cheep.Author">@cheep.Author</a>
                         </strong>
+                        @if (SignInManager.IsSignedIn(User) && cheep.Author != User.Identity?.Name)
+                        {
+                            @if (cheep.IsFollowed)
+                            {
+                                <a href="/?handler=Unfollow&authorName=@cheep.Author">Unfollow</a>
+                            }
+                            else
+                            {
+                                <a href="/?handler=Follow&authorName=@cheep.Author">Follow</a>
+                            }
+                        }
                         @cheep.Message
                         <small>&mdash; @cheep.TimeStamp</small>
                     </p>

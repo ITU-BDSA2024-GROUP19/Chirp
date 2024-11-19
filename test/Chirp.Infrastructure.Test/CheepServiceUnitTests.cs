@@ -14,7 +14,7 @@ public class CheepServiceUnitTests
         ICheepRepository cheepRepo = new CheepRepositoryStub();
         ICheepService cheepService = new CheepService(cheepRepo);
         // Act
-        List<CheepViewModel> cheeps = cheepService.GetCheeps(1);
+        List<CheepViewModel> cheeps = cheepService.GetCheeps(1, "Author1");
 
         // Assert
         Assert.NotNull(cheeps);
@@ -28,7 +28,7 @@ public class CheepServiceUnitTests
         ICheepRepository cheepRepo = new CheepRepositoryStub();
         ICheepService cheepService = new CheepService(cheepRepo);
         // Act
-        List<CheepViewModel> cheeps = cheepService.GetCheepsFromAuthor(1, "Author1");
+        List<CheepViewModel> cheeps = cheepService.GetCheepsFromAuthor(1, "Author1", "Author1");
 
         // Assert
         Assert.NotNull(cheeps);
@@ -45,7 +45,7 @@ public class CheepServiceUnitTests
         ICheepService service = new CheepService(cheepRepo);
 
         // Act
-        var result = service.GetCheeps(1);
+        var result = service.GetCheeps(1, "Author1");
 
         // Assert
         Assert.Equal(expectedTime, result[0].TimeStamp);

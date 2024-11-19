@@ -1,5 +1,6 @@
 ﻿@page "/{author}"
 @model Chirp.Web.Pages.UserTimelineModel
+@inject SignInManager<Author> SignInManager
 
 @{
     ViewData["Title"] = "Chirp!";
@@ -25,6 +26,17 @@
                         <strong>
                             <a href="/@cheep.Author">@cheep.Author</a>
                         </strong>
+                        @if (SignInManager.IsSignedIn(User) && cheep.Author != User.Identity?.Name)
+                        {
+                            @if (cheep.IsFollowed)
+                            {
+                                <a href="/@cheep.Author?handler=Unfollow&authorName=@cheep.Author">Unfollow</a>
+                            }
+                            else
+                            {
+                                <a href="/@cheep.Author?handler=Follow&authorName=@cheep.Author">Follow</a>
+                            }
+                        }
                         @cheep.Message
                         <small>&mdash; @cheep.TimeStamp</small>
                     </p>
