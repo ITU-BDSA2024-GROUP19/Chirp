@@ -26,7 +26,7 @@ public class AccountIntegrationTests(ITestOutputHelper output)
         var login_cs = new LoginModel(signInManager, logger, userManager);
         login_cs.Input = new()
         {
-            Email = "strangeuser@example.com",
+            Username = "strangeuser@example.com",
             Password = "password"
         };
 
