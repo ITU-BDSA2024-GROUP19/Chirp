@@ -11,7 +11,7 @@ namespace Chirp.Infrastructure;
 
 public interface IChirpAccountRepository
 {
-    Task<IdentityResult> AddAuthor(Author author, string password);
+    Task<IdentityResult> AddAuthor(Author user, string? password = null);
 }
 
 public class ChirpAccountRepository : IChirpAccountRepository
@@ -26,8 +26,11 @@ public class ChirpAccountRepository : IChirpAccountRepository
         _userStore = userStore;
     }
     
-    public Task<IdentityResult> AddAuthor(Author user, string password)
+    public Task<IdentityResult> AddAuthor(Author user, string? password = null)
     {
+        if (password == null) {
+            return _userManager.CreateAsync(user);
+        }
         return _userManager.CreateAsync(user, password);
     }
     

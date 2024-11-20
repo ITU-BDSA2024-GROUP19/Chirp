@@ -122,14 +122,8 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var newAccountModel = new ChirpAccountService.NewAccountInputModel() 
-                {
-                    UserName = Input.UserName, 
-                    Email = Input.Email, 
-                    Password = Input.Password
-                };
-                var addAuthorResult = await _chirpAccountService.AddAuthor(newAccountModel);
-                var result = addAuthorResult.Result;
+                var addAuthorResult = await _chirpAccountService.AddAuthor(Input.UserName, Input.Email, Input.Password);
+                var result = addAuthorResult.IdentityResult;
                 var user = addAuthorResult.User;
 
                 if (result.Succeeded)
