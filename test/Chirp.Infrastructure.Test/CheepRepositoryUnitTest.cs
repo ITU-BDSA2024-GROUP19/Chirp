@@ -2,6 +2,7 @@
 
 using Chirp.Core;
 using Chirp.Infrastructure;
+using Chirp.Infrastructure.Test.Stub;
 
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
@@ -43,7 +44,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
         await _context.Database.EnsureCreatedAsync();
         
         _cheepRepo = new CheepRepository(_context);
-        _chirpAccountRepo = new ChirpAccountRepository(_context);
+        _chirpAccountRepo = new ChirpAccountRepositoryStub();
     }
     
     public Task DisposeAsync()
