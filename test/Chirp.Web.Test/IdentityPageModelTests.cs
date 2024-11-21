@@ -8,7 +8,7 @@ using Xunit.Abstractions;
 
 namespace Chirp.Web.Test;
 
-public class AccountIntegrationTests(ITestOutputHelper output)
+public class IdentityPageModelTests(ITestOutputHelper output)
 {
     private readonly ITestOutputHelper _output = output;
 
