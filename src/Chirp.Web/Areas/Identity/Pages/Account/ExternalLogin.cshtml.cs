@@ -25,7 +25,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class ExternalLoginModel : PageModel
     {
-        private readonly IChirpAccountService _chirpAccountService;
+        private readonly IAuthorService _chirpAccountService;
         private readonly SignInManager<Author> _signInManager;
         private readonly UserManager<Author> _userManager;
         private readonly IUserStore<Author> _userStore;
@@ -34,7 +34,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
         private readonly ILogger<ExternalLoginModel> _logger;
 
         public ExternalLoginModel(
-            IChirpAccountService chirpAccountService,
+            IAuthorService chirpAccountService,
             SignInManager<Author> signInManager,
             UserManager<Author> userManager,
             IUserStore<Author> userStore,

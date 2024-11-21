@@ -32,9 +32,9 @@ public class Startup(IConfiguration configuration, SqliteConnection dbConn)
 
         services.AddScoped<ICheepService, CheepService>();
 
-        services.AddScoped<IChirpAccountRepository, ChirpAccountRepository>();
+        services.AddScoped<IAuthorRepository, AuthorRepository>();
 
-        services.AddScoped<IChirpAccountService, ChirpAccountService>();
+        services.AddScoped<IAuthorService, AuthorService>();
 
         services.AddAuthentication(options =>
         {

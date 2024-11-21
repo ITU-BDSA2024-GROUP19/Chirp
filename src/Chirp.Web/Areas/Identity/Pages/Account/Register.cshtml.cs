@@ -25,7 +25,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
 {
     public class RegisterModel : PageModel
     {
-        private readonly IChirpAccountService _chirpAccountService;
+        private readonly IAuthorService _chirpAccountService;
         private readonly SignInManager<Author> _signInManager;
         private readonly UserManager<Author> _userManager;
         private readonly IUserStore<Author> _userStore;
@@ -34,7 +34,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
-            IChirpAccountService chirpAccountService,
+            IAuthorService chirpAccountService,
             UserManager<Author> userManager,
             IUserStore<Author> userStore,
             SignInManager<Author> signInManager,

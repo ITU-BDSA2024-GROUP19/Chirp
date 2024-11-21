@@ -15,7 +15,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
 {
     private ChirpDBContext _context = null!;
     private ICheepRepository _cheepRepo = null!;
-    private IChirpAccountRepository _chirpAccountRepo = null!;
+    private IAuthorRepository _chirpAccountRepo = null!;
 
     private void DbTestInitializer()
     {

@@ -9,18 +9,18 @@ using Microsoft.Extensions.Logging;
 
 namespace Chirp.Infrastructure;
 
-public interface IChirpAccountRepository
+public interface IAuthorRepository
 {
     Task<IdentityResult> AddAuthor(Author user, string? password = null);
 }
 
-public class ChirpAccountRepository : IChirpAccountRepository
+public class AuthorRepository : IAuthorRepository
 {
     private readonly UserManager<Author> _userManager;
     private readonly IUserStore<Author> _userStore;
 
 
-    public ChirpAccountRepository (UserManager<Author> userManager, IUserStore<Author> userStore)
+    public AuthorRepository (UserManager<Author> userManager, IUserStore<Author> userStore)
     {
         _userManager = userManager;
         _userStore = userStore;

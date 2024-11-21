@@ -14,14 +14,14 @@ using Microsoft.Extensions.Logging;
 
 namespace Chirp.Infrastructure;
 
-public interface IChirpAccountService
+public interface IAuthorService
 {
-    Task<ChirpAccountService.AddAuthorResult> AddAuthor(string userName, string email, string? password = null);
+    Task<AuthorService.AddAuthorResult> AddAuthor(string userName, string email, string? password = null);
 }
 
-public class ChirpAccountService : IChirpAccountService
+public class AuthorService : IAuthorService
 {
-    private readonly IChirpAccountRepository _repository;
+    private readonly IAuthorRepository _repository;
     private readonly SignInManager<Author> _signInManager;
     private readonly UserManager<Author> _userManager;
     private readonly IUserStore<Author> _userStore;
@@ -29,8 +29,8 @@ public class ChirpAccountService : IChirpAccountService
     private readonly ILogger<RegisterModel> _logger;
     private readonly IEmailSender _emailSender;
 
-    public ChirpAccountService (
-        IChirpAccountRepository repository,
+    public AuthorService (
+        IAuthorRepository repository,
         UserManager<Author> userManager,
         IUserStore<Author> userStore,
         SignInManager<Author> signInManager,

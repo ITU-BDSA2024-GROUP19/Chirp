@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Chirp.Infrastructure.Test.Stub;
 
-public class ChirpAccountRepositoryStub : IChirpAccountRepository
+public class ChirpAccountRepositoryStub : IAuthorRepository
 {
     private readonly List<Author> _authors = new();
 
