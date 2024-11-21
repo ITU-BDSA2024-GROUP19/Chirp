@@ -5,22 +5,25 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+
+using Chirp.Core;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 
-namespace TestTemplateWithAuth_.Areas.Identity.Pages.Account.Manage
+namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
 {
     public class DeletePersonalDataModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<Author> _userManager;
+        private readonly SignInManager<Author> _signInManager;
         private readonly ILogger<DeletePersonalDataModel> _logger;
 
         public DeletePersonalDataModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<Author> userManager,
+            SignInManager<Author> signInManager,
             ILogger<DeletePersonalDataModel> logger)
         {
             _userManager = userManager;
