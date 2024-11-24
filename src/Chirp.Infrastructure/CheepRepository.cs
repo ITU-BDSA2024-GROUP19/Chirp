@@ -7,7 +7,6 @@ namespace Chirp.Infrastructure;
 public interface ICheepRepository
 {
     Task AddCheep(Cheep cheep);
-    Task AddAuthor(Author author);
     Task<List<CheepDTO>> GetCheepDTO(int page, string userName);
     Task<List<CheepDTO>> GetCheepDTOFromAuthor(int page, string authorName, string userName);
     Task<List<CheepDTO>> GetCheepDTOFromMe(int page, string userName);
@@ -36,12 +35,6 @@ public class CheepRepository : ICheepRepository
             _dbContext.Add(cheep);
             await _dbContext.SaveChangesAsync();
         }
-    }
-
-    public async Task AddAuthor(Author author)
-    {
-        _dbContext.Add(author);
-        await _dbContext.SaveChangesAsync();
     }
 
     public Task<Author> GetAuthorByName(string name)

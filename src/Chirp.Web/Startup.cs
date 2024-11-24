@@ -32,6 +32,10 @@ public class Startup(IConfiguration configuration, SqliteConnection dbConn)
 
         services.AddScoped<ICheepService, CheepService>();
 
+        services.AddScoped<IAuthorRepository, AuthorRepository>();
+
+        services.AddScoped<IAuthorService, AuthorService>();
+
         services.AddAuthentication(options =>
         {
             options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;

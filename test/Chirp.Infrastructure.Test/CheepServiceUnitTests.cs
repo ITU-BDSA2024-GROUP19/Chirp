@@ -1,5 +1,5 @@
 ﻿using Chirp.Core;
-using Chirp.Test.Stub;
+using Chirp.Infrastructure.Test.Stub;
 
 namespace Chirp.Test;
 using Xunit;
