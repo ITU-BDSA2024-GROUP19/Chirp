@@ -8,7 +8,7 @@ using Xunit.Abstractions;
 
 namespace Chirp.Web.Test;
 
-public class AccountIntegrationTests(ITestOutputHelper output)
+public class IdentityPageModelTests(ITestOutputHelper output)
 {
     private readonly ITestOutputHelper _output = output;
 
@@ -26,7 +26,7 @@ public class AccountIntegrationTests(ITestOutputHelper output)
         var login_cs = new LoginModel(signInManager, logger, userManager);
         login_cs.Input = new()
         {
-            Email = "strangeuser@example.com",
+            Username = "strangeuser@example.com",
             Password = "password"
         };
 

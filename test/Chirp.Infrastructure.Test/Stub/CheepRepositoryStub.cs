@@ -1,25 +1,14 @@
-﻿namespace Chirp.Test.Stub;
-using Chirp.Core;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Chirp.Infrastructure;
+﻿using Chirp.Core;
+
+namespace Chirp.Infrastructure.Test.Stub;
 
 public class CheepRepositoryStub : ICheepRepository
 {
     private readonly List<Cheep> _cheeps = new();
-    private readonly List<Author> _authors = new();
     
     public Task AddCheep(Cheep cheep)
     {
         _cheeps.Add(cheep);
-        return Task.CompletedTask;
-    }
-
-    
-    public Task AddAuthor(Author author)
-    {
-        _authors.Add(author);
         return Task.CompletedTask;
     }
     
