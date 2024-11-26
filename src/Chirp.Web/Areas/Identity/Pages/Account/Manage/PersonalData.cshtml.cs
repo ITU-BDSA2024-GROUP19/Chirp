@@ -16,6 +16,8 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<Author> _userManager;
         private readonly ILogger<PersonalDataModel> _logger;
+        public Dictionary<string, string> PersonalData { get; private set; } = new();
+
 
         public PersonalDataModel(
             UserManager<Author> userManager,
@@ -31,6 +33,19 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            var personalDataProps = typeof(Author).GetProperties().Where(
+                prop => Attribute.IsDefined(prop, typeof(PersonalDataAttribute)));
+            foreach (var p in personalDataProps)
+            {
+                PersonalData.Add(p.Name, p.GetValue(user)?.ToString() ?? "null");
+            }
+
+            var logins = await _userManager.GetLoginsAsync(user);
+            foreach (var l in logins)
+            {
+                PersonalData.Add($"{l.LoginProvider} external login provider key", l.ProviderKey);
             }
 
             return Page();
