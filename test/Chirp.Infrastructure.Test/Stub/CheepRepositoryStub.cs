@@ -56,13 +56,9 @@ public class CheepRepositoryStub : ICheepRepository
         var mockAuthor = new Author() { UserName = "Author1", Email = "au1@itu.dk", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>() };
         return Task.FromResult(mockAuthor);
     }
-    
-    public Task FollowAuthor(string followerName, string authorName)
+
+    public Task<List<CheepDTO>> GetAllCheepDTOFromAuthor(string author, string userName)
     {
-        return Task.CompletedTask;
-    }
-    public Task UnfollowAuthor(string followerName, string authorName)
-    {
-        return Task.CompletedTask;
+        return (Task<List<CheepDTO>>)Task.CompletedTask;
     }
 }

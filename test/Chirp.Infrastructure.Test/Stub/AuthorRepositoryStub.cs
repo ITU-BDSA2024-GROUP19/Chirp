@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Chirp.Infrastructure.Test.Stub;
 
-public class ChirpAccountRepositoryStub : IAuthorRepository
+public class AuthorRepositoryStub : IAuthorRepository
 {
     private readonly List<Author> _authors = new();
 
@@ -12,5 +12,14 @@ public class ChirpAccountRepositoryStub : IAuthorRepository
     {
         _authors.Add(author);
         return Task.FromResult(IdentityResult.Success);
+    }
+
+    public Task FollowAuthor(string followerName, string authorName)
+    {
+        return Task.CompletedTask;
+    }
+    public Task UnfollowAuthor(string followerName, string authorName)
+    {
+        return Task.CompletedTask;
     }
 }
