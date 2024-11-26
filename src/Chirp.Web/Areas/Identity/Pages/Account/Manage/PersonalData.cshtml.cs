@@ -52,7 +52,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
                 PersonalData.Add($"{l.LoginProvider} external login provider key", l.ProviderKey);
             }
             
-            var cheeps = _cheepService.GetAllCheepsFromAuthor(user.UserName, user.UserName);
+            var cheeps = _cheepService.GetAllCheepsFromAuthor(user.UserName!, user.UserName!);
             PersonalData.Add("Total number of cheeps: ", cheeps.Count.ToString());
             for (int i = 0; i < cheeps.Count; i++)
             {
