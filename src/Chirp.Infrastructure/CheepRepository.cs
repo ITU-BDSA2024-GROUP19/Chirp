@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using Chirp.Core;
 using System.ComponentModel.DataAnnotations;
 
+using CheepDTO = Chirp.Core.CheepDTO;
+
 namespace Chirp.Infrastructure;
 
 public interface ICheepRepository
@@ -14,7 +16,7 @@ public interface ICheepRepository
     Task<Author> GetAuthorByEmail(string email);
     Task FollowAuthor(string followerName, string authorName);
     Task UnfollowAuthor(string followerName, string authorName);
-    
+    Task<List<CheepDTO>> GetAllCheepDTOFromAuthor(string author, string userName);
 }
 
 public class CheepRepository : ICheepRepository
@@ -83,6 +85,22 @@ public class CheepRepository : ICheepRepository
                 select new CheepDTO(cheep.Author.UserName ?? "", cheep.Text, (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds, user.Result != null && cheep.Author.Followers.Contains(user.Result)))
             .Skip((page - 1) * CHEEPS_PER_PAGE)
             .Take(CHEEPS_PER_PAGE);
+        return query.ToListAsync();
+    }
+    
+    // Removed cheep.Author.Followers.Any(f => f.UserName == author) from the query and the .Skip(0) and .Take(CHEEPS_PER_PAGE); as no pagination is needed is this method.
+    public Task<List<CheepDTO>> GetAllCheepDTOFromAuthor(string author, string userName)
+    {
+        var user = _dbContext.Authors.FirstOrDefaultAsync(a => a.UserName == userName);
+        var query = from cheep in _dbContext.Cheeps
+            where cheep.Author.UserName == author
+            orderby cheep.TimeStamp descending
+            select new CheepDTO(
+                cheep.Author.UserName ?? "", 
+                cheep.Text, 
+                (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds, 
+                user.Result != null && cheep.Author.Followers.Contains(user.Result)
+            );
         return query.ToListAsync();
     }
     

@@ -10,6 +10,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 
 using Chirp.Core;
+using Chirp.Infrastructure;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -22,13 +23,16 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<Author> _userManager;
         private readonly ILogger<DownloadPersonalDataModel> _logger;
+        private readonly ICheepService _cheepService;
 
         public DownloadPersonalDataModel(
             UserManager<Author> userManager,
-            ILogger<DownloadPersonalDataModel> logger)
+            ILogger<DownloadPersonalDataModel> logger,
+            ICheepService cheepService)
         {
             _userManager = userManager;
             _logger = logger;
+            _cheepService = cheepService;
         }
 
         public IActionResult OnGet()
@@ -62,6 +66,13 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
             }
 
             personalData.Add($"Authenticator Key", await _userManager.GetAuthenticatorKeyAsync(user));
+            
+            var cheeps = _cheepService.GetAllCheepsFromAuthor(user.UserName, user.UserName);
+            personalData.Add("Total number of cheeps: ", cheeps.Count.ToString());
+            for (int i = 0; i < cheeps.Count; i++)
+            {
+                personalData.Add($"Cheep {i + 1}", $"{cheeps[i].TimeStamp} {cheeps[i].Message}");
+            }
 
             Response.Headers.TryAdd("Content-Disposition", "attachment; filename=PersonalData.json");
             return new FileContentResult(JsonSerializer.SerializeToUtf8Bytes(personalData), "application/json");

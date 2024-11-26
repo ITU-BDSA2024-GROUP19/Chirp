@@ -10,6 +10,7 @@ public interface ICheepService
     List<CheepViewModel> GetCheeps(int page, string userName);
     List<CheepViewModel> GetCheepsFromAuthor(int page, string author, string userName);
     List<CheepViewModel> GetCheepsFromMe(int page, string userName);
+    List<CheepViewModel> GetAllCheepsFromAuthor(string author, string userName);
     Author GetAuthorByName(string name);
     Author GetAuthorByEmail(string email);
     void AddCheep(Author author, string message);
@@ -44,6 +45,13 @@ public class CheepService : ICheepService
     {
         List<CheepDTO> cheepDTOs = _repository.GetCheepDTOFromMe(page, userName).Result;
         List<CheepViewModel> result = cheepDTOs.ConvertAll(cheep => new CheepViewModel(cheep.Author, cheep.Message, TimestampToCEST(cheep.Timestamp),cheep.IsFollowed));
+        return result;
+    }
+    
+    public List<CheepViewModel> GetAllCheepsFromAuthor(string author, string userName)
+    {
+        List<CheepDTO> cheepDTOs = _repository.GetAllCheepDTOFromAuthor(author, userName).Result;
+        List<CheepViewModel> result = cheepDTOs.ConvertAll(cheep => new CheepViewModel(cheep.Author, cheep.Message, TimestampToCEST(cheep.Timestamp), cheep.IsFollowed));
         return result;
     }
 
