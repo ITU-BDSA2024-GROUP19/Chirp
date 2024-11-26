@@ -10,6 +10,7 @@ public interface IAuthorRepository
     Task<IdentityResult> AddAuthor(Author user, string? password = null);
     Task FollowAuthor(string followerName, string authorName);
     Task UnfollowAuthor(string followerName, string authorName);
+    Task<List<Author>> GetAllFollowingFromAuthor(string authorName);
 }
 
 public class AuthorRepository : IAuthorRepository
@@ -80,5 +81,14 @@ public class AuthorRepository : IAuthorRepository
         follower.Following.Remove(author);
 
         await _dbContext.SaveChangesAsync();
+    }
+
+    public Task<List<Author>> GetAllFollowingFromAuthor(string authorName)
+    {
+        var query = _dbContext.Authors
+            .Where(a => a.UserName == authorName)
+            .SelectMany(a => a.Following);
+
+        return query.ToListAsync();
     }
 }

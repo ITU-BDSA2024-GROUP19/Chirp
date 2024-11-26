@@ -16,17 +16,20 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<Author> _userManager;
         private readonly ILogger<PersonalDataModel> _logger;
         private readonly ICheepService _cheepService;
+        private readonly IAuthorService _authorService;
         public Dictionary<string, string> PersonalData { get; private set; } = new();
 
 
         public PersonalDataModel(
             UserManager<Author> userManager,
             ILogger<PersonalDataModel> logger,
-            ICheepService cheepService)
+            ICheepService cheepService,
+            IAuthorService authorService)
         {
             _userManager = userManager;
             _logger = logger;
             _cheepService = cheepService;
+            _authorService = authorService;
         }
 
         public async Task<IActionResult> OnGet()
@@ -55,6 +58,13 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
             for (int i = 0; i < cheeps.Count; i++)
             {
                 PersonalData.Add($"Cheep {i + 1}", $"{cheeps[i].TimeStamp} {cheeps[i].Message}");
+            }
+
+            var follows = _authorService.GetAllFollowingFromAuthor(user.UserName!);
+            PersonalData.Add("Total number of follows: ", follows.Count.ToString());
+            for (int i = 0; i < follows.Count; i++)
+            {
+                PersonalData.Add($"Follow {i + 1}", $"{follows[i].UserName}");
             }
 
             return Page();
