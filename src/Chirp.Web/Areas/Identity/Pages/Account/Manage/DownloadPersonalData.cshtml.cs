@@ -24,15 +24,19 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<Author> _userManager;
         private readonly ILogger<DownloadPersonalDataModel> _logger;
         private readonly ICheepService _cheepService;
+        private readonly IAuthorService _authorService;
+
 
         public DownloadPersonalDataModel(
             UserManager<Author> userManager,
             ILogger<DownloadPersonalDataModel> logger,
-            ICheepService cheepService)
+            ICheepService cheepService,
+            IAuthorService authorService)
         {
             _userManager = userManager;
             _logger = logger;
             _cheepService = cheepService;
+            _authorService = authorService;
         }
 
         public IActionResult OnGet()
@@ -72,6 +76,13 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
             for (int i = 0; i < cheeps.Count; i++)
             {
                 personalData.Add($"Cheep {i + 1}", $"{cheeps[i].TimeStamp} {cheeps[i].Message}");
+            }
+            
+            var follows = _authorService.GetAllFollowingFromAuthor(user.UserName!);
+            personalData.Add("Total number of follows: ", follows.Count.ToString());
+            for (int i = 0; i < follows.Count; i++)
+            {
+                personalData.Add($"Follow {i + 1}", $"{follows[i].UserName}");
             }
 
             Response.Headers.TryAdd("Content-Disposition", "attachment; filename=PersonalData.json");
