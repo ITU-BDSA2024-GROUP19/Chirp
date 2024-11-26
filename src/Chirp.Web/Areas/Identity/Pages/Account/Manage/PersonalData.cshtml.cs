@@ -54,14 +54,14 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
             }
             
             var cheeps = _cheepService.GetAllCheepsFromAuthor(user.UserName!, user.UserName!);
-            PersonalData.Add("Total number of cheeps: ", cheeps.Count.ToString());
+            PersonalData.Add("Total number of cheeps", cheeps.Count.ToString());
             for (int i = 0; i < cheeps.Count; i++)
             {
                 PersonalData.Add($"Cheep {i + 1}", $"{cheeps[i].TimeStamp} {cheeps[i].Message}");
             }
 
             var follows = _authorService.GetAllFollowingFromAuthor(user.UserName!);
-            PersonalData.Add("Total number of follows: ", follows.Count.ToString());
+            PersonalData.Add("Total number of follows", follows.Count.ToString());
             for (int i = 0; i < follows.Count; i++)
             {
                 PersonalData.Add($"Follow {i + 1}", $"{follows[i].UserName}");
