@@ -13,7 +13,8 @@ namespace Chirp.Web.Pages;
 
 public class PublicModel : PageModel
 {
-    private readonly ICheepService _service;
+    private readonly ICheepService _cheepService;
+    private readonly IAuthorService _authorService;
 
     private readonly SignInManager<Author> _signInManager;
 
@@ -25,9 +26,10 @@ public class PublicModel : PageModel
     public int CurrentPage { get; set; }
 
 
-    public PublicModel(ICheepService service, SignInManager<Author> signInManager)
+    public PublicModel(ICheepService cheepService, IAuthorService authorService, SignInManager<Author> signInManager)
     {
-        _service = service;
+        _cheepService = cheepService;
+        _authorService = authorService;
         _signInManager = signInManager;
     }
 
@@ -37,7 +39,7 @@ public class PublicModel : PageModel
     {
         var pageQuery = Request.Query["page"];
         CurrentPage = Convert.ToInt32(pageQuery) == 0 ? 1 : Convert.ToInt32(pageQuery);
-        Cheeps = _service.GetCheeps(CurrentPage,User.Identity?.Name!);
+        Cheeps = _cheepService.GetCheeps(CurrentPage,User.Identity?.Name!);
     }
 
 
@@ -61,7 +63,7 @@ public class PublicModel : PageModel
             {
                 return Forbid("You are not logged in!!!");
             }
-            _service.AddCheep(author, Input.Message ?? throw new NullReferenceException());
+            _cheepService.AddCheep(author, Input.Message ?? throw new NullReferenceException());
 
             prepareContents();
             return RedirectToPage();
@@ -69,13 +71,13 @@ public class PublicModel : PageModel
     }
     public async Task<IActionResult> OnGetFollowAsync(string authorName)
     {
-        _service.FollowAuthor(User.Identity?.Name!, authorName);
+        _authorService.FollowAuthor(User.Identity?.Name!, authorName);
         prepareContents();
         return RedirectToPage();
     }
     public async Task<IActionResult> OnGetUnfollowAsync(string authorName)
     {
-        _service.UnfollowAuthor(User.Identity?.Name!, authorName);
+        _authorService.UnfollowAuthor(User.Identity?.Name!, authorName);
         prepareContents();
         return RedirectToPage();
     }
