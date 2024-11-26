@@ -4,6 +4,7 @@ using System;
 using System.Threading.Tasks;
 
 using Chirp.Core;
+using Chirp.Infrastructure;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,15 +17,18 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<Author> _userManager;
         private readonly ILogger<PersonalDataModel> _logger;
+        private readonly ICheepService _cheepService;
         public Dictionary<string, string> PersonalData { get; private set; } = new();
 
 
         public PersonalDataModel(
             UserManager<Author> userManager,
-            ILogger<PersonalDataModel> logger)
+            ILogger<PersonalDataModel> logger,
+            ICheepService cheepService)
         {
             _userManager = userManager;
             _logger = logger;
+            _cheepService = cheepService;
         }
 
         public async Task<IActionResult> OnGet()
@@ -46,6 +50,13 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
             foreach (var l in logins)
             {
                 PersonalData.Add($"{l.LoginProvider} external login provider key", l.ProviderKey);
+            }
+            
+            var cheeps = _cheepService.GetAllCheepsFromAuthor(user.UserName, user.UserName);
+            PersonalData.Add("Total number of cheeps: ", cheeps.Count.ToString());
+            for (int i = 0; i < cheeps.Count; i++)
+            {
+                PersonalData.Add($"Cheep {i + 1}", $"{cheeps[i].TimeStamp} {cheeps[i].Message}");
             }
 
             return Page();
