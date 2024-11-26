@@ -14,8 +14,6 @@ public interface ICheepRepository
     Task<List<CheepDTO>> GetCheepDTOFromMe(int page, string userName);
     Task<Author> GetAuthorByName(string name);
     Task<Author> GetAuthorByEmail(string email);
-    Task FollowAuthor(string followerName, string authorName);
-    Task UnfollowAuthor(string followerName, string authorName);
     Task<List<CheepDTO>> GetAllCheepDTOFromAuthor(string author, string userName);
 }
 
@@ -102,44 +100,5 @@ public class CheepRepository : ICheepRepository
                 user.Result != null && cheep.Author.Followers.Contains(user.Result)
             );
         return query.ToListAsync();
-    }
-    
-    public async Task FollowAuthor(string followerName, string authorName)
-    {
-        var follower = await _dbContext.Authors
-            .Include(a => a.Following)
-            .FirstOrDefaultAsync(a => a.UserName == followerName);
-
-        var author = await _dbContext.Authors
-            .Include(a => a.Followers)
-            .FirstOrDefaultAsync(a => a.UserName == authorName);
-
-        if (follower == null || author == null)
-        {
-            throw new ArgumentException("User or author does not exist.");
-        }
-        
-        follower.Following.Add(author);
-
-        await _dbContext.SaveChangesAsync();
-    }
-    public async Task UnfollowAuthor(string followerName, string authorName)
-    {
-        var follower = await _dbContext.Authors
-            .Include(a => a.Following)
-            .FirstOrDefaultAsync(a => a.UserName == followerName);
-
-        var author = await _dbContext.Authors
-            .Include(a => a.Followers)
-            .FirstOrDefaultAsync(a => a.UserName == authorName);
-
-        if (follower == null || author == null)
-        {
-            throw new ArgumentException("User or author does not exist");
-        }
-        
-        follower.Following.Remove(author);
-
-        await _dbContext.SaveChangesAsync();
     }
 }
