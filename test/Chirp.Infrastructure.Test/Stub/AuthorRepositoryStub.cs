@@ -22,4 +22,9 @@ public class AuthorRepositoryStub : IAuthorRepository
     {
         return Task.CompletedTask;
     }
+
+    public Task<List<Author>> GetAllFollowingFromAuthor(string authorName)
+    {
+        return (Task<List<Author>>)Task.CompletedTask;
+    }
 }
