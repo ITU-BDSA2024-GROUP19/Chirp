@@ -17,6 +17,8 @@ namespace Chirp.Infrastructure;
 public interface IAuthorService
 {
     Task<AuthorService.AddAuthorResult> AddAuthor(string userName, string email, string? password = null);
+    void FollowAuthor(string followerName, string authorName);
+    void UnfollowAuthor(string followerName, string authorName);
 }
 
 public class AuthorService : IAuthorService
@@ -78,5 +80,14 @@ public class AuthorService : IAuthorService
             throw new NotSupportedException("The default UI requires a user store with email support.");
         }
         return (IUserEmailStore<Author>)_userStore;
+    }
+    
+    public void FollowAuthor(string followerName, string authorName)
+    {
+        _repository.FollowAuthor(followerName, authorName);
+    }
+    public void UnfollowAuthor(string followerName, string authorName)
+    {
+        _repository.UnfollowAuthor(followerName, authorName);
     }
 }

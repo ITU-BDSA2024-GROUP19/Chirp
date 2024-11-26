@@ -14,8 +14,6 @@ public interface ICheepService
     Author GetAuthorByName(string name);
     Author GetAuthorByEmail(string email);
     void AddCheep(Author author, string message);
-    void FollowAuthor(string followerName, string authorName);
-    void UnfollowAuthor(string followerName, string authorName);
 }
 
 public class CheepService : ICheepService
@@ -84,14 +82,5 @@ public class CheepService : ICheepService
             TimeStamp = DateTime.Now
         };
         _repository.AddCheep(cheep);
-    }
-    
-    public void FollowAuthor(string followerName, string authorName)
-    {
-        _repository.FollowAuthor(followerName, authorName);
-    }
-    public void UnfollowAuthor(string followerName, string authorName)
-    {
-        _repository.UnfollowAuthor(followerName, authorName);
     }
 }
