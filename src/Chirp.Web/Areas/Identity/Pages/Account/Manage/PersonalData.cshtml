@@ -17,15 +17,15 @@
                 <li><strong>@data.Key:</strong> @data.Value</li>
             }
         </ul>
-        <p>
-            <strong>Deleting this data will permanently remove your account, and this cannot be recovered.</strong>
-        </p>
         <form id="download-data" asp-page="DownloadPersonalData" method="post">
             <button class="btn btn-primary" type="submit">Download</button>
         </form>
         <p>
-            <a id="delete" asp-page="DeletePersonalData" class="btn btn-danger">Delete</a>
+            <strong>Deleting this data will permanently remove your account, and this cannot be recovered.</strong>
         </p>
+        <form method="get" asp-page="DeletePersonalData" class="w-100">
+            <button type="submit" class="w-100 btn btn-lg btn-danger-custom">Delete</button>
+        </form>
     </div>
 </div>
 

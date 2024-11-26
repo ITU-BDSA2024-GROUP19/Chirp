@@ -291,3 +291,13 @@ ul.nav li a {
 ul.nav li a:hover {
     background-color: #8b4949;
 }
+
+.btn-danger-custom {
+    background-color: #dc3545; /* Bootstrap red */
+    border-color: #dc3545;
+    color: white;
+}
+.btn-danger-custom:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
