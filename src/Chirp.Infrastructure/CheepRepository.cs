@@ -94,7 +94,7 @@ public class CheepRepository : ICheepRepository
         var user = _dbContext.Authors.FirstOrDefaultAsync(a => a.UserName == userName);
         var query = from cheep in _dbContext.Cheeps
             where cheep.Author.UserName == author
-            orderby cheep.TimeStamp descending
+            orderby cheep.TimeStamp ascending
             select new CheepDTO(
                 cheep.Author.UserName ?? "", 
                 cheep.Text, 
