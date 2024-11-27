@@ -80,6 +80,13 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
             }
 
             RequirePassword = await _userManager.HasPasswordAsync(user);
+            
+            if (Input.Password == null)
+            {
+                ModelState.AddModelError(string.Empty, "Password is required.");
+                return Page();
+            }
+            
             if (RequirePassword)
             {
                 if (!await _userManager.CheckPasswordAsync(user, Input.Password))

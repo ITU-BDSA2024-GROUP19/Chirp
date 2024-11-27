@@ -86,7 +86,9 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
             }
 
             Response.Headers.TryAdd("Content-Disposition", "attachment; filename=PersonalData.json");
-            return new FileContentResult(JsonSerializer.SerializeToUtf8Bytes(personalData), "application/json");
+            var personalDataJson = JsonSerializer.SerializeToUtf8Bytes(personalData);
+            
+            return new FileContentResult(personalDataJson, "application/json");
         }
     }
 }
