@@ -36,9 +36,6 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
         public async Task<IActionResult> OnGet(int pageid = 1)
         {
             
-            _logger.LogInformation($"OnGet called with page: {pageid}");
-            _logger.LogInformation($"CurrentPage set to: {CurrentPage}");
-            
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
@@ -72,6 +69,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
                 PersonalData.Add($"Follow {i + 1}", $"{follows[i].UserName}");
             }
 
+            //bits used from this: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.todictionary?view=net-9.0
             int pageSize = 32;
             var paginatedData = PersonalData.Skip((pageid - 1) * pageSize).Take(pageSize).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
             CurrentPage = pageid;
