@@ -10,13 +10,28 @@
 <div class="row">
     <div class="col-md-6">
         <p>Your account contains personal data that you have given us. This page allows you to download or delete that data.</p>
-        <p>Your personal data:</p>
-        <ul>
-            @foreach (var data in Model.PersonalData)
-            {
+        <div id="personal-information" style="display: none">
+            <ul>
+                @foreach (var data in Model.PersonalData)
+                {
                 <li><strong>@data.Key:</strong> @data.Value</li>
+                }
+            </ul>
+        </div>
+        <button class="btn btn-primary" onclick="
+            const personalData = document.getElementById('personal-information');
+            if (personalData.style.display === 'none' || personalData.style.display === '') {
+                personalData.style.display = 'block';
+                this.textContent = 'Show your personal information';
             }
-        </ul>
+            else {
+                personalData.style.display = 'none';
+                this.textContent = 'Hide your personal information';
+            }
+            ">
+                Show your personal data
+        </button>
+        
         <form id="download-data" asp-page="DownloadPersonalData" method="post">
             <button class="btn btn-primary" type="submit">Download</button>
         </form>
