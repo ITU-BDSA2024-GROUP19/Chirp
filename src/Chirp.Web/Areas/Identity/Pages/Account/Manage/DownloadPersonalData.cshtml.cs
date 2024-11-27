@@ -55,7 +55,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
             _logger.LogInformation("User with ID '{UserId}' asked for their personal data.", _userManager.GetUserId(User));
 
             // Only include personal data for download
-            var personalData = new Dictionary<string, string>();
+            var personalData = new Dictionary<string, object>();
             var personalDataProps = typeof(Author).GetProperties().Where(
                             prop => Attribute.IsDefined(prop, typeof(PersonalDataAttribute)));
             foreach (var p in personalDataProps)
@@ -72,22 +72,32 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
             personalData.Add($"Authenticator Key", await _userManager.GetAuthenticatorKeyAsync(user));
             
             var cheeps = _cheepService.GetAllCheepsFromAuthor(user.UserName, user.UserName);
-            personalData.Add("Total number of cheeps: ", cheeps.Count.ToString());
+            var cheepsList = new List<Dictionary<string, string>>();
             for (int i = 0; i < cheeps.Count; i++)
             {
-                personalData.Add($"Cheep {i + 1}", $"{cheeps[i].TimeStamp} {cheeps[i].Message}");
+                cheepsList.Add(new Dictionary<string, string>
+                {
+                    { "Message", cheeps[i].Message },
+                    { "TimeStamp", cheeps[i].TimeStamp.ToString() },
+                    { "Author", cheeps[i].Author.ToString() }
+                });
             }
+            personalData.Add("Cheeps", cheepsList);
             
             var follows = _authorService.GetAllFollowingFromAuthor(user.UserName!);
-            personalData.Add("Total number of follows: ", follows.Count.ToString());
+            var followList = new List<Dictionary<string, string>>();
             for (int i = 0; i < follows.Count; i++)
             {
-                personalData.Add($"Follow {i + 1}", $"{follows[i].UserName}");
+                followList.Add(new Dictionary<string, string>
+                {
+                    { "Follow", follows[i].UserName }
+                });
             }
+            personalData.Add("Follows", followList);
 
             Response.Headers.TryAdd("Content-Disposition", "attachment; filename=PersonalData.json");
-            var personalDataJson = JsonSerializer.SerializeToUtf8Bytes(personalData);
             
+            var personalDataJson = JsonSerializer.SerializeToUtf8Bytes(personalData);
             return new FileContentResult(personalDataJson, "application/json");
         }
     }
