@@ -14,18 +14,23 @@
             <ul>
                 @foreach (var data in Model.PersonalData)
                 {
-                <li><strong>@data.Key:</strong> @data.Value</li>
+                    <li><strong>@data.Key:</strong> @data.Value</li>
                 }
             </ul>
         </div>
+        
         <button class="btn btn-primary" onclick="
             const personalData = document.getElementById('personal-information');
-            if (personalData.style.display === 'none' || personalData.style.display === '') {
+            if (personalData.style.display === 'none') {
                 personalData.style.display = 'block';
-                this.textContent = 'Show your personal information';
             }
             else {
                 personalData.style.display = 'none';
+            }
+            if (personalData.style.display === 'none') {
+                this.textContent = 'Show your personal information';
+            }
+            else {
                 this.textContent = 'Hide your personal information';
             }
             ">
