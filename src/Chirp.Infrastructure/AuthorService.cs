@@ -20,6 +20,8 @@ public interface IAuthorService
     void FollowAuthor(string followerName, string authorName);
     void UnfollowAuthor(string followerName, string authorName);
     List<Author> GetAllFollowingFromAuthor(string authorName);
+    Author? GetAuthorByUsername(string username);
+    public ICollection<Author> GetAuthorByEmail(string email);
 }
 
 public class AuthorService : IAuthorService
@@ -56,7 +58,7 @@ public class AuthorService : IAuthorService
         Author user = CreateUser();
         await _userStore.SetUserNameAsync(user, userName, CancellationToken.None);
         await _emailStore.SetEmailAsync(user, email, CancellationToken.None);
-        var result = await _repository.AddAuthor(user, password);
+        var result = await _repository.AddAuthorAsync(user, password);
         return new AddAuthorResult(user, result);
     }
     
@@ -95,5 +97,15 @@ public class AuthorService : IAuthorService
     public List<Author> GetAllFollowingFromAuthor(string authorName)
     {
         return _repository.GetAllFollowingFromAuthor(authorName).Result;
+    }
+
+    public Author? GetAuthorByUsername(string username)
+    {
+        return _repository.GetAuthorByUsernameAsync(username).Result;
+    }
+
+    public ICollection<Author> GetAuthorByEmail(string email)
+    {
+        return _repository.GetAuthorByEmailAsync(email).Result;
     }
 }

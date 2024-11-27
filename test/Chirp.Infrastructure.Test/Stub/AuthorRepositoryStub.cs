@@ -8,7 +8,7 @@ public class AuthorRepositoryStub : IAuthorRepository
 {
     private readonly List<Author> _authors = new();
 
-    public Task<IdentityResult> AddAuthor(Author author, string? password = null)
+    public Task<IdentityResult> AddAuthorAsync(Author author, string? password = null)
     {
         _authors.Add(author);
         return Task.FromResult(IdentityResult.Success);
