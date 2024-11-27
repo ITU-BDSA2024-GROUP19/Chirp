@@ -1,0 +1,38 @@
+﻿@page
+@using Chirp.Web.Areas.Identity.Pages.Account.Manage
+@model Chirp.Web.Areas.Identity.Pages.Account.Manage.DeletePersonalDataModel
+@{
+    ViewData["Title"] = "Delete Personal Data";
+    ViewData["ActivePage"] = ManageNavPages.PersonalData;
+}
+
+<h3>@ViewData["Title"]</h3>
+
+<div class="alert alert-warning" role="alert">
+    <p>
+        <strong>Deleting this data will permanently remove your account, and this cannot be recovered.</strong>
+    </p>
+</div>
+
+@*Advice on how to disable autofill from KontYentE - https://stackoverflow.com/a/64815833/24573306*@
+<div>
+    <form id="delete-user" method="post" autocomplete="off">
+        <div asp-validation-summary="ModelOnly" class="btn-danger-custom" role="alert"></div>
+        @if (Model.RequirePassword)
+        {
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Password" class="form-control" required autocorrect="off" spellcheck="false" autocomplete="off" aria-required="true" readonly onfocus="this.removeAttribute('readonly');" />
+                <script>
+                $('input').attr('autocomplete', 'off');
+                </script>
+                <label asp-for="Input.Password" class="form-label">Enter your password to close your account.</label>
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+        }
+        <button class="w-100 btn btn-lg btn-danger-custom" type="submit">Delete data and close my account</button>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

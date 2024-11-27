@@ -9,19 +9,21 @@ namespace Chirp.Web.Pages;
 
 public class UserTimelineModel : PageModel
 {
-    private readonly ICheepService _service;
+    private readonly ICheepService _cheepService;
+    private readonly IAuthorService _authorService;
 
     private readonly SignInManager<Author> _signInManager;
-    public List<CheepViewModel> Cheeps { get; set; } = new List<CheepViewModel>();
+    public List<CheepViewModel> Cheeps { get; set; } = new();
 
     [BindProperty]
     public CheepFormModel Input { get; set; } = new();
     
     public int CurrentPage { get; set; }
 
-    public UserTimelineModel(ICheepService service, SignInManager<Author> signInManager)
+    public UserTimelineModel(ICheepService cheepService, IAuthorService authorService, SignInManager<Author> signInManager)
     {
-        _service = service;
+        _cheepService = cheepService;
+        _authorService = authorService;
         _signInManager = signInManager;
     }
 
@@ -32,10 +34,10 @@ public class UserTimelineModel : PageModel
         var userName = User.Identity?.Name!;
         if (author == userName)
         {
-            Cheeps = _service.GetCheepsFromMe(CurrentPage, userName);
+            Cheeps = _cheepService.GetCheepsFromMe(CurrentPage, userName);
         }
         else
-            Cheeps = _service.GetCheepsFromAuthor(CurrentPage, author, userName);
+            Cheeps = _cheepService.GetCheepsFromAuthor(CurrentPage, author, userName);
     }
 
 
@@ -59,7 +61,7 @@ public class UserTimelineModel : PageModel
             {
                 return Forbid("You are not logged in!!!");
             }
-            _service.AddCheep(cheepauthor, Input.Message ?? throw new NullReferenceException());
+            _cheepService.AddCheep(cheepauthor, Input.Message ?? throw new NullReferenceException());
 
             prepareContents(author);
             return RedirectToPage();
@@ -68,14 +70,14 @@ public class UserTimelineModel : PageModel
     
     public async Task<IActionResult> OnGetFollowAsync(string authorName) {
         string userName = User.Identity?.Name!;
-        _service.FollowAuthor(userName, authorName);
+        _authorService.FollowAuthor(userName, authorName);
         prepareContents(userName);
         return RedirectToPage("/UserTimeline", new { author = userName });
     }
     public async Task<IActionResult> OnGetUnfollowAsync(string authorName)
     {
         string userName = User.Identity?.Name!;
-        _service.UnfollowAuthor(userName, authorName);
+        _authorService.UnfollowAuthor(userName, authorName);
         prepareContents(userName);
         return RedirectToPage("/UserTimeline", new { author = userName });
     }

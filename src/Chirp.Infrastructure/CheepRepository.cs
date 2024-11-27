@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using Chirp.Core;
 using System.ComponentModel.DataAnnotations;
 
+using CheepDTO = Chirp.Core.CheepDTO;
+
 namespace Chirp.Infrastructure;
 
 public interface ICheepRepository
@@ -12,9 +14,7 @@ public interface ICheepRepository
     Task<List<CheepDTO>> GetCheepDTOFromMe(int page, string userName);
     Task<Author> GetAuthorByName(string name);
     Task<Author> GetAuthorByEmail(string email);
-    Task FollowAuthor(string followerName, string authorName);
-    Task UnfollowAuthor(string followerName, string authorName);
-    
+    Task<List<CheepDTO>> GetAllCheepDTOFromAuthor(string author, string userName);
 }
 
 public class CheepRepository : ICheepRepository
@@ -86,42 +86,19 @@ public class CheepRepository : ICheepRepository
         return query.ToListAsync();
     }
     
-    public async Task FollowAuthor(string followerName, string authorName)
+    // Removed cheep.Author.Followers.Any(f => f.UserName == author) from the query and the .Skip(0) and .Take(CHEEPS_PER_PAGE); as no pagination is needed is this method.
+    public Task<List<CheepDTO>> GetAllCheepDTOFromAuthor(string author, string userName)
     {
-        var follower = await _dbContext.Authors
-            .Include(a => a.Following)
-            .FirstOrDefaultAsync(a => a.UserName == followerName);
-
-        var author = await _dbContext.Authors
-            .Include(a => a.Followers)
-            .FirstOrDefaultAsync(a => a.UserName == authorName);
-
-        if (follower == null || author == null)
-        {
-            throw new ArgumentException("User or author does not exist.");
-        }
-        
-        follower.Following.Add(author);
-
-        await _dbContext.SaveChangesAsync();
-    }
-    public async Task UnfollowAuthor(string followerName, string authorName)
-    {
-        var follower = await _dbContext.Authors
-            .Include(a => a.Following)
-            .FirstOrDefaultAsync(a => a.UserName == followerName);
-
-        var author = await _dbContext.Authors
-            .Include(a => a.Followers)
-            .FirstOrDefaultAsync(a => a.UserName == authorName);
-
-        if (follower == null || author == null)
-        {
-            throw new ArgumentException("User or author does not exist");
-        }
-        
-        follower.Following.Remove(author);
-
-        await _dbContext.SaveChangesAsync();
+        var user = _dbContext.Authors.FirstOrDefaultAsync(a => a.UserName == userName);
+        var query = from cheep in _dbContext.Cheeps
+            where cheep.Author.UserName == author
+            orderby cheep.TimeStamp ascending
+            select new CheepDTO(
+                cheep.Author.UserName ?? "", 
+                cheep.Text, 
+                (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds, 
+                user.Result != null && cheep.Author.Followers.Contains(user.Result)
+            );
+        return query.ToListAsync();
     }
 }
