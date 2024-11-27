@@ -20,7 +20,7 @@ public static class DbInitializer
             var a7 = new Author() {UserName = "Malcolm Janski", Email = "Malcolm-Janski@gmail.com", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>() };
             var a8 = new Author() {UserName = "Octavio Wagganer", Email = "Octavio.Wagganer@dtu.dk", Cheeps = new List<Cheep>(), Following = new List<Author>(),Followers = new List<Author>() };
             var a9 = new Author() { UserName = "Johnnie Calixto", Email = "Johnnie+Calixto@itu.dk", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>() };
-            var a10 = new Author() { UserName = "Jacqualine Gilcoine", Email = "Jacqualine.Gilcoine@gmail.com", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>()};
+            var a10 = new Author() { UserName = "Jacqualine_Gilcoine", Email = "Jacqualine.Gilcoine@gmail.com", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>(), LockoutEnabled = true, EmailConfirmed = true };
             var a11 = new Author() { UserName = "Helge", Email = "ropf@itu.dk", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>(), LockoutEnabled = true, EmailConfirmed = true };
             var a12 = new Author() { UserName = "Adrian", Email = "adho@itu.dk", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>(), LockoutEnabled = true, EmailConfirmed = true };
 
@@ -705,6 +705,7 @@ public static class DbInitializer
 
             // Default passwords for Helge and Adrian.
             // https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.identity.usermanager-1.addpasswordasync?view=aspnetcore-8.0#microsoft-aspnetcore-identity-usermanager-1-addpasswordasync(-0-system-string)
+            await userManager.AddPasswordAsync(a10, "G0TCheeps!"); // Jacqualine_Gilcoine
             await userManager.AddPasswordAsync(a11, "LetM31n!");
             await userManager.AddPasswordAsync(a12, "M32Want_Access");
         }

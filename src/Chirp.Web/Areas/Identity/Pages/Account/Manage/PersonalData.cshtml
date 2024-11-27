@@ -23,12 +23,12 @@
             @if (Model.CurrentPage > 1)
             {
                 <p>Current Page: @Model.CurrentPage</p>
-                <a asp-page="PersonalData" asp-route-page="@(Model.CurrentPage - 1)">Previous</a>
+                <a asp-page="PersonalData" asp-route-pageid="@(Model.CurrentPage - 1)">Previous</a>
             }
             @if (Model.CurrentPage < Model.TotalPages)
             {
                 <p>Current Page: @Model.CurrentPage</p>
-                <a asp-page="PersonalData" asp-route-page="@(Model.CurrentPage + 1)">Next</a>
+                <a asp-page="PersonalData" asp-route-pageid="@(Model.CurrentPage + 1)">Next</a>
             }
         </div>
         

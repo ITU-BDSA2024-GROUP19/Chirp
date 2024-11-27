@@ -33,10 +33,10 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
             _authorService = authorService;
         }
 
-        public async Task<IActionResult> OnGet(int page = 1)
+        public async Task<IActionResult> OnGet(int pageid = 1)
         {
             
-            _logger.LogInformation($"OnGet called with page: {page}");
+            _logger.LogInformation($"OnGet called with page: {pageid}");
             _logger.LogInformation($"CurrentPage set to: {CurrentPage}");
             
             var user = await _userManager.GetUserAsync(User);
@@ -73,8 +73,8 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
             }
 
             int pageSize = 32;
-            var paginatedData = PersonalData.Skip((page - 1) * pageSize).Take(pageSize).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-            CurrentPage = page;
+            var paginatedData = PersonalData.Skip((pageid - 1) * pageSize).Take(pageSize).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+            CurrentPage = pageid;
             TotalPages = (int)Math.Ceiling(PersonalData.Count / (double)pageSize);
             PersonalData = paginatedData;
             
