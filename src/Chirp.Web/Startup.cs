@@ -67,15 +67,19 @@ public class Startup(IConfiguration configuration, SqliteConnection dbConn)
             app.UseHsts();  // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
         }
 
-        // Database currently migrated and seeded on every start. 
-        // Remove when data needs to be persistent on server. 
         using (var scope = app.Services.CreateScope())
         {
             using var context = scope.ServiceProvider.GetRequiredService<ChirpDBContext>();
             using var userManager = scope.ServiceProvider.GetRequiredService<UserManager<Author>>();
+            
             context.Database.Migrate();
-            DbInitializer.SeedDatabaseAsync(context);
-            DbInitializer.SeedPasswordsAsync(userManager);
+
+            // Seeds with default dataset if starting with an empty DB.
+            if (!context.Authors.Any() && !context.Cheeps.Any())
+            {
+                DbInitializer.SeedDatabase(context);
+                DbInitializer.SeedPasswordsAsync(userManager);
+            }
         }
 
         app.UseDeveloperExceptionPage();
