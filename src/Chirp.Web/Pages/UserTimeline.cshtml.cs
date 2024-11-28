@@ -4,6 +4,7 @@ using Chirp.Infrastructure.Cheeps;
 using Chirp.Infrastructure.Authors;
 using Microsoft.AspNetCore.Identity;
 using Chirp.Core;
+using Chirp.Web.Pages.Models;
 using Chirp.Web.Pages.Shared.Models;
 
 namespace Chirp.Web.Pages;
@@ -14,7 +15,7 @@ public class UserTimelineModel : PageModel
     private readonly IAuthorService _authorService;
 
     private readonly SignInManager<Author> _signInManager;
-    public List<CheepViewModel> Cheeps { get; set; } = new();
+    public List<CheepModel> Cheeps { get; set; } = new List<CheepModel>();
 
     [BindProperty]
     public CheepFormModel Input { get; set; } = new();
@@ -33,12 +34,17 @@ public class UserTimelineModel : PageModel
         var pageQuery = Request.Query["page"];
         CurrentPage = Convert.ToInt32(pageQuery) == 0 ? 1 : Convert.ToInt32(pageQuery);
         var userName = User.Identity?.Name!;
+        List<CheepDto> cheepData;
         if (author == userName)
         {
-            Cheeps = _cheepService.GetCheepsFromMe(CurrentPage, userName);
+            cheepData = _cheepService.GetCheepsFromMe(CurrentPage, userName);
         }
         else
-            Cheeps = _cheepService.GetCheepsFromAuthor(CurrentPage, author, userName);
+        {
+            cheepData = _cheepService.GetCheepsFromAuthor(CurrentPage, author, userName);
+        }
+        Cheeps = cheepData.ConvertAll(cheep => 
+            new CheepModel(cheep.Author, cheep.Message, CheepModel.TimestampToCEST(cheep.Timestamp),cheep.IsFollowed));
     }
 
 

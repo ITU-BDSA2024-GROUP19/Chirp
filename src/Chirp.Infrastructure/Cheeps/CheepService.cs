@@ -3,15 +3,12 @@ using Chirp.Core;
 
 namespace Chirp.Infrastructure.Cheeps;
 
-public record CheepViewModel(string Author, string Message, string TimeStamp, bool IsFollowed);
-
-
 public interface ICheepService
 {
-    List<CheepViewModel> GetCheeps(int page, string userName);
-    List<CheepViewModel> GetCheepsFromAuthor(int page, string author, string userName);
-    List<CheepViewModel> GetCheepsFromMe(int page, string userName);
-    List<CheepViewModel> GetAllCheepsFromAuthor(string author, string userName);
+    List<CheepDto> GetCheeps(int page, string userName);
+    List<CheepDto> GetCheepsFromAuthor(int page, string author, string userName);
+    List<CheepDto> GetCheepsFromMe(int page, string userName);
+    List<CheepDto> GetAllCheepsFromAuthor(string author, string userName);
     Author GetAuthorByName(string name);
     Author GetAuthorByEmail(string email);
     void AddCheep(Author author, string message);
@@ -26,32 +23,24 @@ public class CheepService : ICheepService
         _repository = repository;
     }
     
-    public List<CheepViewModel> GetCheeps(int page, string userName)
+    public List<CheepDto> GetCheeps(int page, string userName)
     {
-        List<CheepDto> cheepDTOs = _repository.GetCheepDTO(page, userName).Result;
-        List<CheepViewModel> result = cheepDTOs.ConvertAll(cheep => new CheepViewModel(cheep.Author, cheep.Message, TimestampToCEST(cheep.Timestamp),cheep.IsFollowed));
-        return result;
+        return _repository.GetCheepDTO(page, userName).Result;
     }
 
-    public List<CheepViewModel> GetCheepsFromAuthor(int page, string author, string userName)
+    public List<CheepDto> GetCheepsFromAuthor(int page, string author, string userName)
     {
-        List<CheepDto> cheepDTOs = _repository.GetCheepDTOFromAuthor(page, author, userName).Result;
-        List<CheepViewModel> result = cheepDTOs.ConvertAll(cheep => new CheepViewModel(cheep.Author, cheep.Message, TimestampToCEST(cheep.Timestamp),cheep.IsFollowed));
-        return result;
+        return _repository.GetCheepDTOFromAuthor(page, author, userName).Result;
     }
     
-    public List<CheepViewModel> GetCheepsFromMe(int page, string userName)
+    public List<CheepDto> GetCheepsFromMe(int page, string userName)
     {
-        List<CheepDto> cheepDTOs = _repository.GetCheepDTOFromMe(page, userName).Result;
-        List<CheepViewModel> result = cheepDTOs.ConvertAll(cheep => new CheepViewModel(cheep.Author, cheep.Message, TimestampToCEST(cheep.Timestamp),cheep.IsFollowed));
-        return result;
+        return _repository.GetCheepDTOFromMe(page, userName).Result;
     }
     
-    public List<CheepViewModel> GetAllCheepsFromAuthor(string author, string userName)
+    public List<CheepDto> GetAllCheepsFromAuthor(string author, string userName)
     {
-        List<CheepDto> cheepDTOs = _repository.GetAllCheepDTOFromAuthor(author, userName).Result;
-        List<CheepViewModel> result = cheepDTOs.ConvertAll(cheep => new CheepViewModel(cheep.Author, cheep.Message, TimestampToCEST(cheep.Timestamp), cheep.IsFollowed));
-        return result;
+        return _repository.GetAllCheepDTOFromAuthor(author, userName).Result;
     }
 
     private static string TimestampToCEST(long timestamp)
