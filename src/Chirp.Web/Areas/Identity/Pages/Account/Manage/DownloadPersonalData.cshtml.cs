@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using Chirp.Web.Pages.Models;
 
 namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
 {
@@ -79,7 +80,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
                 cheepsList.Add(new Dictionary<string, string>
                 {
                     { "Message", cheeps[i].Message },
-                    { "TimeStamp", cheeps[i].TimeStamp.ToString() },
+                    { "TimeStamp", CheepModel.TimestampToCEST(cheeps[i].Timestamp) },
                     { "Author", cheeps[i].Author.ToString() }
                 });
             }

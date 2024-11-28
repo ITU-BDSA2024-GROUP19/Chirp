@@ -28,10 +28,12 @@ public class CheepRepository : ICheepRepository
     }
     public async Task AddCheep(Cheep cheep)
     {
-        if (cheep.Text.Length > 160){
+        if (cheep.Text.Length > 160)
+        {
             throw new ValidationException("Cheep content must be less than 160 characters!");
         }
-        else {
+        else 
+        {
             _dbContext.Add(cheep);
             await _dbContext.SaveChangesAsync();
         }
