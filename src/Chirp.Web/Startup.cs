@@ -81,7 +81,7 @@ public class Startup(IConfiguration configuration, SqliteConnection dbConn)
             if (!context.Authors.Any() && !context.Cheeps.Any())
             {
                 DbInitializer.SeedDatabase(context);
-                DbInitializer.SeedPasswordsAsync(userManager);
+                DbInitializer.SeedPasswordsAsync(authors, userManager);
             }
         }
 
