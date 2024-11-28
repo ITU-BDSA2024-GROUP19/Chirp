@@ -13,6 +13,8 @@
 
 using Chirp.Core;
 using Chirp.Infrastructure;
+using Chirp.Infrastructure.Cheeps;
+using Chirp.Infrastructure.Authors;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.Sqlite;
@@ -59,7 +61,7 @@ public class Startup(IConfiguration configuration, SqliteConnection dbConn)
         services.AddRazorPages();
     }
 
-    public void Configure(WebApplication app) 
+    public async void Configure(WebApplication app) 
     {
         if (!app.Environment.IsDevelopment())
         {
@@ -72,10 +74,11 @@ public class Startup(IConfiguration configuration, SqliteConnection dbConn)
         using (var scope = app.Services.CreateScope())
         {
             using var context = scope.ServiceProvider.GetRequiredService<ChirpDBContext>();
+            var authors = scope.ServiceProvider.GetRequiredService<IAuthorService>();
             using var userManager = scope.ServiceProvider.GetRequiredService<UserManager<Author>>();
             context.Database.Migrate();
-            DbInitializer.SeedDatabaseAsync(context);
-            DbInitializer.SeedPasswordsAsync(userManager);
+            DbInitializer.SeedDatabase(context);
+            DbInitializer.SeedPasswordsAsync(authors, userManager);
         }
 
         app.UseDeveloperExceptionPage();

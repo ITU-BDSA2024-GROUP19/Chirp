@@ -1,11 +1,11 @@
-﻿using System.Drawing.Printing;
-
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Chirp.Infrastructure;
+using Chirp.Infrastructure.Cheeps;
+using Chirp.Infrastructure.Authors;
 using Chirp.Web.Pages.Shared.Models;
 using Microsoft.AspNetCore.Identity;
 using Chirp.Core;
+using Chirp.Web.Pages.Models;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 
@@ -15,10 +15,9 @@ public class PublicModel : PageModel
 {
     private readonly ICheepService _cheepService;
     private readonly IAuthorService _authorService;
-
     private readonly SignInManager<Author> _signInManager;
 
-    public List<CheepViewModel> Cheeps { get; set; } = new List<CheepViewModel>();
+    public List<CheepModel> Cheeps { get; set; } = new List<CheepModel>();
 
     [BindProperty]
     public CheepFormModel Input { get; set; } = new();
@@ -39,7 +38,8 @@ public class PublicModel : PageModel
     {
         var pageQuery = Request.Query["page"];
         CurrentPage = Convert.ToInt32(pageQuery) == 0 ? 1 : Convert.ToInt32(pageQuery);
-        Cheeps = _cheepService.GetCheeps(CurrentPage,User.Identity?.Name!);
+        Cheeps = _cheepService.GetCheeps(CurrentPage,User.Identity?.Name!).ConvertAll(cheep => 
+        new CheepModel(cheep.Author, cheep.Message, CheepModel.TimestampToCEST(cheep.Timestamp),cheep.IsFollowed));
     }
 
 
@@ -81,4 +81,6 @@ public class PublicModel : PageModel
         prepareContents();
         return RedirectToPage();
     }
+
+    
 }

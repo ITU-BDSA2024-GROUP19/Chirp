@@ -2,7 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using Chirp.Core;
-using Chirp.Infrastructure;
+using Chirp.Infrastructure.Cheeps;
+using Chirp.Infrastructure.Authors;
+using Chirp.Web.Pages.Models;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -59,7 +61,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
             PersonalData.Add("Total number of cheeps", cheeps.Count.ToString());
             for (int i = 0; i < cheeps.Count; i++)
             {
-                PersonalData.Add($"Cheep {i + 1}", $"{cheeps[i].TimeStamp} {cheeps[i].Message}");
+                PersonalData.Add($"Cheep {i + 1}", $"{CheepModel.TimestampToCEST(cheeps[i].Timestamp)} {cheeps[i].Message}");
             }
 
             var follows = _authorService.GetAllFollowingFromAuthor(user.UserName!);

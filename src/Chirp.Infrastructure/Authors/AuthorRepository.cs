@@ -3,7 +3,7 @@ using Chirp.Core;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace Chirp.Infrastructure;
+namespace Chirp.Infrastructure.Authors;
 
 public interface IAuthorRepository
 {
@@ -94,9 +94,9 @@ public class AuthorRepository : IAuthorRepository
         return query.ToListAsync();
     }
 
-    public Task<Author?> GetAuthorByUsernameAsync(string username)
+    public async Task<Author?> GetAuthorByUsernameAsync(string username)
     {
-        return _userManager.FindByNameAsync(username);
+        return await _dbContext.Authors.FirstOrDefaultAsync(author => author.UserName == username);
     }
 
     public async Task<ICollection<Author>> GetAuthorByEmailAsync(string email)

@@ -1,4 +1,5 @@
 ﻿using Chirp.Core;
+using Chirp.Infrastructure.Cheeps;
 
 namespace Chirp.Infrastructure.Test.Stub;
 
@@ -12,36 +13,36 @@ public class CheepRepositoryStub : ICheepRepository
         return Task.CompletedTask;
     }
     
-    public Task<List<CheepDTO>> GetCheepDTO(int page, string username)
+    public Task<List<CheepDto>> GetCheepDTO(int page, string username)
     {
-        var mockCheeps = new List<CheepDTO>
+        var mockCheeps = new List<CheepDto>
         {
-            new CheepDTO("Author1", "This is a mock cheep 1", 1634567890, true),
-            new CheepDTO("Author2", "This is a mock cheep 2", 1634567900,true),
-            new CheepDTO("Author3", "This is a mock cheep 3", 1634567910, true)
+            new CheepDto("Author1", "This is a mock cheep 1", 1634567890, true),
+            new CheepDto("Author3", "This is a mock cheep 3", 1634567910, true),
+            new CheepDto("Author2", "This is a mock cheep 2", 1634567900,true),
         };
         
         return Task.FromResult(mockCheeps);
     }
     
-    public Task<List<CheepDTO>> GetCheepDTOFromAuthor(int page, string authorName, string userName)
+    public Task<List<CheepDto>> GetCheepDTOFromAuthor(int page, string authorName, string userName)
     {
-        var mockCheeps = new List<CheepDTO>
+        var mockCheeps = new List<CheepDto>
         {
-            new CheepDTO("Author1", "This is a mock cheep 1", 1634567890, true),
-            new CheepDTO("Author2", "This is a mock cheep 2", 1634567900, true),
-            new CheepDTO("Author3", "This is a mock cheep 3", 1634567910, true)
+            new CheepDto("Author1", "This is a mock cheep 1", 1634567890, true),
+            new CheepDto("Author2", "This is a mock cheep 2", 1634567900, true),
+            new CheepDto("Author3", "This is a mock cheep 3", 1634567910, true)
         };
         
         return Task.FromResult(mockCheeps);
     }
-    public Task<List<CheepDTO>> GetCheepDTOFromMe(int page, string userName)
+    public Task<List<CheepDto>> GetCheepDTOFromMe(int page, string userName)
     {
-        var mockCheeps = new List<CheepDTO>
+        var mockCheeps = new List<CheepDto>
         {
-            new CheepDTO("Author1", "This is a mock cheep 1", 1634567890, true),
-            new CheepDTO("Author2", "This is a mock cheep 2", 1634567900, true),
-            new CheepDTO("Author3", "This is a mock cheep 3", 1634567910, true)
+            new CheepDto("Author1", "This is a mock cheep 1", 1634567890, true),
+            new CheepDto("Author2", "This is a mock cheep 2", 1634567900, true),
+            new CheepDto("Author3", "This is a mock cheep 3", 1634567910, true)
         };
         
         return Task.FromResult(mockCheeps);
@@ -57,8 +58,8 @@ public class CheepRepositoryStub : ICheepRepository
         return Task.FromResult(mockAuthor);
     }
 
-    public Task<List<CheepDTO>> GetAllCheepDTOFromAuthor(string author, string userName)
+    public Task<List<CheepDto>> GetAllCheepDTOFromAuthor(string author, string userName)
     {
-        return (Task<List<CheepDTO>>)Task.CompletedTask;
+        return (Task<List<CheepDto>>)Task.CompletedTask;
     }
 }
