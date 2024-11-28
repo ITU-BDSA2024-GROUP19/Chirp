@@ -8,7 +8,7 @@ namespace Chirp.Web;
 
 public static class DbInitializer
 {
-    public static async void SeedDatabaseAsync(ChirpDBContext chirpContext)
+    public static void SeedDatabase(ChirpDBContext chirpContext)
     {
         if (!(chirpContext.Authors.Any() && chirpContext.Cheeps.Any()))
         {
@@ -712,15 +712,15 @@ public static class DbInitializer
     /// </summary>
     /// <param name="userManager"></param>
     /// <exception cref="NullReferenceException">If the accounts do not exist in the database context used by Identity.</exception>
-    public static async void SeedPasswordsAsync(UserManager<Author> userManager) {
+    public static async void SeedPasswordsAsync(IAuthorService authors, UserManager<Author> userManager) {
         // Test access to "Jacqualine_Gilcoine"
-        var a10 = await userManager.FindByNameAsync("Jacqualine_Gilcoine") ?? throw new NullReferenceException();
+        var a10 = authors.GetAuthorByUsername("Jacqualine_Gilcoine") ?? throw new NullReferenceException();
         await userManager.AddPasswordAsync(a10, "G0TCheeps!");
 
         // Default passwords for Helge and Adrian.
-        var a11 = await userManager.FindByNameAsync("Helge") ?? throw new NullReferenceException();
+        var a11 = authors.GetAuthorByUsername("Helge") ?? throw new NullReferenceException();
         await userManager.AddPasswordAsync(a11, "LetM31n!");
-        var a12 = await userManager.FindByNameAsync("Adrian") ?? throw new NullReferenceException();
+        var a12 = authors.GetAuthorByUsername("Adrian") ?? throw new NullReferenceException();
         await userManager.AddPasswordAsync(a12, "M32Want_Access");
     }
 }
