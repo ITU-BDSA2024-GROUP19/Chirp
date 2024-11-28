@@ -7,7 +7,7 @@ using Chirp.Core;
 
 using Microsoft.AspNetCore.Identity;
 
-namespace Chirp.Infrastructure;
+namespace Chirp.Infrastructure.Authors;
 
 public interface IAuthorService
 {
