@@ -74,7 +74,8 @@ public class Startup(IConfiguration configuration, SqliteConnection dbConn)
             using var context = scope.ServiceProvider.GetRequiredService<ChirpDBContext>();
             using var userManager = scope.ServiceProvider.GetRequiredService<UserManager<Author>>();
             context.Database.Migrate();
-            DbInitializer.SeedDatabase(context, userManager);
+            DbInitializer.SeedDatabaseAsync(context);
+            DbInitializer.SeedPasswordsAsync(userManager);
         }
 
         app.UseDeveloperExceptionPage();

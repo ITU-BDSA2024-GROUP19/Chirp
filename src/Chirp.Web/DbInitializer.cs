@@ -2,12 +2,13 @@ using System;
 using Chirp.Infrastructure;
 using Chirp.Core;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Chirp.Web;
 
 public static class DbInitializer
 {
-    public static async void SeedDatabase(ChirpDBContext chirpContext, UserManager<Author> userManager)
+    public static async void SeedDatabaseAsync(ChirpDBContext chirpContext)
     {
         if (!(chirpContext.Authors.Any() && chirpContext.Cheeps.Any()))
         {
@@ -702,12 +703,24 @@ public static class DbInitializer
             chirpContext.Cheeps.AddRange(cheeps);
 
             chirpContext.SaveChanges();
-
-            // Default passwords for Helge and Adrian.
-            // https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.identity.usermanager-1.addpasswordasync?view=aspnetcore-8.0#microsoft-aspnetcore-identity-usermanager-1-addpasswordasync(-0-system-string)
-            await userManager.AddPasswordAsync(a10, "G0TCheeps!"); // Jacqualine_Gilcoine
-            await userManager.AddPasswordAsync(a11, "LetM31n!");
-            await userManager.AddPasswordAsync(a12, "M32Want_Access");
         }
+    }
+
+    /// <summary>
+    /// Assigns passwords to selected accounts, giving access as described in session 8. 
+    /// This is done using the Identity user manager in order to correctly hash the passwords. 
+    /// </summary>
+    /// <param name="userManager"></param>
+    /// <exception cref="NullReferenceException">If the accounts do not exist in the database context used by Identity.</exception>
+    public static async void SeedPasswordsAsync(UserManager<Author> userManager) {
+        // Test access to "Jacqualine_Gilcoine"
+        var a10 = await userManager.FindByNameAsync("Jacqualine_Gilcoine") ?? throw new NullReferenceException();
+        await userManager.AddPasswordAsync(a10, "G0TCheeps!");
+
+        // Default passwords for Helge and Adrian.
+        var a11 = await userManager.FindByNameAsync("Helge") ?? throw new NullReferenceException();
+        await userManager.AddPasswordAsync(a11, "LetM31n!");
+        var a12 = await userManager.FindByNameAsync("Adrian") ?? throw new NullReferenceException();
+        await userManager.AddPasswordAsync(a12, "M32Want_Access");
     }
 }
