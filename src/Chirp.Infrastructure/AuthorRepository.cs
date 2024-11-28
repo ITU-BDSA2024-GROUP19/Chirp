@@ -7,10 +7,12 @@ namespace Chirp.Infrastructure;
 
 public interface IAuthorRepository
 {
-    Task<IdentityResult> AddAuthor(Author user, string? password = null);
+    Task<IdentityResult> AddAuthorAsync(Author user, string? password = null);
     Task FollowAuthor(string followerName, string authorName);
     Task UnfollowAuthor(string followerName, string authorName);
     Task<List<Author>> GetAllFollowingFromAuthor(string authorName);
+    Task<Author?> GetAuthorByUsernameAsync(string username);
+    Task<ICollection<Author>> GetAuthorByEmailAsync(string email);
 }
 
 public class AuthorRepository : IAuthorRepository
@@ -27,7 +29,7 @@ public class AuthorRepository : IAuthorRepository
         _dbContext = dbContext;
     }
     
-    public Task<IdentityResult> AddAuthor(Author user, string? password = null)
+    public Task<IdentityResult> AddAuthorAsync(Author user, string? password = null)
     {
         if (password == null) {
             return _userManager.CreateAsync(user);
@@ -90,5 +92,15 @@ public class AuthorRepository : IAuthorRepository
             .SelectMany(a => a.Following);
 
         return query.ToListAsync();
+    }
+
+    public Task<Author?> GetAuthorByUsernameAsync(string username)
+    {
+        return _userManager.FindByNameAsync(username);
+    }
+
+    public async Task<ICollection<Author>> GetAuthorByEmailAsync(string email)
+    {
+        return await _dbContext.Authors.Where(author => author.Email == email).ToListAsync();
     }
 }
