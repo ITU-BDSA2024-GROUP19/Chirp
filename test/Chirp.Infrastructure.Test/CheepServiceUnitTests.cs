@@ -3,7 +3,8 @@ using Chirp.Infrastructure.Test.Stub;
 
 namespace Chirp.Test;
 using Xunit;
-using Infrastructure;
+using Chirp.Infrastructure.Cheeps;
+using Chirp.Web.Pages.Models;
 
 public class CheepServiceUnitTests
 {
@@ -14,7 +15,7 @@ public class CheepServiceUnitTests
         ICheepRepository cheepRepo = new CheepRepositoryStub();
         ICheepService cheepService = new CheepService(cheepRepo);
         // Act
-        List<CheepViewModel> cheeps = cheepService.GetCheeps(1, "Author1");
+        List<CheepDto> cheeps = cheepService.GetCheeps(1, "Author1");
 
         // Assert
         Assert.NotNull(cheeps);
@@ -28,7 +29,7 @@ public class CheepServiceUnitTests
         ICheepRepository cheepRepo = new CheepRepositoryStub();
         ICheepService cheepService = new CheepService(cheepRepo);
         // Act
-        List<CheepViewModel> cheeps = cheepService.GetCheepsFromAuthor(1, "Author1", "Author1");
+        List<CheepDto> cheeps = cheepService.GetCheepsFromAuthor(1, "Author1", "Author1");
 
         // Assert
         Assert.NotNull(cheeps);
@@ -39,7 +40,7 @@ public class CheepServiceUnitTests
     public void TimestampToCEST_ConvertsCorrectly()
     {
         // Arrange
-        var expectedTime = "18/10/2021 16:38:10";
+        var expectedTime = "18-10-2021 16:38:10";
 
         ICheepRepository cheepRepo = new CheepRepositoryStub();
         ICheepService service = new CheepService(cheepRepo);
@@ -48,7 +49,7 @@ public class CheepServiceUnitTests
         var result = service.GetCheeps(1, "Author1");
 
         // Assert
-        Assert.Equal(expectedTime, result[0].TimeStamp);
+        Assert.Equal(expectedTime, CheepModel.TimestampToCEST(result[0].Timestamp));
     }
     
     [Fact]

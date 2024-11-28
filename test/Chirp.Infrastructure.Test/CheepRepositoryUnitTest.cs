@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 using Chirp.Core;
-using Chirp.Infrastructure;
+using Chirp.Infrastructure.Authors;
+using Chirp.Infrastructure.Cheeps;
 using Chirp.Infrastructure.Test.Stub;
 
 using Microsoft.AspNetCore.Identity;
