@@ -37,10 +37,10 @@ public class CheepServiceUnitTests
     }
     
     [Fact]
-    public void TimestampToCEST_ConvertsCorrectly()
+    public void CheepService_CanRetrieveCorrectTimeFromCheep()
     {
         // Arrange
-        var expectedTime = "18-10-2021 16:38:10";
+        var expectedTime = 1634567890;
 
         ICheepRepository cheepRepo = new CheepRepositoryStub();
         ICheepService service = new CheepService(cheepRepo);
@@ -49,7 +49,7 @@ public class CheepServiceUnitTests
         var result = service.GetCheeps(1, "Author1");
 
         // Assert
-        Assert.Equal(expectedTime, CheepModel.TimestampToCEST(result[0].Timestamp));
+        Assert.Equal(expectedTime, result[0].Timestamp);
     }
     
     [Fact]
