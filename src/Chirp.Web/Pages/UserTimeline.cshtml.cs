@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Chirp.Infrastructure;
+using Chirp.Infrastructure.Cheeps;
+using Chirp.Infrastructure.Authors;
 using Microsoft.AspNetCore.Identity;
 using Chirp.Core;
 using Chirp.Web.Pages.Shared.Models;

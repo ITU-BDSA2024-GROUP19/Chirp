@@ -1,9 +1,10 @@
 using System.Globalization;
 using Chirp.Core;
 
-namespace Chirp.Infrastructure;
+namespace Chirp.Infrastructure.Cheeps;
 
 public record CheepViewModel(string Author, string Message, string TimeStamp, bool IsFollowed);
+
 
 public interface ICheepService
 {
@@ -27,28 +28,28 @@ public class CheepService : ICheepService
     
     public List<CheepViewModel> GetCheeps(int page, string userName)
     {
-        List<CheepDTO> cheepDTOs = _repository.GetCheepDTO(page, userName).Result;
+        List<CheepDto> cheepDTOs = _repository.GetCheepDTO(page, userName).Result;
         List<CheepViewModel> result = cheepDTOs.ConvertAll(cheep => new CheepViewModel(cheep.Author, cheep.Message, TimestampToCEST(cheep.Timestamp),cheep.IsFollowed));
         return result;
     }
 
     public List<CheepViewModel> GetCheepsFromAuthor(int page, string author, string userName)
     {
-        List<CheepDTO> cheepDTOs = _repository.GetCheepDTOFromAuthor(page, author, userName).Result;
+        List<CheepDto> cheepDTOs = _repository.GetCheepDTOFromAuthor(page, author, userName).Result;
         List<CheepViewModel> result = cheepDTOs.ConvertAll(cheep => new CheepViewModel(cheep.Author, cheep.Message, TimestampToCEST(cheep.Timestamp),cheep.IsFollowed));
         return result;
     }
     
     public List<CheepViewModel> GetCheepsFromMe(int page, string userName)
     {
-        List<CheepDTO> cheepDTOs = _repository.GetCheepDTOFromMe(page, userName).Result;
+        List<CheepDto> cheepDTOs = _repository.GetCheepDTOFromMe(page, userName).Result;
         List<CheepViewModel> result = cheepDTOs.ConvertAll(cheep => new CheepViewModel(cheep.Author, cheep.Message, TimestampToCEST(cheep.Timestamp),cheep.IsFollowed));
         return result;
     }
     
     public List<CheepViewModel> GetAllCheepsFromAuthor(string author, string userName)
     {
-        List<CheepDTO> cheepDTOs = _repository.GetAllCheepDTOFromAuthor(author, userName).Result;
+        List<CheepDto> cheepDTOs = _repository.GetAllCheepDTOFromAuthor(author, userName).Result;
         List<CheepViewModel> result = cheepDTOs.ConvertAll(cheep => new CheepViewModel(cheep.Author, cheep.Message, TimestampToCEST(cheep.Timestamp), cheep.IsFollowed));
         return result;
     }

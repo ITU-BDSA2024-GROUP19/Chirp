@@ -10,7 +10,8 @@ using System.Text.Json;
 using System.Threading.Tasks;
 
 using Chirp.Core;
-using Chirp.Infrastructure;
+using Chirp.Infrastructure.Cheeps;
+using Chirp.Infrastructure.Authors;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

@@ -1,5 +1,7 @@
 using System;
 using Chirp.Infrastructure;
+using Chirp.Infrastructure.Cheeps;
+using Chirp.Infrastructure.Authors;
 using Chirp.Core;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
