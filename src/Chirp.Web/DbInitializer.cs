@@ -1,29 +1,53 @@
-using System;
 using Chirp.Infrastructure;
-using Chirp.Infrastructure.Cheeps;
 using Chirp.Infrastructure.Authors;
 using Chirp.Core;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Chirp.Web;
 
 public class DbInitializer(ChirpDBContext chirpContext, IAuthorService authors, UserManager<Author> userManager)
 {
+    private static Author buildSampleAuthor(string name, string email)
+    {
+        return new Author() 
+        { 
+            UserName = name, 
+            Email = email, 
+            Cheeps = [], 
+            Following = [], 
+            Followers = [],
+            LockoutEnabled = true
+        };
+    }
+
+    private static Author buildConfirmedSampleAuthor(string name, string email)
+    {
+        return new Author() 
+        { 
+            UserName = name, 
+            Email = email, 
+            Cheeps = [], 
+            Following = [], 
+            Followers = [],
+            LockoutEnabled = true,
+            EmailConfirmed = true
+        };
+    }
+
     public void SeedDatabase()
     {
-        var a1 = new Author() {UserName = "Roger Histand", Email = "Roger+Histand@hotmail.com", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>() };
-        var a2 = new Author() {UserName = "Luanna Muro", Email = "Luanna-Muro@ku.dk", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>() };
-        var a3 = new Author() {UserName = "Wendell Ballan", Email = "Wendell-Ballan@gmail.com", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>() };
-        var a4 = new Author() {UserName = "Nathan Sirmon", Email = "Nathan+Sirmon@dtu.dk", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>() };
-        var a5 = new Author() {UserName = "Quintin Sitts", Email = "Quintin+Sitts@itu.dk", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>() };
-        var a6 = new Author() {UserName = "Mellie Yost", Email = "Mellie+Yost@ku.dk", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>() };
-        var a7 = new Author() {UserName = "Malcolm Janski", Email = "Malcolm-Janski@gmail.com", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>() };
-        var a8 = new Author() {UserName = "Octavio Wagganer", Email = "Octavio.Wagganer@dtu.dk", Cheeps = new List<Cheep>(), Following = new List<Author>(),Followers = new List<Author>() };
-        var a9 = new Author() { UserName = "Johnnie Calixto", Email = "Johnnie+Calixto@itu.dk", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>() };
-        var a10 = new Author() { UserName = "Jacqualine_Gilcoine", Email = "Jacqualine.Gilcoine@gmail.com", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>(), LockoutEnabled = true, EmailConfirmed = true };
-        var a11 = new Author() { UserName = "Helge", Email = "ropf@itu.dk", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>(), LockoutEnabled = true, EmailConfirmed = true };
-        var a12 = new Author() { UserName = "Adrian", Email = "adho@itu.dk", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>(), LockoutEnabled = true, EmailConfirmed = true };
+        var a1 = buildSampleAuthor("Roger Histand", "Roger+Histand@hotmail.com");
+        var a2 = buildSampleAuthor("Luanna Muro", "Luanna-Muro@ku.dk");
+        var a3 = buildSampleAuthor("Wendell Ballan", "Wendell-Ballan@gmail.com");
+        var a4 = buildSampleAuthor("Nathan Sirmon", "Nathan+Sirmon@dtu.dk");
+        var a5 = buildSampleAuthor("Quintin Sitts", "Quintin+Sitts@itu.dk");
+        var a6 = buildSampleAuthor("Mellie Yost", "Mellie+Yost@ku.dk");
+        var a7 = buildSampleAuthor("Malcolm Janski", "Malcolm-Janski@gmail.com");
+        var a8 = buildSampleAuthor("Octavio Wagganer", "Octavio.Wagganer@dtu.dk");
+        var a9 = buildSampleAuthor("Johnnie Calixto", "Johnnie+Calixto@itu.dk");
+        var a10 = buildConfirmedSampleAuthor("Jacqualine_Gilcoine", "Jacqualine.Gilcoine@gmail.com");
+        var a11 = buildConfirmedSampleAuthor("Helge", "ropf@itu.dk");
+        var a12 = buildConfirmedSampleAuthor("Adrian", "adho@itu.dk");
 
         var authors = new List<Author>() { a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12 };
 
