@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Chirp.Core;
 
-public class Cheep {
+public class Cheep 
+{
     [Key]
     public int CheepId { get; set; }
     [Required]
@@ -13,9 +14,9 @@ public class Cheep {
     public required Author Author {get; set;}
 }
 
-public class Author : IdentityUser {
+public class Author : IdentityUser 
+{
     public required ICollection<Cheep> Cheeps {get; set;}
-
     public ICollection<Author> Following { get; set; } = new List<Author>();
     public ICollection<Author> Followers {get; set;} = new List<Author>();
 }
