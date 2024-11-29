@@ -8,9 +8,9 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Chirp.Web;
 
-public static class DbInitializer
+public class DbInitializer(ChirpDBContext chirpContext, IAuthorService authors, UserManager<Author> userManager)
 {
-    public static void SeedDatabase(ChirpDBContext chirpContext)
+    public void SeedDatabase()
     {
         var a1 = new Author() {UserName = "Roger Histand", Email = "Roger+Histand@hotmail.com", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>() };
         var a2 = new Author() {UserName = "Luanna Muro", Email = "Luanna-Muro@ku.dk", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>() };
@@ -711,7 +711,7 @@ public static class DbInitializer
     /// </summary>
     /// <param name="userManager"></param>
     /// <exception cref="NullReferenceException">If the accounts do not exist in the database context used by Identity.</exception>
-    public static async void SeedPasswordsAsync(IAuthorService authors, UserManager<Author> userManager) {
+    public async void SeedPasswordsAsync() {
         // Test access to "Jacqualine_Gilcoine"
         var a10 = authors.GetAuthorByUsername("Jacqualine_Gilcoine") ?? throw new NullReferenceException();
         await userManager.AddPasswordAsync(a10, "G0TCheeps!");

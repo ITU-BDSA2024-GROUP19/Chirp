@@ -80,8 +80,9 @@ public class Startup(IConfiguration configuration, SqliteConnection dbConn)
             // Seeds with default dataset if starting with an empty DB.
             if (!context.Authors.Any() && !context.Cheeps.Any())
             {
-                DbInitializer.SeedDatabase(context);
-                DbInitializer.SeedPasswordsAsync(authors, userManager);
+                var initializer = new DbInitializer(context, authors, userManager);
+                initializer.SeedDatabase();
+                initializer.SeedPasswordsAsync();
             }
         }
 
