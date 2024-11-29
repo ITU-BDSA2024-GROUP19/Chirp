@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Chirp.Web;
 
-public class DbInitializer(ChirpDBContext chirpContext, IAuthorService authors, UserManager<Author> userManager)
+public class DbInitializer(ChirpDBContext chirpContext, UserManager<Author> userManager)
 {
     private static Author buildSampleAuthor(string name, string email)
     {
@@ -34,7 +34,7 @@ public class DbInitializer(ChirpDBContext chirpContext, IAuthorService authors, 
         };
     }
 
-    public void SeedDatabase()
+    public async Task SeedDatabase()
     {
         var a1 = buildSampleAuthor("Roger Histand", "Roger+Histand@hotmail.com");
         var a2 = buildSampleAuthor("Luanna Muro", "Luanna-Muro@ku.dk");
@@ -763,23 +763,9 @@ public class DbInitializer(ChirpDBContext chirpContext, IAuthorService authors, 
         chirpContext.Cheeps.AddRange(cheeps);
 
         chirpContext.SaveChanges();
-    }
 
-    /// <summary>
-    /// Assigns passwords to selected accounts, giving access as described in session 8. 
-    /// This is done using the Identity user manager in order to correctly hash the passwords. 
-    /// </summary>
-    /// <param name="userManager"></param>
-    /// <exception cref="NullReferenceException">If the accounts do not exist in the database context used by Identity.</exception>
-    public async void SeedPasswordsAsync() {
-        // Test access to "Jacqualine_Gilcoine"
-        var a10 = authors.GetAuthorByUsername("Jacqualine_Gilcoine") ?? throw new NullReferenceException();
-        await userManager.AddPasswordAsync(a10, "G0TCheeps!");
-
-        // Default passwords for Helge and Adrian.
-        var a11 = authors.GetAuthorByUsername("Helge") ?? throw new NullReferenceException();
-        await userManager.AddPasswordAsync(a11, "LetM31n!");
-        var a12 = authors.GetAuthorByUsername("Adrian") ?? throw new NullReferenceException();
-        await userManager.AddPasswordAsync(a12, "M32Want_Access");
+        await userManager.AddPasswordAsync(a10, "G0TCheeps!"); // Jacqualine_Gilcoine
+        await userManager.AddPasswordAsync(a11, "LetM31n!"); // Helge
+        await userManager.AddPasswordAsync(a12, "M32Want_Access"); // Adrian
     }
 }
