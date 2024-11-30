@@ -6,9 +6,14 @@ namespace Chirp.Infrastructure;
 
 public class ChirpDBContext : IdentityDbContext<Author>  
 {
-    public required DbSet<Cheep> Cheeps { get; set; }
-    public required DbSet<Author> Authors { get; set; }
-    public ChirpDBContext (DbContextOptions<ChirpDBContext> options) : base(options) {}
+    public DbSet<Cheep> Cheeps { get; set; }
+    public DbSet<Author> Authors { get; set; }
+
+    public ChirpDBContext (DbContextOptions<ChirpDBContext> options) : base(options) 
+    {
+        Cheeps = Set<Cheep>();
+        Authors = Set<Author>();
+    }
     
     protected override void OnModelCreating(ModelBuilder builder) 
     {
