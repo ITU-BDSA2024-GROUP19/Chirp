@@ -34,7 +34,6 @@
                                     <input type="hidden" id="authorName" name="authorName" value="@cheep.Author" />
                                     <button class="btn btn-primary" asp-page-handler="Unfollow" type="submit">Unfollow</button>
                                 </form>
-                                <!-- legacy code when using link/GET <a href="/@cheep.Author?handler=Unfollow&authorName=@cheep.Author">Unfollow</a> -->
                             }
                             else
                             {
@@ -42,7 +41,6 @@
                                 <input type="hidden" id="authorName" name="authorName" value="@cheep.Author" />
                                 <button class="btn btn-primary" asp-page-handler="Follow" type="submit">Follow</button>
                                 </form>
-                             <!-- legacy code when using link/GET <a href="/@cheep.Author?handler=Follow&authorName=@cheep.Author">Follow</a> -->
                             }
                         }
                         @cheep.Message
