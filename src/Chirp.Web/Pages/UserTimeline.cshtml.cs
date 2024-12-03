@@ -18,7 +18,7 @@ public class UserTimelineModel : PageModel
     public List<CheepModel> Cheeps { get; set; } = new List<CheepModel>();
 
     [BindProperty]
-    public CheepFormModel Input { get; set; } = new();
+    public SendCheepModel.InputModel Input { get; set; } = new();
     
     public int CurrentPage { get; set; }
 

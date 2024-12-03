@@ -20,7 +20,7 @@ public class PublicModel : PageModel
     public List<CheepModel> Cheeps { get; set; } = new List<CheepModel>();
 
     [BindProperty]
-    public CheepFormModel Input { get; set; } = new();
+    public SendCheepModel.InputModel Input { get; set; } = new();
     
     public int CurrentPage { get; set; }
 
@@ -51,6 +51,7 @@ public class PublicModel : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
+        Console.WriteLine("Public OnPostAsync");
         if (!ModelState.IsValid)
         {
             prepareContents();

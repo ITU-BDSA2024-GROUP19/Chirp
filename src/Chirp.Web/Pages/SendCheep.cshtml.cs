@@ -12,13 +12,19 @@ namespace Chirp.Web.Pages;
 
 public class SendCheepModel : PageModel
 {
+    public class InputModel
+    {
+        [Required]
+        [StringLength(160, ErrorMessage = "Maximum length is {1}")]
+        [Display(Name = "Message Text")]
+        public string? Message { get; set; }
+    }
+
     private readonly ICheepService _cheepService;
     private readonly SignInManager<Author> _signInManager;
 
-    [Required]
-    [StringLength(160, ErrorMessage = "Maximum length is {1}")]
-    [Display(Name = "Message Text")]
-    public string ?Message { get; set; }
+    [BindProperty]
+    public InputModel Input { get; set; } = new();
 
     public SendCheepModel(
         ICheepService cheepService, 
@@ -35,6 +41,8 @@ public class SendCheepModel : PageModel
 
     public async Task<IActionResult> OnPostAsync(string? returnUrl = null)
     {
+        Console.WriteLine("SendCheep OnPostAsync");
+        Console.WriteLine("Returnurl is: " + returnUrl);
         returnUrl ??= Url.Content("~/");
 
         if (!ModelState.IsValid)
@@ -48,7 +56,7 @@ public class SendCheepModel : PageModel
             return Forbid("You are not logged in!!!");
         }
 
-        _cheepService.AddCheep(author, Message ?? throw new NullReferenceException());
+        _cheepService.AddCheep(author, Input.Message ?? throw new NullReferenceException());
         return LocalRedirect(returnUrl);
     }
 }
