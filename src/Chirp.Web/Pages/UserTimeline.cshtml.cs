@@ -81,6 +81,9 @@ public class UserTimelineModel : PageModel
         prepareContents(userName);
         return RedirectToPage("/UserTimeline", new { author = userName });
     }
+    
+    
+    
     public async Task<IActionResult> OnGetUnfollowAsync(string authorName)
     {
         string userName = User.Identity?.Name!;
