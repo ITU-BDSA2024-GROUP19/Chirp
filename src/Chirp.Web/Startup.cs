@@ -72,7 +72,6 @@ public class Startup(IConfiguration configuration, SqliteConnection dbConn)
         using (var scope = app.Services.CreateScope())
         {
             using var context = scope.ServiceProvider.GetRequiredService<ChirpDBContext>();
-            var authors = scope.ServiceProvider.GetRequiredService<IAuthorService>();
             using var userManager = scope.ServiceProvider.GetRequiredService<UserManager<Author>>();
             
             context.Database.Migrate();
@@ -80,8 +79,8 @@ public class Startup(IConfiguration configuration, SqliteConnection dbConn)
             // Seeds with default dataset if starting with an empty DB.
             if (!context.Authors.Any() && !context.Cheeps.Any())
             {
-                DbInitializer.SeedDatabase(context);
-                DbInitializer.SeedPasswordsAsync(authors, userManager);
+                var initializer = new DbInitializer(context, userManager);
+                await initializer.SeedDatabase();
             }
         }
 
