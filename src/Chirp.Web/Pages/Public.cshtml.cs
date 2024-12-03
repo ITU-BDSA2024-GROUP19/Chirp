@@ -91,5 +91,10 @@ public class PublicModel : PageModel
         return RedirectToPage();
     }
 
-    
+    public async Task<IActionResult> OnPostUnfollowAsync(string authorName)
+    {
+        _authorService.UnfollowAuthor(User.Identity?.Name!, authorName);
+        prepareContents();
+        return RedirectToPage();
+    }
 }

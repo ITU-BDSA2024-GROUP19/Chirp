@@ -82,7 +82,12 @@ public class UserTimelineModel : PageModel
         return RedirectToPage("/UserTimeline", new { author = userName });
     }
     
-    
+    public async Task<IActionResult> OnPostFollowAsync(string authorName) {
+        string userName = User.Identity?.Name!;
+        _authorService.FollowAuthor(userName, authorName);
+        prepareContents(userName);
+        return RedirectToPage();
+    }
     
     public async Task<IActionResult> OnGetUnfollowAsync(string authorName)
     {
@@ -92,4 +97,11 @@ public class UserTimelineModel : PageModel
         return RedirectToPage("/UserTimeline", new { author = userName });
     }
 
+    public async Task<IActionResult> OnPostUnfollowAsync(string authorName)
+    {
+        string userName = User.Identity?.Name!;
+        _authorService.UnfollowAuthor(userName, authorName);
+        prepareContents(userName);
+        return RedirectToPage();
+    }
 }
