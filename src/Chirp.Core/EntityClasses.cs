@@ -18,7 +18,6 @@ public class Cheep
     public required DateTime TimeStamp { get; set; }
     [Required]
     public required Author Author { get; set; }
-    public string AuthorId {get; set; }
     public ICollection<Author> Likes { get; set;} = new List<Author>();
 }
 

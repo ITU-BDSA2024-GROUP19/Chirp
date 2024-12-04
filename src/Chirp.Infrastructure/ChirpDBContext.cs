@@ -22,8 +22,7 @@ public class ChirpDBContext : IdentityDbContext<Author>
 
         builder.Entity<Cheep>()
         .HasOne(c => c.Author) 
-        .WithMany(a => a.Cheeps)
-        .HasForeignKey(c => c.AuthorId);
+        .WithMany(a => a.Cheeps);
 
         builder.Entity<Cheep>()
             .HasMany(c => c.Likes)
