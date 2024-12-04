@@ -17,7 +17,7 @@ public class PublicModel : PageModel
     private readonly IAuthorService _authorService;
     private readonly SignInManager<Author> _signInManager;
 
-    public List<CheepModel> Cheeps { get; set; } = new List<CheepModel>();
+    public List<CheepViewModel> Cheeps { get; set; } = new List<CheepViewModel>();
 
     [BindProperty]
     public SendCheepModel.InputModel Input { get; set; } = new();
@@ -39,7 +39,7 @@ public class PublicModel : PageModel
         var pageQuery = Request.Query["page"];
         CurrentPage = Convert.ToInt32(pageQuery) == 0 ? 1 : Convert.ToInt32(pageQuery);
         Cheeps = _cheepService.GetCheeps(CurrentPage,User.Identity?.Name!).ConvertAll(cheep => 
-        new CheepModel(cheep.Author, cheep.Message, CheepModel.TimestampToCEST(cheep.Timestamp),cheep.IsFollowed));
+        new CheepViewModel(cheep.Author, cheep.Message, CheepViewModel.TimestampToCEST(cheep.Timestamp),cheep.IsFollowed));
     }
 
 

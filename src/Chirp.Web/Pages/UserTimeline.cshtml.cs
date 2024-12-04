@@ -15,7 +15,7 @@ public class UserTimelineModel : PageModel
     private readonly IAuthorService _authorService;
 
     private readonly SignInManager<Author> _signInManager;
-    public List<CheepModel> Cheeps { get; set; } = new List<CheepModel>();
+    public List<CheepViewModel> Cheeps { get; set; } = new List<CheepViewModel>();
 
     [BindProperty]
     public SendCheepModel.InputModel Input { get; set; } = new();
@@ -44,7 +44,7 @@ public class UserTimelineModel : PageModel
             cheepData = _cheepService.GetCheepsFromAuthor(CurrentPage, author, userName);
         }
         Cheeps = cheepData.ConvertAll(cheep => 
-            new CheepModel(cheep.Author, cheep.Message, CheepModel.TimestampToCEST(cheep.Timestamp),cheep.IsFollowed));
+            new CheepViewModel(cheep.Author, cheep.Message, CheepViewModel.TimestampToCEST(cheep.Timestamp),cheep.IsFollowed));
     }
 
 
