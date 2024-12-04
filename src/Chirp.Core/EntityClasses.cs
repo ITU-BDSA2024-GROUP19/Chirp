@@ -18,6 +18,7 @@ public class Cheep
     public required DateTime TimeStamp { get; set; }
     [Required]
     public required Author Author { get; set; }
+    public ICollection<Author> Likes { get; set;} = new List<Author>();
 }
 
 /// <summary>
@@ -27,6 +28,7 @@ public class Cheep
 public class Author : IdentityUser 
 {
     public ICollection<Cheep> Cheeps { get; set; } = new List<Cheep>();
+    public ICollection<Cheep> Likes { get; set; } = new List<Cheep>();
     public ICollection<Author> Following { get; set; } = new List<Author>();
     public ICollection<Author> Followers { get; set ;} = new List<Author>();
 
