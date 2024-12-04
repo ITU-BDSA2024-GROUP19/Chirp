@@ -3,16 +3,11 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
-using System.ComponentModel.DataAnnotations;
-
 using Chirp.Core;
 
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal;
-using Microsoft.Extensions.Logging;
 
-namespace Chirp.Infrastructure;
+namespace Chirp.Infrastructure.Authors;
 
 public interface IAuthorService
 {
@@ -20,33 +15,26 @@ public interface IAuthorService
     void FollowAuthor(string followerName, string authorName);
     void UnfollowAuthor(string followerName, string authorName);
     List<Author> GetAllFollowingFromAuthor(string authorName);
+    Author? GetAuthorByUsername(string username);
+    public ICollection<Author> GetAuthorByEmail(string email);
 }
 
 public class AuthorService : IAuthorService
 {
     private readonly IAuthorRepository _repository;
-    private readonly SignInManager<Author> _signInManager;
     private readonly UserManager<Author> _userManager;
     private readonly IUserStore<Author> _userStore;
     private readonly IUserEmailStore<Author> _emailStore;
-    private readonly ILogger<RegisterModel> _logger;
-    private readonly IEmailSender _emailSender;
 
     public AuthorService (
         IAuthorRepository repository,
         UserManager<Author> userManager,
-        IUserStore<Author> userStore,
-        SignInManager<Author> signInManager,
-        ILogger<RegisterModel> logger,
-        IEmailSender emailSender)
+        IUserStore<Author> userStore)
     {
         _repository = repository;
         _userManager = userManager;
         _userStore = userStore;
         _emailStore = GetEmailStore();
-        _signInManager = signInManager;
-        _logger = logger;
-        _emailSender = emailSender;
     }
 
     public record AddAuthorResult(Author User, IdentityResult IdentityResult);
@@ -56,7 +44,7 @@ public class AuthorService : IAuthorService
         Author user = CreateUser();
         await _userStore.SetUserNameAsync(user, userName, CancellationToken.None);
         await _emailStore.SetEmailAsync(user, email, CancellationToken.None);
-        var result = await _repository.AddAuthor(user, password);
+        var result = await _repository.AddAuthorAsync(user, password);
         return new AddAuthorResult(user, result);
     }
     
@@ -95,5 +83,15 @@ public class AuthorService : IAuthorService
     public List<Author> GetAllFollowingFromAuthor(string authorName)
     {
         return _repository.GetAllFollowingFromAuthor(authorName).Result;
+    }
+
+    public Author? GetAuthorByUsername(string username)
+    {
+        return _repository.GetAuthorByUsernameAsync(username).Result;
+    }
+
+    public ICollection<Author> GetAuthorByEmail(string email)
+    {
+        return _repository.GetAuthorByEmailAsync(email).Result;
     }
 }

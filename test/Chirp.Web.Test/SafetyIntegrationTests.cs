@@ -2,7 +2,7 @@ using Xunit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Identity;
 using Chirp.Core;
-using Chirp.Infrastructure;
+using Chirp.Infrastructure.Cheeps;
 
 using Xunit.Abstractions;
 

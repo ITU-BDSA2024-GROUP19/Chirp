@@ -2,7 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using Chirp.Core;
-using Chirp.Infrastructure;
+using Chirp.Infrastructure.Cheeps;
+using Chirp.Infrastructure.Authors;
+using Chirp.Web.Pages.Models;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +20,8 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
         private readonly ICheepService _cheepService;
         private readonly IAuthorService _authorService;
         public Dictionary<string, string> PersonalData { get; private set; } = new();
-
+        public int CurrentPage { get; set; }
+        public int TotalPages { get; set; }
 
         public PersonalDataModel(
             UserManager<Author> userManager,
@@ -32,8 +35,9 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
             _authorService = authorService;
         }
 
-        public async Task<IActionResult> OnGet()
+        public async Task<IActionResult> OnGet(int pageId = 1)
         {
+            
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
@@ -57,7 +61,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
             PersonalData.Add("Total number of cheeps", cheeps.Count.ToString());
             for (int i = 0; i < cheeps.Count; i++)
             {
-                PersonalData.Add($"Cheep {i + 1}", $"{cheeps[i].TimeStamp} {cheeps[i].Message}");
+                PersonalData.Add($"Cheep {i + 1}", $"{CheepModel.TimestampToCEST(cheeps[i].Timestamp)} {cheeps[i].Message}");
             }
 
             var follows = _authorService.GetAllFollowingFromAuthor(user.UserName!);
@@ -67,6 +71,13 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
                 PersonalData.Add($"Follow {i + 1}", $"{follows[i].UserName}");
             }
 
+            //bits used from this: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.todictionary?view=net-9.0
+            const int pageSize = 32;
+            var paginatedData = PersonalData.Skip((pageId - 1) * pageSize).Take(pageSize).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+            CurrentPage = pageId;
+            TotalPages = (int)Math.Ceiling(PersonalData.Count / (double)pageSize);
+            PersonalData = paginatedData;
+            
             return Page();
         }
     }
