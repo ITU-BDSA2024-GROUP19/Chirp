@@ -82,6 +82,8 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
         /// </summary>
         [TempData]
         public string ErrorMessage { get; set; }
+        
+        public string ProfilePictureUrl { get; set; }
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -148,6 +150,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
                 ReturnUrl = returnUrl;
                 ProviderDisplayName = info.ProviderDisplayName;
                 var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+                ProfilePictureUrl = info.Principal.FindFirstValue("urn:github:avatar");
                 var accessToken = info.AuthenticationTokens!.FirstOrDefault(t => t.Name == "access_token")?.Value;
                 if (!string.IsNullOrEmpty(accessToken))
                 {
@@ -196,41 +199,11 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
                     result = await _userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
-                        if (Input.ProfilePicture != null)
+                        if (ProfilePictureUrl != null)
                         {
-                            // Validate and save the profile picture
-                            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png" };
-                            var extension = Path.GetExtension(Input.ProfilePicture.FileName).ToLower();
-
-                            if (!allowedExtensions.Contains(extension))
-                            {
-                                ModelState.AddModelError("Input.ProfilePicture",
-                                    "Only .jpg, .jpeg, and .png files are allowed.");
-                                ProviderDisplayName = info.ProviderDisplayName;
-                                ReturnUrl = returnUrl;
-                                return Page();
-                            }
-
-                            if (Input.ProfilePicture.Length > 2 * 1024 * 1024) // Limit to 2 MB
-                            {
-                                ModelState.AddModelError("Input.ProfilePicture",
-                                    "The file size must be less than 2 MB.");
-                                ProviderDisplayName = info.ProviderDisplayName;
-                                ReturnUrl = returnUrl;
-                                return Page();
-                            }
-
-                            // Generate a unique file name and save the file
-                            var fileName = $"{Guid.NewGuid()}{extension}";
-                            var filePath = Path.Combine(_environment.WebRootPath, "uploads", fileName);
-
-                            using (var stream = new FileStream(filePath, FileMode.Create))
-                            {
-                                await Input.ProfilePicture.CopyToAsync(stream);
-                            }
-                            var relativePath = $"/uploads/{fileName}";
-                            _chirpAccountService.UpdateProfilePicture(Input.UserName, relativePath);
+                            _chirpAccountService.UpdateProfilePicture(user.UserName!, ProfilePictureUrl);
                         }
+
                         _logger.LogInformation("User created an account using {Name} provider.",
                             info.LoginProvider);
                         await SendConfirmationEmail(user);
