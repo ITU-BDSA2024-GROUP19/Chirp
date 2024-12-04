@@ -9,8 +9,8 @@ public record CheepDto(
     string Message, 
     long Timestamp, 
     bool IsFollowed, 
-    int likeCount,
-    bool isLikedByUser
+    int LikeCount,
+    bool IsLikedByUser
     );
 
 public interface ICheepRepository
