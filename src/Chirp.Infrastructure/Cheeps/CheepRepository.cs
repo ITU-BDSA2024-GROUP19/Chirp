@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Chirp.Infrastructure.Cheeps;
 
 public record CheepDto(
+    int Id,
     string Author, 
     string Message, 
     long Timestamp, 
@@ -66,6 +67,7 @@ public class CheepRepository : ICheepRepository
         var query = (from cheep in _dbContext.Cheeps
                 orderby cheep.TimeStamp descending
                 select new CheepDto(
+                    cheep.CheepId,
                     cheep.Author.UserName ?? "", 
                     cheep.Text, 
                     (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds, 
@@ -85,6 +87,7 @@ public class CheepRepository : ICheepRepository
                 where cheep.Author.UserName == authorName
                 orderby cheep.TimeStamp descending
                 select new CheepDto(
+                    cheep.CheepId,
                     cheep.Author.UserName ?? "", 
                     cheep.Text, 
                     (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds, 
@@ -104,6 +107,7 @@ public class CheepRepository : ICheepRepository
                       cheep.Author.Followers.Any(f => f.UserName == userName)
                 orderby cheep.TimeStamp descending
                 select new CheepDto(
+                    cheep.CheepId,
                     cheep.Author.UserName ?? "", 
                     cheep.Text, 
                     (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds, 
@@ -124,6 +128,7 @@ public class CheepRepository : ICheepRepository
             where cheep.Author.UserName == author
             orderby cheep.TimeStamp ascending
             select new CheepDto(
+                cheep.CheepId,
                 cheep.Author.UserName ?? "", 
                 cheep.Text, 
                 (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds, 
