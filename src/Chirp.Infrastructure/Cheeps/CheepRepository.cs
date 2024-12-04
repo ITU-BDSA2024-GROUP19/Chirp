@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Chirp.Core;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.VisualBasic;
 
 namespace Chirp.Infrastructure.Cheeps;
 
@@ -17,6 +18,8 @@ public record CheepDto(
 public interface ICheepRepository
 {
     Task AddCheep(Cheep cheep);
+    Task<Cheep> GetCheepById(int cheepId);
+    Task UpdateCheep(Cheep cheep);
     Task<List<CheepDto>> GetCheepDTO(int page, string userName);
     Task<List<CheepDto>> GetCheepDTOFromAuthor(int page, string authorName, string userName);
     Task<List<CheepDto>> GetCheepDTOFromMe(int page, string userName);
@@ -45,6 +48,20 @@ public class CheepRepository : ICheepRepository
             _dbContext.Add(cheep);
             await _dbContext.SaveChangesAsync();
         }
+    }
+
+    public Task<Cheep> GetCheepById(int cheepId)
+    {
+        var query = (from cheep in _dbContext.Cheeps where cheep.CheepId == cheepId select cheep);
+
+        return query.FirstOrDefaultAsync()!;
+    }
+
+    public async Task UpdateCheep(Cheep cheep)
+    {
+        //TODO: Add restrictions/validations
+        _dbContext.Update(cheep);
+        await _dbContext.SaveChangesAsync();
     }
 
     public Task<Author> GetAuthorByName(string name)
