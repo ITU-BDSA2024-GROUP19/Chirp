@@ -55,13 +55,15 @@
                             {
                                 <form method="post" autocomplete="off">
                                 <input type="hidden" name="cheepId" value="@cheep.Id"/>
-                                <button class="btn btn-primary" type="submit" asp-page="/Actions/AuthorLikes" asp-page-handler="Remove Like">Remove Like</button>
+                                <input type="hidden" name="returnUrl" value="@Request.Path" />
+                                <button class="btn btn-primary" type="submit" asp-page="/Actions/AuthorLikes" asp-page-handler="RemoveLike">Remove Like</button>
                                 </form>
                             }
                             else
                             {
                                 <form method="post" autocomplete="off">
                                 <input type="hidden" name="cheepId" value="@cheep.Id"/>
+                                <input type="hidden" name="returnUrl" value="@Request.Path" />
                                 <button class="btn btn-primary" type="submit" asp-page="/Actions/AuthorLikes" asp-page-handler="Like">Like</button>
                                 </form>
                             }
