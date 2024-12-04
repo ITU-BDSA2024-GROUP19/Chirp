@@ -33,5 +33,9 @@
         <ProjectReference Include="../Chirp.Core/Chirp.Core.csproj" /> 
         <ProjectReference Include="../Chirp.Infrastructure/Chirp.Infrastructure.csproj" /> 
     </ItemGroup>
+    
+    <ItemGroup>
+      <Folder Include="wwwroot\uploads\" />
+    </ItemGroup>
 
 </Project>
