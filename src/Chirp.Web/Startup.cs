@@ -50,6 +50,8 @@ public class Startup(IConfiguration configuration, SqliteConnection dbConn)
             options.ClientId = configuration["authentication:github:clientId"] ?? throw new InvalidOperationException("Configuration missing a GitHub clientId");
             options.ClientSecret = configuration["authentication:github:clientSecret"] ?? throw new InvalidOperationException("Configuration missing a GitHub clientSecret");
             options.CallbackPath = "/signin-github";
+            options.SaveTokens = true;
+            options.Scope.Add("user:email");
         });
 
         services.AddDefaultIdentity<Author>(options => 
