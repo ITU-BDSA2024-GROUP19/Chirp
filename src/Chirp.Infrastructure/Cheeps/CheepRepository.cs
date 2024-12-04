@@ -12,9 +12,9 @@ public record CheepDto(
     long Timestamp, 
     bool IsFollowed, 
     int LikeCount,
-    bool IsLikedByUser
-    );
-
+    bool IsLikedByUser,
+    string AuthorProfilePicture
+);
 public interface ICheepRepository
 {
     Task AddCheep(Cheep cheep);
@@ -90,7 +90,8 @@ public class CheepRepository : ICheepRepository
                     (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds, 
                     user != null && cheep.Author.Followers.Contains(user),
                     cheep.Likes.Count,
-                    user != null && cheep.Likes.Contains(user)
+                    user != null && cheep.Likes.Contains(user),
+                    cheep.Author.ProfilePicture
                 ))
             .Skip((page - 1) * CHEEPS_PER_PAGE)
             .Take(CHEEPS_PER_PAGE);
@@ -110,7 +111,8 @@ public class CheepRepository : ICheepRepository
                     (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds, 
                     user != null && cheep.Author.Followers.Contains(user),
                     cheep.Likes.Count,
-                    user != null && cheep.Likes.Contains(user)
+                    user != null && cheep.Likes.Contains(user),
+                    cheep.Author.ProfilePicture
                     ))
             .Skip((page - 1) * CHEEPS_PER_PAGE)
             .Take(CHEEPS_PER_PAGE);
@@ -130,7 +132,8 @@ public class CheepRepository : ICheepRepository
                     (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds, 
                     user != null && cheep.Author.Followers.Contains(user),
                     cheep.Likes.Count,
-                    user != null && cheep.Likes.Contains(user)
+                    user != null && cheep.Likes.Contains(user),
+                    cheep.Author.ProfilePicture
                     ))
             .Skip((page - 1) * CHEEPS_PER_PAGE)
             .Take(CHEEPS_PER_PAGE);
@@ -151,7 +154,8 @@ public class CheepRepository : ICheepRepository
                 (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds, 
                 user != null && cheep.Author.Followers.Contains(user),
                 cheep.Likes.Count,
-                user != null && cheep.Likes.Contains(user)
+                user != null && cheep.Likes.Contains(user),
+                cheep.Author.ProfilePicture
             );
         return await query.ToListAsync();
     }
