@@ -33,6 +33,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<Author> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IWebHostEnvironment _environment;
 
         public RegisterModel(
             IAuthorService chirpAccountService,
@@ -40,7 +41,8 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
             IUserStore<Author> userStore,
             SignInManager<Author> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IWebHostEnvironment environment)
         {
             _chirpAccountService = chirpAccountService;
             _userManager = userManager;
@@ -49,6 +51,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _environment = environment;
         }
 
         /// <summary>
@@ -108,6 +111,8 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+            
+            public IFormFile ProfilePicture { get; set; }
         }
 
 
@@ -129,6 +134,39 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
+                    if (Input.ProfilePicture != null)
+                    {
+                        // Validate and save the profile picture
+                        var allowedExtensions = new[] { ".jpg", ".jpeg", ".png" };
+                        var extension = Path.GetExtension(Input.ProfilePicture.FileName).ToLower();
+
+                        if (!allowedExtensions.Contains(extension))
+                        {
+                            ModelState.AddModelError("Input.ProfilePicture",
+                                "Only .jpg, .jpeg, and .png files are allowed.");
+                            ReturnUrl = returnUrl;
+                            return Page();
+                        }
+
+                        if (Input.ProfilePicture.Length > 2 * 1024 * 1024) // Limit to 2 MB
+                        {
+                            ModelState.AddModelError("Input.ProfilePicture",
+                                "The file size must be less than 2 MB.");
+                            ReturnUrl = returnUrl;
+                            return Page();
+                        }
+
+                        // Generate a unique file name and save the file
+                        var fileName = $"{Guid.NewGuid()}{extension}";
+                        var filePath = Path.Combine(_environment.WebRootPath, "uploads", fileName);
+
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await Input.ProfilePicture.CopyToAsync(stream);
+                        }
+                        var relativePath = $"/uploads/{fileName}";
+                        _chirpAccountService.UpdateProfilePicture(Input.UserName, relativePath);
+                    }
                     _logger.LogInformation("User created a new account with password."); // Logs some info.
                     await SendConfirmationEmail(user);
 

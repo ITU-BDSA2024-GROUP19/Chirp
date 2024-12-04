@@ -36,6 +36,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<Author> _emailStore;
         private readonly IEmailSender _emailSender;
         private readonly ILogger<ExternalLoginModel> _logger;
+        private readonly IWebHostEnvironment _environment;
 
         public ExternalLoginModel(
             IAuthorService chirpAccountService,
@@ -43,7 +44,8 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
             UserManager<Author> userManager,
             IUserStore<Author> userStore,
             ILogger<ExternalLoginModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IWebHostEnvironment environment)
         {
             _chirpAccountService = chirpAccountService;
             _signInManager = signInManager;
@@ -52,6 +54,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
             _emailStore = GetEmailStore();
             _logger = logger;
             _emailSender = emailSender;
+            _environment = environment;
         }
 
         /// <summary>
@@ -99,6 +102,8 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
+            
+            public IFormFile ProfilePicture { get; set; }
         }
         
         public IActionResult OnGet() => RedirectToPage("./Login");
@@ -191,7 +196,43 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
                     result = await _userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
-                        _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
+                        if (Input.ProfilePicture != null)
+                        {
+                            // Validate and save the profile picture
+                            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png" };
+                            var extension = Path.GetExtension(Input.ProfilePicture.FileName).ToLower();
+
+                            if (!allowedExtensions.Contains(extension))
+                            {
+                                ModelState.AddModelError("Input.ProfilePicture",
+                                    "Only .jpg, .jpeg, and .png files are allowed.");
+                                ProviderDisplayName = info.ProviderDisplayName;
+                                ReturnUrl = returnUrl;
+                                return Page();
+                            }
+
+                            if (Input.ProfilePicture.Length > 2 * 1024 * 1024) // Limit to 2 MB
+                            {
+                                ModelState.AddModelError("Input.ProfilePicture",
+                                    "The file size must be less than 2 MB.");
+                                ProviderDisplayName = info.ProviderDisplayName;
+                                ReturnUrl = returnUrl;
+                                return Page();
+                            }
+
+                            // Generate a unique file name and save the file
+                            var fileName = $"{Guid.NewGuid()}{extension}";
+                            var filePath = Path.Combine(_environment.WebRootPath, "uploads", fileName);
+
+                            using (var stream = new FileStream(filePath, FileMode.Create))
+                            {
+                                await Input.ProfilePicture.CopyToAsync(stream);
+                            }
+                            var relativePath = $"/uploads/{fileName}";
+                            _chirpAccountService.UpdateProfilePicture(Input.UserName, relativePath);
+                        }
+                        _logger.LogInformation("User created an account using {Name} provider.",
+                            info.LoginProvider);
                         await SendConfirmationEmail(user);
 
                         // If account confirmation is required, we need to show the link if we don't have a real email sender
@@ -204,7 +245,6 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
                             await _signInManager.SignInAsync(user, isPersistent: false, info.LoginProvider);
                             return LocalRedirect(returnUrl);
                         }
-
                     }
                 }
                 foreach (var error in result.Errors)
