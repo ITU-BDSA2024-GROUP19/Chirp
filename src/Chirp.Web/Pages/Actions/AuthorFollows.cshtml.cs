@@ -27,7 +27,8 @@ public class AuthorFollowsModel : PageModel
     //https://www.aspsnippets.com/Articles/3165/Using-the-OnPost-handler-method-in-ASPNet-Core-Razor-Pages/#google_vignette
     public IActionResult OnPostFollow(string authorName, string? returnUrl = null)
     {
-        Console.WriteLine("AuthorFollows OnPostFollow: " + User.Identity?.Name! + " will follow author: " + authorName);
+        Console.WriteLine("AuthorFollows OnPostFollow(...) called");
+        Console.WriteLine(User.Identity?.Name! + " wants to follow author: " + authorName);
         returnUrl ??= Url.Content("~/");
 
         _authorService.FollowAuthor(User.Identity?.Name!, authorName);
@@ -36,7 +37,8 @@ public class AuthorFollowsModel : PageModel
 
     public IActionResult OnPostUnfollow(string authorName, string? returnUrl = null)
     {
-        Console.WriteLine("AuthorFollows OnPostUnfollow: " + User.Identity?.Name! + " will UNfollow author: " + authorName);
+        Console.WriteLine("AuthorFollows OnPostUnfollow(...) called");
+        Console.WriteLine(User.Identity?.Name! + " wants to UNfollow author: " + authorName);
         returnUrl ??= Url.Content("~/");
 
         _authorService.UnfollowAuthor(User.Identity?.Name!, authorName);

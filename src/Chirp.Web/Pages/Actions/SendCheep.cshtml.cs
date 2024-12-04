@@ -41,7 +41,7 @@ public class SendCheepModel : PageModel
 
     public async Task<IActionResult> OnPostAsync(string? returnUrl = null)
     {
-        Console.WriteLine("SendCheep OnPostAsync");
+        Console.WriteLine("SendCheep OnPostAsync(...) called");
         returnUrl ??= Url.Content("~/");
 
         if (!ModelState.IsValid)
