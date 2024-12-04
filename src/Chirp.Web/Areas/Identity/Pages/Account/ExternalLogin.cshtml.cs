@@ -199,6 +199,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
                     result = await _userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
+                        ProfilePictureUrl = info.Principal.FindFirstValue("urn:github:avatar");
                         if (ProfilePictureUrl != null)
                         {
                             _chirpAccountService.UpdateProfilePicture(user.UserName!, ProfilePictureUrl);
