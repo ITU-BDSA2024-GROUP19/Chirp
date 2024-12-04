@@ -12,62 +12,34 @@ namespace Chirp.Web.Pages.Actions;
 
 public class AuthorFollowsModel : PageModel
 {
-    public class InputModel
-    {
-        [Required]
-        public string? AuthorName { get; set; }
-    }
-
     private readonly IAuthorService _authorService;
-    private readonly SignInManager<Author> _signInManager;
 
-    [BindProperty]
-    public InputModel Input { get; set; } = new();
-
-    public AuthorFollowsModel(
-        IAuthorService authorService, 
-        SignInManager<Author> signInManager)
+    public AuthorFollowsModel(IAuthorService authorService)
     {
         _authorService = authorService;
-        _signInManager = signInManager;
+    }
+
+    public IActionResult OnGet()
+    {
+        return new StatusCodeResult(405); // Method not allowed
     }
 
     //https://www.aspsnippets.com/Articles/3165/Using-the-OnPost-handler-method-in-ASPNet-Core-Razor-Pages/#google_vignette
-    public async Task<IActionResult> OnPostFollowAsync(string? returnUrl = null)
+    public IActionResult OnPostFollow(string authorName, string? returnUrl = null)
     {
-        Console.WriteLine(User.Identity?.Name! + " will follow author: " + Input.AuthorName);
+        Console.WriteLine("AuthorFollows OnPostFollow:" + User.Identity?.Name! + " will follow author: " + authorName);
         returnUrl ??= Url.Content("~/");
 
-        if (!ModelState.IsValid)
-        {
-            return BadRequest("Invalid model state");
-        }
-
-        if (await _signInManager.UserManager.GetUserAsync(User) == null)
-        {
-            return Forbid("You are not logged in!!!");
-        }
-
-        _authorService.FollowAuthor(User.Identity?.Name!, Input.AuthorName ?? throw new NullReferenceException());
+        _authorService.FollowAuthor(User.Identity?.Name!, authorName);
         return LocalRedirect(returnUrl);
     }
 
-    public async Task<IActionResult> OnPostUnfollowAsync(string? returnUrl = null)
+    public IActionResult OnPostUnfollow(string authorName, string? returnUrl = null)
     {
-        Console.WriteLine(User.Identity?.Name! + " will UNfollow author: " + Input.AuthorName);
+        Console.WriteLine("AuthorFollows OnPostUnfollow:" + User.Identity?.Name! + " will UNfollow author: " + authorName);
         returnUrl ??= Url.Content("~/");
 
-        if (!ModelState.IsValid)
-        {
-            return BadRequest("Invalid model state");
-        }
-
-        if (await _signInManager.UserManager.GetUserAsync(User) == null)
-        {
-            return Forbid("You are not logged in!!!");
-        }
-
-        _authorService.UnfollowAuthor(User.Identity?.Name!, Input.AuthorName ?? throw new NullReferenceException());
+        _authorService.UnfollowAuthor(User.Identity?.Name!, authorName);
         return LocalRedirect(returnUrl);
     }
 }

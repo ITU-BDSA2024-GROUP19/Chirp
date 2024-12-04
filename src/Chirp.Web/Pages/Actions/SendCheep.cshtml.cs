@@ -35,9 +35,9 @@ public class SendCheepModel : PageModel
     }
 
     public IActionResult OnGet()
-        {
-            return new StatusCodeResult(405); // Method not allowed
-        }
+    {
+        return new StatusCodeResult(405); // Method not allowed
+    }
 
     public async Task<IActionResult> OnPostAsync(string? returnUrl = null)
     {
