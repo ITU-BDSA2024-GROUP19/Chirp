@@ -3,26 +3,29 @@
 #nullable disable
 
 using Chirp.Core;
-using System;
 using System.ComponentModel.DataAnnotations;
+using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Logging;
-using Chirp.Infrastructure.Cheeps;
 using Chirp.Infrastructure.Authors;
 
 namespace Chirp.Web.Areas.Identity.Pages.Account
 {
+    public class GitHubEmail
+    {
+        public string Email { get; set; }
+        public bool Primary { get; set; }
+        public bool Verified { get; set; }
+        public string Visibility { get; set; }
+    }
     [AllowAnonymous]
     public class ExternalLoginModel : PageModel
     {
@@ -127,7 +130,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
             if (result.Succeeded)
             {
-                _logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info.Principal.Identity.Name, info.LoginProvider);
+                _logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info!.Principal!.Identity!.Name, info.LoginProvider);
                 return LocalRedirect(returnUrl);
             }
             if (result.IsLockedOut)
@@ -139,13 +142,29 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
                 // If the user does not have an account, then ask the user to create an account.
                 ReturnUrl = returnUrl;
                 ProviderDisplayName = info.ProviderDisplayName;
-                if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
+                var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+                var accessToken = info.AuthenticationTokens!.FirstOrDefault(t => t.Name == "access_token")?.Value;
+                if (!string.IsNullOrEmpty(accessToken))
                 {
-                    Input = new InputModel
+                    using var client = new HttpClient();
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                    var response = await client.GetAsync("https://api.github.com/user/emails");
+                    if (response.IsSuccessStatusCode)
                     {
-                        Email = info.Principal.FindFirstValue(ClaimTypes.Email)
-                    };
+                        var input = await response.Content.ReadAsStringAsync();
+                        var emails = JsonSerializer.Deserialize<GitHubEmail[]>(input);
+                        var primaryEmail = emails.FirstOrDefault(e => e.Primary)?.Email;
+                        if (!string.IsNullOrEmpty(primaryEmail))
+                        {
+                            email = primaryEmail;
+                        }
+                    }
                 }
+                Input = new InputModel
+                {
+                    Email = email ?? string.Empty,
+                    UserName = info.Principal.FindFirstValue(ClaimTypes.Name) ?? string.Empty
+                };
                 return Page();
             }
         }
