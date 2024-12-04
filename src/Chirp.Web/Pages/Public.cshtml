@@ -28,6 +28,7 @@
                             {
                                 <form method="post" autocomplete="off">
                                     <input type="hidden" name="authorName" value="@cheep.Author" />
+                                    <input type="hidden" name="returnUrl" value="@Request.Path" />
                                     <button class="btn btn-primary" type="submit" asp-page="/Actions/AuthorFollows" asp-page-handler="Unfollow">Unfollow</button>
                                 </form>
                             }
@@ -35,6 +36,7 @@
                             {
                                 <form method="post" autocomplete="off">
                                     <input type="hidden" name="authorName" value="@cheep.Author" />
+                                    <input type="hidden" name="returnUrl" value="@Request.Path" />
                                     <button class="btn btn-primary" type="submit" asp-page="/Actions/AuthorFollows" asp-page-handler="Follow">Follow</button>
                                 </form>
                             }
