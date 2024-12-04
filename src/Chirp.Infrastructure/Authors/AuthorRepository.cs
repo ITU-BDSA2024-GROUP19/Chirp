@@ -13,6 +13,7 @@ public interface IAuthorRepository
     Task<List<Author>> GetAllFollowingFromAuthor(string authorName);
     Task<Author?> GetAuthorByUsernameAsync(string username);
     Task<ICollection<Author>> GetAuthorByEmailAsync(string email);
+    Task UpdateProfilePicture(string username, string profilePicture);
 }
 
 public class AuthorRepository : IAuthorRepository
@@ -102,5 +103,19 @@ public class AuthorRepository : IAuthorRepository
     public async Task<ICollection<Author>> GetAuthorByEmailAsync(string email)
     {
         return await _dbContext.Authors.Where(author => author.Email == email).ToListAsync();
+    }
+    
+    public async Task UpdateProfilePicture(string username, string profilePicture)
+    {
+        var author = await _dbContext.Authors
+            .FirstOrDefaultAsync(a => a.UserName == username);
+        if (author == null)
+        {
+            throw new ArgumentException("User does not exist.");
+        }
+        
+        author.ProfilePicture = profilePicture;
+
+        await _dbContext.SaveChangesAsync();
     }
 }
