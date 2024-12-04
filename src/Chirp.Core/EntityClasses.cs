@@ -26,6 +26,8 @@ public class Cheep
 /// </summary>
 public class Author : IdentityUser 
 {
+    [StringLength(500)]
+    public string ProfilePicture { get; set; } = "default.jpg";
     public ICollection<Cheep> Cheeps { get; set; } = new List<Cheep>();
     public ICollection<Author> Following { get; set; } = new List<Author>();
     public ICollection<Author> Followers { get; set ;} = new List<Author>();
