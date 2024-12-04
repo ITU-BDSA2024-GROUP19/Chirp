@@ -1,4 +1,4 @@
-﻿@page "/{author}"
+﻿@page "/User/{author}"
 @model Chirp.Web.Pages.UserTimelineModel
 @inject SignInManager<Author> SignInManager
 
@@ -24,7 +24,7 @@
                 <li>
                     <p>
                         <strong>
-                            <a href="/@cheep.Author">@cheep.Author</a>
+                            <a href="/User/@cheep.Author">@cheep.Author</a>
                         </strong>
                         @if (SignInManager.IsSignedIn(User) && cheep.Author != User.Identity?.Name)
                         {
