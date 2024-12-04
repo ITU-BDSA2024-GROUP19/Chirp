@@ -17,6 +17,8 @@ public interface IAuthorService
     List<Author> GetAllFollowingFromAuthor(string authorName);
     Author? GetAuthorByUsername(string username);
     public ICollection<Author> GetAuthorByEmail(string email);
+    void UpdateProfilePicture(string username, string profilePicture);
+    string GetProfilePicture(string username);
 }
 
 public class AuthorService : IAuthorService
@@ -93,5 +95,14 @@ public class AuthorService : IAuthorService
     public ICollection<Author> GetAuthorByEmail(string email)
     {
         return _repository.GetAuthorByEmailAsync(email).Result;
+    }
+    public void UpdateProfilePicture(string username, string profilePicture)
+    {
+        _repository.UpdateProfilePicture(username, profilePicture);
+    }
+    
+    public string GetProfilePicture(string username)
+    {
+        return _repository.GetAuthorByUsernameAsync(username).Result!.ProfilePicture;
     }
 }
