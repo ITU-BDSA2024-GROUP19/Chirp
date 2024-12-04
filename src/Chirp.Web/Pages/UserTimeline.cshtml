@@ -30,14 +30,14 @@
                         {
                             @if (cheep.IsFollowed)
                             {
-                                <form method="post" autocomplete="off">
+                                <form method="post" autocomplete="off" asp-page="/Actions/AuthorFollows">
                                     <input type="hidden" name="authorName" value="@cheep.Author" />
                                     <button class="btn btn-primary" asp-page-handler="Unfollow" type="submit">Unfollow</button>
                                 </form>
                             }
                             else
                             {
-                                <form id="FollowAuthorPOST" method="post" autocomplete="off">
+                                <form method="post" autocomplete="off" asp-page="/Actions/AuthorFollows">
                                 <input type="hidden" name="authorName" value="@cheep.Author" />
                                 <button class="btn btn-primary" asp-page-handler="Follow" type="submit">Follow</button>
                                 </form>

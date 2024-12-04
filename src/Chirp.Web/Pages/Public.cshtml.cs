@@ -49,19 +49,4 @@ public class PublicModel : PageModel
         prepareContents();
         return Page();
     }
-    
-    //https://www.aspsnippets.com/Articles/3165/Using-the-OnPost-handler-method-in-ASPNet-Core-Razor-Pages/#google_vignette
-    public async Task<IActionResult> OnPostFollowAsync(string authorName)
-    {
-        _authorService.FollowAuthor(User.Identity?.Name!, authorName);
-        prepareContents();
-        return RedirectToPage();
-    }
-
-    public async Task<IActionResult> OnPostUnfollowAsync(string authorName)
-    {
-        _authorService.UnfollowAuthor(User.Identity?.Name!, authorName);
-        prepareContents();
-        return RedirectToPage();
-    }
 }

@@ -53,19 +53,4 @@ public class UserTimelineModel : PageModel
         prepareContents(author);
         return Page();
     }
-    
-    public async Task<IActionResult> OnPostFollowAsync(string authorName) {
-        string userName = User.Identity?.Name!;
-        _authorService.FollowAuthor(userName, authorName);
-        prepareContents(userName);
-        return RedirectToPage();
-    }
-    
-    public async Task<IActionResult> OnPostUnfollowAsync(string authorName)
-    {
-        string userName = User.Identity?.Name!;
-        _authorService.UnfollowAuthor(userName, authorName);
-        prepareContents(userName);
-        return RedirectToPage();
-    }
 }
