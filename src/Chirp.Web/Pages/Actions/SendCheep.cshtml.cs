@@ -15,7 +15,7 @@ public class SendCheepModel : PageModel
     public class InputModel
     {
         [Required]
-        [StringLength(160, ErrorMessage = "Maximum length is {1}")]
+        [StringLength(160, MinimumLength = 1, ErrorMessage = "Maximum length is {1}")]
         [Display(Name = "Message Text")]
         public string? Message { get; set; }
     }
