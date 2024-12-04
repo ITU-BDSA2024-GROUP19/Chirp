@@ -61,7 +61,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
             PersonalData.Add("Total number of cheeps", cheeps.Count.ToString());
             for (int i = 0; i < cheeps.Count; i++)
             {
-                PersonalData.Add($"Cheep {i + 1}", $"{CheepModel.TimestampToCEST(cheeps[i].Timestamp)} {cheeps[i].Message}");
+                PersonalData.Add($"Cheep {i + 1}", $"{CheepViewModel.TimestampToCEST(cheeps[i].Timestamp)} {cheeps[i].Message}");
             }
 
             var follows = _authorService.GetAllFollowingFromAuthor(user.UserName!);

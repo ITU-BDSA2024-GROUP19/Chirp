@@ -7,5 +7,5 @@ public class CheepFormModel
     [Required]
     [StringLength(160, ErrorMessage = "Maximum length is {1}")]
     [Display(Name = "Message Text")]
-    public string ?Message { get; set; }
+    public string? Message { get; set; }
 }
