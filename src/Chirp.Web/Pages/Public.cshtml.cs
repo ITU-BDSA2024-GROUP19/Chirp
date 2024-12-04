@@ -6,6 +6,7 @@ using Chirp.Web.Pages.Shared.Models;
 using Microsoft.AspNetCore.Identity;
 using Chirp.Core;
 using Chirp.Web.Pages.Models;
+using Chirp.Web.Pages.Actions;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 
@@ -20,7 +21,7 @@ public class PublicModel : PageModel
     public List<CheepViewModel> Cheeps { get; set; } = new List<CheepViewModel>();
 
     [BindProperty]
-    public SendCheepModel.InputModel Input { get; set; } = new();
+    public SendCheepModel.InputModel SendCheepInput { get; set; } = new();
     
     public int CurrentPage { get; set; }
 
@@ -47,28 +48,6 @@ public class PublicModel : PageModel
     {
         prepareContents();
         return Page();
-    }
-
-    public async Task<IActionResult> OnPostAsync()
-    {
-        Console.WriteLine("Public OnPostAsync");
-        if (!ModelState.IsValid)
-        {
-            prepareContents();
-            return Page();
-        }
-        else
-        {
-            Author ?author = await _signInManager.UserManager.GetUserAsync(User);
-            if (author == null)
-            {
-                return Forbid("You are not logged in!!!");
-            }
-            _cheepService.AddCheep(author, Input.Message ?? throw new NullReferenceException());
-
-            prepareContents();
-            return RedirectToPage();
-        }
     }
     
     //https://www.aspsnippets.com/Articles/3165/Using-the-OnPost-handler-method-in-ASPNet-Core-Razor-Pages/#google_vignette

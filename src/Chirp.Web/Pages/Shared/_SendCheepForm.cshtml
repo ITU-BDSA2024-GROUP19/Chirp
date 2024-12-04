@@ -1,4 +1,4 @@
-@using Chirp.Web.Pages.Shared.Models
+@using Chirp.Web.Pages.Actions
 @inject SignInManager<Author> SignInManager
 @model SendCheepModel.InputModel
 
@@ -6,7 +6,7 @@
 {
     <div class="cheepbox">
         <h3>What's on your mind @(User.Identity!.Name)?</h3>
-        <form method="post" asp-page="SendCheep">
+        <form asp-page="/Actions/SendCheep" method="post">
             <input style="float: left" type="text" aria-label="Enter message" asp-for="Message">
             <input type="hidden" name="returnUrl" value="@Context.Request.Path">
             <input type="submit" value="Share">

@@ -8,7 +8,7 @@ using Chirp.Core;
 using Chirp.Web.Pages.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace Chirp.Web.Pages;
+namespace Chirp.Web.Pages.Actions;
 
 public class SendCheepModel : PageModel
 {
@@ -36,13 +36,11 @@ public class SendCheepModel : PageModel
 
     public IActionResult OnGet()
         {
-            return NotFound();
+            return new StatusCodeResult(405); // Method not allowed
         }
 
     public async Task<IActionResult> OnPostAsync(string? returnUrl = null)
     {
-        Console.WriteLine("SendCheep OnPostAsync");
-        Console.WriteLine("Returnurl is: " + returnUrl);
         returnUrl ??= Url.Content("~/");
 
         if (!ModelState.IsValid)

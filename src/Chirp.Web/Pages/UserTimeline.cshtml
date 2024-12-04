@@ -13,7 +13,7 @@
 
     @if (User.Identity!.Name == (string)routeName!)
     {
-         <partial name="_CheepForm" model="Model.Input" />
+         <partial name="_SendCheepForm" model="Model.SendCheepInput" />
     }
 
     @if (Model.Cheeps.Any())

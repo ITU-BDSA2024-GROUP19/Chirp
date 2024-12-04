@@ -5,7 +5,7 @@ using Chirp.Infrastructure.Authors;
 using Microsoft.AspNetCore.Identity;
 using Chirp.Core;
 using Chirp.Web.Pages.Models;
-using Chirp.Web.Pages.Shared.Models;
+using Chirp.Web.Pages.Actions;
 
 namespace Chirp.Web.Pages;
 
@@ -18,7 +18,7 @@ public class UserTimelineModel : PageModel
     public List<CheepViewModel> Cheeps { get; set; } = new List<CheepViewModel>();
 
     [BindProperty]
-    public SendCheepModel.InputModel Input { get; set; } = new();
+    public SendCheepModel.InputModel SendCheepInput { get; set; } = new();
     
     public int CurrentPage { get; set; }
 
@@ -52,27 +52,6 @@ public class UserTimelineModel : PageModel
     {
         prepareContents(author);
         return Page();
-    }
-
-    public async Task<IActionResult> OnPostAsync(string author)
-    {
-        if (!ModelState.IsValid)
-        {
-            prepareContents(author);
-            return Page();
-        }
-        else
-        {
-            Author ?cheepauthor = await _signInManager.UserManager.GetUserAsync(User);
-            if (cheepauthor == null)
-            {
-                return Forbid("You are not logged in!!!");
-            }
-            _cheepService.AddCheep(cheepauthor, Input.Message ?? throw new NullReferenceException());
-
-            prepareContents(author);
-            return RedirectToPage();
-        }
     }
     
     public async Task<IActionResult> OnPostFollowAsync(string authorName) {
