@@ -17,9 +17,9 @@ public class CheepRepositoryStub : ICheepRepository
     {
         var mockCheeps = new List<CheepDto>
         {
-            new CheepDto(1, "Author1", "This is a mock cheep 1", 1634567890, true, 0, false),
-            new CheepDto(2, "Author3", "This is a mock cheep 3", 1634567910, true, 0, false),
-            new CheepDto(3, "Author2", "This is a mock cheep 2", 1634567900,true, 0, false),
+            new CheepDto(1, "Author1", "This is a mock cheep 1", 1634567890, true, 0, false,"https://www.example.com"),
+            new CheepDto(2, "Author3", "This is a mock cheep 3", 1634567910, true, 0, false,"https://www.example.com"),
+            new CheepDto(3, "Author2", "This is a mock cheep 2", 1634567900,true, 0, false,"https://www.example.com"),
         };
         
         return Task.FromResult(mockCheeps);
@@ -29,9 +29,9 @@ public class CheepRepositoryStub : ICheepRepository
     {
         var mockCheeps = new List<CheepDto>
         {
-            new CheepDto(1, "Author1", "This is a mock cheep 1", 1634567890, true, 0, false),
-            new CheepDto(2, "Author2", "This is a mock cheep 2", 1634567900, true, 0, false),
-            new CheepDto(3, "Author3", "This is a mock cheep 3", 1634567910, true, 0, false)
+            new CheepDto(1, "Author1", "This is a mock cheep 1", 1634567890, true, 0, false,"https://www.example.com"),
+            new CheepDto(2, "Author2", "This is a mock cheep 2", 1634567900, true, 0, false"https://www.example.com"),
+            new CheepDto(3, "Author3", "This is a mock cheep 3", 1634567910, true, 0, false,"https://www.example.com")
         };
         
         return Task.FromResult(mockCheeps);
@@ -40,9 +40,9 @@ public class CheepRepositoryStub : ICheepRepository
     {
         var mockCheeps = new List<CheepDto>
         {
-            new CheepDto(1, "Author1", "This is a mock cheep 1", 1634567890, true, 0, false),
-            new CheepDto(2, "Author2", "This is a mock cheep 2", 1634567900, true, 0, false),
-            new CheepDto(3, "Author3", "This is a mock cheep 3", 1634567910, true, 0, false)
+            new CheepDto(1, "Author1", "This is a mock cheep 1", 1634567890, true, 0, false,"https://www.example.com"),
+            new CheepDto(2, "Author2", "This is a mock cheep 2", 1634567900, true, 0, false,"https://www.example.com"),
+            new CheepDto(3, "Author3", "This is a mock cheep 3", 1634567910, true, 0, false,"https://www.example.com")
         };
         
         return Task.FromResult(mockCheeps);
@@ -61,15 +61,5 @@ public class CheepRepositoryStub : ICheepRepository
     public Task<List<CheepDto>> GetAllCheepDTOFromAuthor(string author, string userName)
     {
         return (Task<List<CheepDto>>)Task.CompletedTask;
-    }
-
-    public Task<Cheep?> GetCheepWithLikes(int cheepId)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task UpdateCheep(Cheep cheep)
-    {
-        throw new NotImplementedException();
     }
 }
