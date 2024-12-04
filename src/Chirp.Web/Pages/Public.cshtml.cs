@@ -1,22 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Chirp.Infrastructure.Cheeps;
-using Chirp.Infrastructure.Authors;
-using Chirp.Web.Pages.Shared.Models;
-using Microsoft.AspNetCore.Identity;
-using Chirp.Core;
 using Chirp.Web.Pages.Models;
 using Chirp.Web.Pages.Actions;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-
 
 namespace Chirp.Web.Pages;
 
 public class PublicModel : PageModel
 {
     private readonly ICheepService _cheepService;
-    private readonly IAuthorService _authorService;
-    private readonly SignInManager<Author> _signInManager;
 
     public List<CheepViewModel> Cheeps { get; set; } = new List<CheepViewModel>();
 
@@ -25,12 +17,9 @@ public class PublicModel : PageModel
     
     public int CurrentPage { get; set; }
 
-
-    public PublicModel(ICheepService cheepService, IAuthorService authorService, SignInManager<Author> signInManager)
+    public PublicModel(ICheepService cheepService)
     {
         _cheepService = cheepService;
-        _authorService = authorService;
-        _signInManager = signInManager;
     }
 
 

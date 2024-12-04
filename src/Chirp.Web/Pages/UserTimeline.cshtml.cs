@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Chirp.Infrastructure.Cheeps;
-using Chirp.Infrastructure.Authors;
-using Microsoft.AspNetCore.Identity;
-using Chirp.Core;
 using Chirp.Web.Pages.Models;
 using Chirp.Web.Pages.Actions;
 
@@ -12,9 +9,7 @@ namespace Chirp.Web.Pages;
 public class UserTimelineModel : PageModel
 {
     private readonly ICheepService _cheepService;
-    private readonly IAuthorService _authorService;
-
-    private readonly SignInManager<Author> _signInManager;
+    
     public List<CheepViewModel> Cheeps { get; set; } = new List<CheepViewModel>();
 
     [BindProperty]
@@ -22,11 +17,9 @@ public class UserTimelineModel : PageModel
     
     public int CurrentPage { get; set; }
 
-    public UserTimelineModel(ICheepService cheepService, IAuthorService authorService, SignInManager<Author> signInManager)
+    public UserTimelineModel(ICheepService cheepService)
     {
         _cheepService = cheepService;
-        _authorService = authorService;
-        _signInManager = signInManager;
     }
 
     private void prepareContents(string author)
