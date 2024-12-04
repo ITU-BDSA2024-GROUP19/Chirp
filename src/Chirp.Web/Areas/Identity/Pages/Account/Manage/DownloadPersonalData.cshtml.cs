@@ -80,7 +80,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
                 cheepsList.Add(new Dictionary<string, string>
                 {
                     { "Message", cheeps[i].Message },
-                    { "TimeStamp", CheepModel.TimestampToCEST(cheeps[i].Timestamp) },
+                    { "TimeStamp", CheepViewModel.TimestampToCEST(cheeps[i].Timestamp) },
                     { "Author", cheeps[i].Author.ToString() }
                 });
             }
