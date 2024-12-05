@@ -37,7 +37,16 @@ public class UserTimelineModel : PageModel
             cheepData = _cheepService.GetCheepsFromAuthor(CurrentPage, author, userName);
         }
         Cheeps = cheepData.ConvertAll(cheep => 
-            new CheepViewModel(cheep.Author, cheep.Message, CheepViewModel.TimestampToCEST(cheep.Timestamp),cheep.IsFollowed,cheep.AuthorProfilePicture));
+            new CheepViewModel
+            (
+                cheep.Id, 
+                cheep.Author, 
+                cheep.Message, 
+                CheepViewModel.TimestampToCEST(cheep.Timestamp),
+                cheep.IsFollowed, 
+                cheep.LikeCount, 
+                cheep.IsLikedByUser
+            ));
     }
 
 
