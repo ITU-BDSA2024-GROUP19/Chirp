@@ -29,7 +29,7 @@ public class PublicModel : PageModel
         var pageQuery = Request.Query["page"];
         CurrentPage = Convert.ToInt32(pageQuery) == 0 ? 1 : Convert.ToInt32(pageQuery);
         Cheeps = _cheepService.GetCheeps(CurrentPage,User.Identity?.Name!).ConvertAll(cheep => 
-        new CheepViewModel(cheep.Author, cheep.Message, CheepViewModel.TimestampToCEST(cheep.Timestamp),cheep.IsFollowed));
+        new CheepViewModel(cheep.Id, cheep.Author, cheep.Message, CheepViewModel.TimestampToCEST(cheep.Timestamp),cheep.IsFollowed, cheep.LikeCount, cheep.IsLikedByUser));
     }
 
 
