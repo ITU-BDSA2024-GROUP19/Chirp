@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Chirp.Core;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using System.Globalization;
 
 namespace Chirp.Infrastructure;
 
@@ -18,6 +19,16 @@ public class ChirpDBContext : IdentityDbContext<Author>
     protected override void OnModelCreating(ModelBuilder builder) 
     {
         base.OnModelCreating(builder);
+
+        builder.Entity<Cheep>()
+        .HasOne(c => c.Author) 
+        .WithMany(a => a.Cheeps);
+
+        builder.Entity<Cheep>()
+            .HasMany(c => c.Likes)
+            .WithMany(c => c.Likes)
+            .UsingEntity(j => j.ToTable("CheepLikes"));
+
         builder.Entity<Author>()
             .HasMany(a => a.Following)
             .WithMany(a => a.Followers)
