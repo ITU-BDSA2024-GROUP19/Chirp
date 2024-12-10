@@ -29,9 +29,9 @@
                             }
                             <a href="/User/@cheep.Author">@cheep.Author</a>
                         </strong>
-                        @if (SignInManager.IsSignedIn(User) && cheep.Author != User.Identity?.Name)
+                        @if (SignInManager.IsSignedIn(User))
                         {
-                            @if (cheep.IsFollowed)
+                            @if (cheep.IsFollowed && cheep.Author != User.Identity?.Name)
                             {
                                 <form method="post" autocomplete="off">
                                     <input type="hidden" name="authorName" value="@cheep.Author" />
@@ -39,7 +39,7 @@
                                     <button class="btn btn-primary" type="submit" asp-page="/Actions/AuthorFollows" asp-page-handler="Unfollow">Unfollow</button>
                                 </form>
                             }
-                            else
+                            else if (!cheep.IsFollowed && cheep.Author != User.Identity?.Name)
                             {
                                 <form method="post" autocomplete="off">
                                     <input type="hidden" name="authorName" value="@cheep.Author" />
