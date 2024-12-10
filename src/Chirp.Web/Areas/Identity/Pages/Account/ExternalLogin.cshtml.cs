@@ -200,9 +200,21 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
                     if (result.Succeeded)
                     {
                         ProfilePictureUrl = info.Principal.FindFirstValue("urn:github:avatar");
-                        if (ProfilePictureUrl != null)
+                        
+                        var httpClient = new HttpClient();
+                        try
                         {
-                            _chirpAccountService.UpdateProfilePicture(user.UserName!, ProfilePictureUrl);
+                            var response = await httpClient.GetAsync(ProfilePictureUrl);
+                            if (response.IsSuccessStatusCode)
+                            {
+                                var stream = await response.Content.ReadAsStreamAsync();
+                                _chirpAccountService.UpdateProfilePicture(user.UserName!, stream);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
+                            throw;
                         }
 
                         _logger.LogInformation("User created an account using {Name} provider.",

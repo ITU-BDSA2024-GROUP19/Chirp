@@ -11,6 +11,9 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Azure.Storage.Blobs;
+
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -155,17 +158,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
                             ReturnUrl = returnUrl;
                             return Page();
                         }
-
-                        // Generate a unique file name and save the file
-                        var fileName = $"{Guid.NewGuid()}{extension}";
-                        var filePath = Path.Combine(_environment.WebRootPath, "uploads", fileName);
-
-                        using (var stream = new FileStream(filePath, FileMode.Create))
-                        {
-                            await Input.ProfilePicture.CopyToAsync(stream);
-                        }
-                        var relativePath = $"/uploads/{fileName}";
-                        _chirpAccountService.UpdateProfilePicture(Input.UserName, relativePath);
+                        _chirpAccountService.UpdateProfilePicture(Input.UserName, Input.ProfilePicture.OpenReadStream());
                     }
                     _logger.LogInformation("User created a new account with password."); // Logs some info.
                     await SendConfirmationEmail(user);

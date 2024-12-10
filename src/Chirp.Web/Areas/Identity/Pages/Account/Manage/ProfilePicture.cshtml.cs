@@ -72,17 +72,8 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
                         "The file size must be less than 2 MB.");
                     return Page();
                 }
-
-                // Generate a unique file name and save the file
-                var fileName = $"{Guid.NewGuid()}{extension}";
-                var filePath = Path.Combine(_environment.WebRootPath, "uploads", fileName);
-
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await ProfilePicture.CopyToAsync(stream);
-                }
-                var relativePath = $"/uploads/{fileName}";
-                _authorService.UpdateProfilePicture(user.UserName!, relativePath);
+                
+                _authorService.UpdateProfilePicture(user.UserName!, ProfilePicture.OpenReadStream());
             }
 
             return RedirectToPage();
@@ -95,7 +86,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
             {
                 return NotFound("User not found.");
             }
-            _authorService.UpdateProfilePicture(user.UserName!, "default.jpg");
+            _authorService.UpdateProfilePicture(user.UserName!, Stream.Null);
             
             return RedirectToPage();
         }
