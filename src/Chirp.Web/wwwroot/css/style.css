@@ -148,7 +148,7 @@ div.page ul.cheeps p {
 
 div.page ul.cheeps li img {
   float: left;
-  padding: 0 10px 0 0;
+  margin: 0 10px 0 0;
 }
 
 div.page ul.cheeps li small {
