@@ -25,9 +25,6 @@ public class DbInitializer(ChirpDBContext chirpContext, UserManager<Author> user
         { 
             UserName = name, 
             Email = email, 
-            Cheeps = [], 
-            Following = [], 
-            Followers = [],
             LockoutEnabled = true
         };
     }
@@ -38,9 +35,6 @@ public class DbInitializer(ChirpDBContext chirpContext, UserManager<Author> user
         { 
             UserName = name, 
             Email = email, 
-            Cheeps = [], 
-            Following = [], 
-            Followers = [],
             LockoutEnabled = true,
             EmailConfirmed = true
         };

@@ -18,7 +18,7 @@ public class Cheep
     public required DateTime TimeStamp { get; set; }
     [Required]
     public required Author Author { get; set; }
-    public ICollection<Author> Likes { get; set;} = new List<Author>();
+    public required ICollection<Author> Likes { get; set; }
 }
 
 /// <summary>
@@ -42,6 +42,6 @@ public class Author : IdentityUser
     /// <param name="timeStamp"></param>
     public void AddSampleCheep(string text, DateTime timeStamp) 
     {
-        Cheeps.Add(new Cheep() { Author = this, Text = text, TimeStamp = timeStamp });
+        Cheeps.Add(new Cheep() { Author = this, Text = text, TimeStamp = timeStamp, Likes = [] });
     }
 }
