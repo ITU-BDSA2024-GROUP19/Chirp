@@ -13,7 +13,7 @@ public class CheepServiceUnitTests
     {
         // Arrange
         ICheepRepository cheepRepo = new CheepRepositoryStub();
-        ICheepService cheepService = new CheepService(cheepRepo);
+        ICheepService cheepService = new CheepService(cheepRepo, null!);
         // Act
         List<CheepDto> cheeps = cheepService.GetCheeps(1, "Author1");
 
@@ -27,7 +27,7 @@ public class CheepServiceUnitTests
     {
         // Arrange
         ICheepRepository cheepRepo = new CheepRepositoryStub();
-        ICheepService cheepService = new CheepService(cheepRepo);
+        ICheepService cheepService = new CheepService(cheepRepo, null!);
         // Act
         List<CheepDto> cheeps = cheepService.GetCheepsFromAuthor(1, "Author1", "Author1");
 
@@ -43,7 +43,7 @@ public class CheepServiceUnitTests
         var expectedTime = 1634567890;
 
         ICheepRepository cheepRepo = new CheepRepositoryStub();
-        ICheepService service = new CheepService(cheepRepo);
+        ICheepService service = new CheepService(cheepRepo, null!);
 
         // Act
         var result = service.GetCheeps(1, "Author1");
@@ -57,7 +57,7 @@ public class CheepServiceUnitTests
     {
         // Arrange
         ICheepRepository cheepRepo = new CheepRepositoryStub();
-        ICheepService cheepService = new CheepService(cheepRepo);
+        ICheepService cheepService = new CheepService(cheepRepo, null!);
         // Act
         Author author = cheepService.GetAuthorByName("Author1");
 
@@ -71,7 +71,7 @@ public class CheepServiceUnitTests
     {
         // Arrange
         ICheepRepository cheepRepo = new CheepRepositoryStub();
-        ICheepService cheepService = new CheepService(cheepRepo);
+        ICheepService cheepService = new CheepService(cheepRepo, null!);
         // Act
         Author author = cheepService.GetAuthorByEmail("au1@itu.dk");
         
