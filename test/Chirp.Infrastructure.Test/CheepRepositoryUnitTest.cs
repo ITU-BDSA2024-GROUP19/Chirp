@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+using Azure.Storage.Blobs;
+
 using Chirp.Core;
 using Chirp.Infrastructure.Authors;
 using Chirp.Infrastructure.Cheeps;
@@ -8,6 +10,8 @@ using Chirp.Infrastructure.Test.Stub;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+
+using Moq;
 
 using Xunit;
 
@@ -44,7 +48,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
         _context = new ChirpDBContext(builder.Options);
         await _context.Database.EnsureCreatedAsync();
         
-        _cheepRepo = new CheepRepository(_context);
+        _cheepRepo = new CheepRepository(_context, new Mock<BlobServiceClient>().Object);
     }
     
     public Task DisposeAsync()
