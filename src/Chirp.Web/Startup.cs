@@ -22,6 +22,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
+using Azure.Storage.Blobs;
+
 namespace Chirp.Web;
 
 public class Startup(IConfiguration configuration, SqliteConnection dbConn)
@@ -35,6 +37,15 @@ public class Startup(IConfiguration configuration, SqliteConnection dbConn)
         services.AddScoped<ICheepRepository, CheepRepository>();
 
         services.AddScoped<ICheepService, CheepService>();
+        
+        services.AddSingleton(x =>
+        {
+            // Retrieve the connection string for use with the application. 
+            string connectionBlobString = Environment.GetEnvironmentVariable("AZURE_STORAGE_CONNECTION_STRING")!;
+
+            // Create a BlobServiceClient object 
+            return new BlobServiceClient(connectionBlobString);
+        });
 
         services.AddScoped<IAuthorRepository, AuthorRepository>();
 
@@ -64,6 +75,7 @@ public class Startup(IConfiguration configuration, SqliteConnection dbConn)
             .AddEntityFrameworkStores<ChirpDBContext>();
         
         services.AddRazorPages();
+            
     }
 
     public async void Configure(WebApplication app) 
@@ -102,4 +114,5 @@ public class Startup(IConfiguration configuration, SqliteConnection dbConn)
 
         app.MapRazorPages();
     }
+
  }
