@@ -33,7 +33,5 @@ public class ChirpDBContext : IdentityDbContext<Author>
             .HasMany(a => a.Following)
             .WithMany(a => a.Followers)
             .UsingEntity(j => j.ToTable("AuthorFollows"));
-
-        
     }
 }

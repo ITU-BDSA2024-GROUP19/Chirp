@@ -18,7 +18,7 @@ public record CheepDto(
 public interface ICheepRepository
 {
     Task AddCheep(Cheep cheep);
-    Task<Cheep> GetCheepById(int cheepId);
+    Task<Cheep?> GetCheepWithLikes(int cheepId);
     Task UpdateCheep(Cheep cheep);
     Task<List<CheepDto>> GetCheepDTO(int page, string userName);
     Task<List<CheepDto>> GetCheepDTOFromAuthor(int page, string authorName, string userName);
@@ -50,11 +50,11 @@ public class CheepRepository : ICheepRepository
         }
     }
 
-    public Task<Cheep> GetCheepById(int cheepId)
+    public Task<Cheep?> GetCheepWithLikes(int cheepId)
     {
-        var query = (from cheep in _dbContext.Cheeps where cheep.CheepId == cheepId select cheep);
-
-        return query.FirstOrDefaultAsync()!;
+        return _dbContext.Cheeps
+            .Include(c => c.Likes)
+            .FirstOrDefaultAsync(c => c.CheepId == cheepId);
     }
 
     public async Task UpdateCheep(Cheep cheep)

@@ -2,6 +2,8 @@ using System.Globalization;
 using Chirp.Core;
 using Chirp.Infrastructure.Authors;
 
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
+
 
 namespace Chirp.Infrastructure.Cheeps;
 
@@ -51,7 +53,7 @@ public class CheepService : ICheepService
 
     public async Task LikeCheep(int cheepId, string authorName)
     {
-        var cheep = await _cheepRepository.GetCheepById(cheepId);
+        var cheep = await _cheepRepository.GetCheepWithLikes(cheepId);
         var author = await _authorRepository.GetAuthorByUsernameAsync(authorName);
         if (cheep == null || author == null)
         {
@@ -59,11 +61,11 @@ public class CheepService : ICheepService
         }
         cheep.Likes.Add(author);
         await _cheepRepository.UpdateCheep(cheep);
-    
     }
+
     public async Task RemoveLikeCheep(int cheepId, string authorName)
     {
-        var cheep = await _cheepRepository.GetCheepById(cheepId);
+        var cheep = await _cheepRepository.GetCheepWithLikes(cheepId);
         var author = await _authorRepository.GetAuthorByUsernameAsync(authorName);
         if (cheep == null || author == null)
         {
@@ -99,7 +101,8 @@ public class CheepService : ICheepService
         {
             Author = author,
             Text = message,
-            TimeStamp = DateTime.Now
+            TimeStamp = DateTime.Now,
+            Likes = []
         };
         _cheepRepository.AddCheep(cheep);
     }
