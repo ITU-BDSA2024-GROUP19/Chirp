@@ -189,22 +189,25 @@ public class CheepRepository : ICheepRepository
     
     private string GetBlobSasUri(string imageUrl, string username)
     {
-        if (imageUrl != "/images/iconGrey.png")
+        if (imageUrl == "" || imageUrl == "default")
+        {
+            return "/images/iconGrey.png";
+        }
+        else
         {
             var blobClient = _blobContainerClient.GetBlobClient(username);
-                    var sasBuilder = new BlobSasBuilder
-                    {
-                        BlobContainerName = _blobContainerClient.Name,
-                        BlobName = blobClient.Name,
-                        Resource = "b",
-                        ExpiresOn = DateTimeOffset.UtcNow.AddMinutes(5)
-                    };
+            var sasBuilder = new BlobSasBuilder
+            {
+                BlobContainerName = _blobContainerClient.Name,
+                BlobName = blobClient.Name,
+                Resource = "b",
+                ExpiresOn = DateTimeOffset.UtcNow.AddMinutes(5)
+            };
                     
-                    sasBuilder.SetPermissions(BlobSasPermissions.Read);
+            sasBuilder.SetPermissions(BlobSasPermissions.Read);
                     
-                    var sasUri = blobClient.GenerateSasUri(sasBuilder);
-                    return sasUri.ToString();
+            var sasUri = blobClient.GenerateSasUri(sasBuilder);
+            return sasUri.ToString();
         }
-        return imageUrl;
     }
 }
