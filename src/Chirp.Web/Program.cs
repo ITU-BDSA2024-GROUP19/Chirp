@@ -10,7 +10,15 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        string dbPath = builder.Configuration["CHIRPDBPATH"] ?? throw new InvalidOperationException("You must specify a environment variable CHIRPDBPATH, use eg. $env:CHIRPDBPATH=C:/Temp/db.db");
+        string dbPath;
+        if (builder.Environment.IsDevelopment()) 
+        {
+            dbPath = builder.Configuration["CHIRPDBPATH"] ?? ":memory:";
+        }
+        else
+        {
+            dbPath = builder.Configuration["CHIRPDBPATH"] ?? throw new InvalidOperationException("You must specify a environment variable CHIRPDBPATH, use eg. $env:CHIRPDBPATH=C:/Temp/db.db");
+        }
         string connectionString = "Data Source=" + dbPath;
 
         using var dbConn = new SqliteConnection(connectionString);

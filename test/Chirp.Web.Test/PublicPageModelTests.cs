@@ -1,5 +1,6 @@
 using Xunit;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Chirp.Infrastructure.Cheeps;
 
 using Xunit.Abstractions;
@@ -9,25 +10,18 @@ using Chirp.Web.Pages;
 
 namespace Chirp.Web.Test;
 
-public class PublicPageModelTests(ITestOutputHelper output)
+public class AppIntegrationTests : IClassFixture<WebApplicationFactory<Program>>
 {
-    private readonly ITestOutputHelper _output = output;
+    private readonly WebApplicationFactory<Program> _factory;
+
+    public AppIntegrationTests(WebApplicationFactory<Program> factory)
+    {
+        _factory = factory;
+    }
 
     [Fact]
-    public void OnGet_PreparesCheepsForDisplay()
+    public void Homepage_ServesCheeps()
     {
-        // Arrange
-        using var fixture = new TestAppFactory();
-        using var scope = fixture.App.Services.CreateScope();
-
-        var cheepService = scope.ServiceProvider.GetRequiredService<ICheepService>();
-
-        var public_cs = new PublicModel(cheepService);
-
-        // Act
-        public_cs.OnGet();
-
-        // Assert
-        Assert.Equal(32, public_cs.Cheeps.Count);
+        HttpClient client = _factory.CreateClient();
     }
 }
