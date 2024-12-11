@@ -48,7 +48,18 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
         _context = new ChirpDBContext(builder.Options);
         await _context.Database.EnsureCreatedAsync();
         
-        _cheepRepo = new CheepRepository(_context, new Mock<BlobServiceClient>().Object);
+        var blobServiceClientMock = new Mock<BlobServiceClient>();
+        
+        var blobContainerClientMock = new Mock<BlobContainerClient>();
+        blobServiceClientMock
+            .Setup(client => client.GetBlobContainerClient(It.IsAny<string>()))
+            .Returns(blobContainerClientMock.Object);
+        
+        blobContainerClientMock
+            .Setup(container => container.GetBlobClient(It.IsAny<string>()))
+            .Returns(new Mock<BlobClient>().Object);
+
+        _cheepRepo = new CheepRepository(_context, blobServiceClientMock.Object);
     }
     
     public Task DisposeAsync()
