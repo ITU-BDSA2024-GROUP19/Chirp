@@ -28,7 +28,7 @@ public class Cheep
 public class Author : IdentityUser 
 {
     [StringLength(500)]
-    public string ProfilePicture { get; set; } = "/images/icon1.png";
+    public string ProfilePicture { get; set; } = "/images/iconGrey.png";
     public ICollection<Cheep> Cheeps { get; set; } = new List<Cheep>();
     public ICollection<Cheep> Likes { get; set; } = new List<Cheep>();
     public ICollection<Author> Following { get; set; } = new List<Author>();

@@ -142,7 +142,7 @@ public class AuthorRepository : IAuthorRepository
             throw new ArgumentException("User does not exist.");
         }
         var imageUrl = author.ProfilePicture;
-        if (imageUrl != "/images/icon1.png")
+        if (imageUrl != "/images/iconGrey.png")
         {
             var blobClient = _blobContainerClient.GetBlobClient(username);
             var sasBuilder = new BlobSasBuilder
@@ -172,7 +172,7 @@ public class AuthorRepository : IAuthorRepository
         
         BlobClient blobClient = _blobContainerClient.GetBlobClient(username);
         
-        author.ProfilePicture = "/images/icon1.png";
+        author.ProfilePicture = "/images/iconGrey.png";
         
         await Task.WhenAll(blobClient.DeleteIfExistsAsync(),_dbContext.SaveChangesAsync());
     }
