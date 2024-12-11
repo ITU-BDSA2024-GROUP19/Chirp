@@ -19,6 +19,7 @@ public interface IAuthorService
     public ICollection<Author> GetAuthorByEmail(string email);
     void UpdateProfilePicture(string username, Stream profilePicture);
     string GetProfilePicture(string username);
+    void DeleteProfilePicture(string username);
 }
 
 public class AuthorService : IAuthorService
@@ -104,5 +105,10 @@ public class AuthorService : IAuthorService
     public string GetProfilePicture(string username)
     {
         return _repository.GetProfilePicture(username).Result;
+    }
+    
+    public void DeleteProfilePicture(string username)
+    {
+        _repository.DeleteProfilePicture(username);
     }
 }

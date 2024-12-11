@@ -18,8 +18,10 @@ public interface IAuthorRepository
     Task<Author?> GetAuthorByUsernameAsync(string username);
     Task<ICollection<Author>> GetAuthorByEmailAsync(string email);
     Task UpdateProfilePicture(string username, Stream profilePicture);
-    
     Task<string> GetProfilePicture(string username);
+    Task DeleteProfilePicture(string username);
+    
+    
 }
 
 public class AuthorRepository : IAuthorRepository
@@ -157,5 +159,21 @@ public class AuthorRepository : IAuthorRepository
             return sasUri.ToString();
         }
         return imageUrl;
+    }
+    
+    public async Task DeleteProfilePicture(string username)
+    {
+        var author = await _dbContext.Authors
+            .FirstOrDefaultAsync(a => a.UserName == username);
+        if (author == null)
+        {
+            throw new ArgumentException("User does not exist.");
+        }
+        
+        BlobClient blobClient = _blobContainerClient.GetBlobClient(username);
+        
+        author.ProfilePicture = "default.jpg";
+        
+        await Task.WhenAll(blobClient.DeleteIfExistsAsync(),_dbContext.SaveChangesAsync());
     }
 }

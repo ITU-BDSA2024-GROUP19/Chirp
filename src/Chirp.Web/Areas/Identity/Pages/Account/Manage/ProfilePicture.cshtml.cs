@@ -2,6 +2,7 @@
 using Chirp.Infrastructure.Cheeps;
 using Chirp.Infrastructure.Authors;
 
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -31,7 +32,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
         }
 
         [BindProperty]
-        public IFormFile ProfilePicture { get; set; }
+        public IFormFile? ProfilePicture { get; set; }
         public string ProfilePictureUrl { get; set; }
 
         public async Task<IActionResult> OnGetAsync()
@@ -52,6 +53,12 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
             if (user == null)
             {
                 return NotFound("User not found.");
+            }
+            if (ProfilePicture == null)
+            {
+                ModelState.AddModelError("Input.ProfilePicture",
+                    "Please select a file.");
+                return RedirectToPage();
             }
             
             if (ProfilePicture.Length > 0)
@@ -86,7 +93,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
             {
                 return NotFound("User not found.");
             }
-            _authorService.UpdateProfilePicture(user.UserName!, Stream.Null);
+            _authorService.DeleteProfilePicture(user.UserName!);
             
             return RedirectToPage();
         }
