@@ -13,13 +13,12 @@ namespace Chirp.Web.Test;
 public class SafetyIntegrationTests(ITestOutputHelper output)
 {
     private readonly ITestOutputHelper _output = output;
-    
 
     [Fact]
     public async Task PostCheeps_OnSqlInjectionAttack_DoesNotDropTable()
     {
         // Arrange
-        using var fixture = new AppTestFixture();
+        using var fixture = new TestAppFactory();
         using var scope = fixture.App.Services.CreateScope();
 
         var signInManager = scope.ServiceProvider.GetRequiredService<SignInManager<Author>>();

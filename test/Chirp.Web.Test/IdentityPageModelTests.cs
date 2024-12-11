@@ -16,7 +16,7 @@ public class IdentityPageModelTests(ITestOutputHelper output)
     public async Task Login_OnPostAsync_NoThrowOnUserDatabaseMiss() 
     {
         // Arrange
-        using var fixture = new AppTestFixture();
+        using var fixture = new TestAppFactory();
         using var scope = fixture.App.Services.CreateScope();
 
         var signInManager = scope.ServiceProvider.GetRequiredService<SignInManager<Author>>();

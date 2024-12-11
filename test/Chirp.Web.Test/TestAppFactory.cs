@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Builder;
 
 namespace Chirp.Web.Test;
 
-public class AppTestFixture : IDisposable
+public class TestAppFactory : IDisposable
 {
     private readonly SqliteConnection _dbConn;
     public WebApplication App {get;}
 
-    public AppTestFixture() 
+    public TestAppFactory() 
     {
         _dbConn = new SqliteConnection("Data Source=:memory:");
         _dbConn.Open();
