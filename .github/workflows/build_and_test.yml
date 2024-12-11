@@ -9,6 +9,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      azure__storage__connection__string: ${{ secrets.AZURE__STORAGE__CONNECTION__STRING }}
 
     steps:
     - uses: actions/checkout@v3
