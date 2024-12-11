@@ -24,13 +24,10 @@
                 <li>
                     <p>
                         <strong>
-                            @if (cheep.AuthorProfilePicture != "default.jpg")
-                            {
-                                <img src="@cheep.AuthorProfilePicture"
-                                     alt="@cheep.Author's profile picture"
-                                     class="profile-pic"
-                                     style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;" />
-                            }
+                            <img src="@cheep.AuthorProfilePicture"
+                                alt="@cheep.Author's profile picture"
+                                class="profile-pic"
+                                style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;" />
                             <a href="/User/@cheep.Author">@cheep.Author</a>
                         </strong>
                         @if (SignInManager.IsSignedIn(User))
