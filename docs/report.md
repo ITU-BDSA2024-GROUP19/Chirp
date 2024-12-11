@@ -8,6 +8,10 @@ author:
 - "Jacob Sponholtz <adho@itu.dk>"
 - "Jakob Sønder <jakso@itu.dk>"
 numbersections: true
+papersize: a4
+geometry:
+- left=30mm
+- right=30mm
 ---
 
 # Design and Architecture of _Chirp!_
