@@ -22,23 +22,54 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Web;
 
-public class Startup(IConfiguration configuration, SqliteConnection dbConn)
- {
-    public void ConfigureServices(IServiceCollection services)
+public class Startup
+{
+    private readonly WebApplicationBuilder _builder;
+    public WebApplication App { get; }
+
+    public Startup(string[] args)
     {
-        services.AddRouting();
+        _builder = WebApplication.CreateBuilder(args);
+        AddServices();
+        App = _builder.Build();
+        AddMiddleware().Wait();
+    }
 
-        services.AddDbContext<ChirpDBContext>(options => options.UseSqlite(dbConn));
+    public void AddServices()
+    {
+        _builder.Services.AddRouting();
 
-        services.AddScoped<ICheepRepository, CheepRepository>();
+        var dbPath = _builder.Configuration["CHIRPDBPATH"];
+        if (dbPath == null && _builder.Environment.IsDevelopment())
+        {
+            Console.WriteLine("App will use an in-memory database");
+            dbPath = ":memory:";
+        }
+        else if (dbPath == null && !_builder.Environment.IsDevelopment())
+        {
+            throw new InvalidOperationException("You must specify a environment variable CHIRPDBPATH, use eg. $env:CHIRPDBPATH=C:/Temp/db.db");
+        }
 
-        services.AddScoped<ICheepService, CheepService>();
+        _builder.Services.AddSingleton<SqliteConnection>(_ => {
+            var connection = new SqliteConnection("Data Source=" + dbPath);
+            connection.Open();
+            return connection;
+        });
 
-        services.AddScoped<IAuthorRepository, AuthorRepository>();
+        _builder.Services.AddDbContext<ChirpDBContext>((serviceProvider, options) => {
+            var connection = serviceProvider.GetRequiredService<SqliteConnection>();
+            options.UseSqlite(connection);
+        });
 
-        services.AddScoped<IAuthorService, AuthorService>();
+        _builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 
-        services.AddAuthentication(options =>
+        _builder.Services.AddScoped<ICheepService, CheepService>();
+
+        _builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
+
+        _builder.Services.AddScoped<IAuthorService, AuthorService>();
+
+        _builder.Services.AddAuthentication(options =>
         {
             options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
         })
@@ -47,31 +78,31 @@ public class Startup(IConfiguration configuration, SqliteConnection dbConn)
 
         .AddGitHub(options =>
         {
-            options.ClientId = configuration["authentication:github:clientId"] ?? throw new InvalidOperationException("Configuration missing a GitHub clientId");
-            options.ClientSecret = configuration["authentication:github:clientSecret"] ?? throw new InvalidOperationException("Configuration missing a GitHub clientSecret");
+            options.ClientId = _builder.Configuration["authentication:github:clientId"] ?? throw new InvalidOperationException("Configuration missing a GitHub clientId");
+            options.ClientSecret = _builder.Configuration["authentication:github:clientSecret"] ?? throw new InvalidOperationException("Configuration missing a GitHub clientSecret");
             options.CallbackPath = "/signin-github";
             options.SaveTokens = true;
             options.Scope.Add("user:email");
         });
 
-        services.AddDefaultIdentity<Author>(options => 
+        _builder.Services.AddDefaultIdentity<Author>(options => 
         {
             options.SignIn.RequireConfirmedAccount = true;
         })
             .AddEntityFrameworkStores<ChirpDBContext>();
         
-        services.AddRazorPages();
+        _builder.Services.AddRazorPages();
     }
 
-    public async void Configure(WebApplication app) 
+    public async Task AddMiddleware() 
     {
-        if (!app.Environment.IsDevelopment())
+        if (!App.Environment.IsDevelopment())
         {
-            app.UseExceptionHandler("/Error");
-            app.UseHsts();  // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            App.UseExceptionHandler("/Error");
+            App.UseHsts();  // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
         }
 
-        using (var scope = app.Services.CreateScope())
+        using (var scope = App.Services.CreateScope())
         {
             using var context = scope.ServiceProvider.GetRequiredService<ChirpDBContext>();
             using var userManager = scope.ServiceProvider.GetRequiredService<UserManager<Author>>();
@@ -86,17 +117,17 @@ public class Startup(IConfiguration configuration, SqliteConnection dbConn)
             }
         }
 
-        app.UseDeveloperExceptionPage();
+        App.UseDeveloperExceptionPage();
 
-        app.UseHttpsRedirection();
+        App.UseHttpsRedirection();
 
-        app.UseStaticFiles();
+        App.UseStaticFiles();
 
-        app.UseRouting();
+        App.UseRouting();
 
-        app.UseAuthentication();
-        app.UseAuthorization();
+        App.UseAuthentication();
+        App.UseAuthorization();
 
-        app.MapRazorPages();
+        App.MapRazorPages();
     }
- }
+}

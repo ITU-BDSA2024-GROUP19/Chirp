@@ -23,16 +23,7 @@ public class TestAppFactory : IDisposable
 
     private WebApplication PrepareTestApplication() 
     {
-        var builder = WebApplication.CreateBuilder();
-
-        var startup = new Startup(builder.Configuration, _dbConn);
-
-        startup.ConfigureServices(builder.Services);
-
-        var app = builder.Build();
-
-        startup.Configure(app);
-        
-        return app;
+        var startup = new Startup([]);
+        return startup.App;
     }
 }
