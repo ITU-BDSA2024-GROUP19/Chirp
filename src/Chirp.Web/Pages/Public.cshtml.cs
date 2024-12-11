@@ -22,8 +22,6 @@ public class PublicModel : PageModel
         _cheepService = cheepService;
     }
 
-
-
     private void prepareContents()
     {
         var pageQuery = Request.Query["page"];
@@ -31,7 +29,6 @@ public class PublicModel : PageModel
         Cheeps = _cheepService.GetCheeps(CurrentPage,User.Identity?.Name!).ConvertAll(cheep => 
         new CheepViewModel(cheep.Id, cheep.Author, cheep.Message, CheepViewModel.TimestampToCEST(cheep.Timestamp),cheep.IsFollowed, cheep.LikeCount, cheep.IsLikedByUser));
     }
-
 
     public ActionResult OnGet()
     {

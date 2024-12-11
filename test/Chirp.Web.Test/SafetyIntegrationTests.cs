@@ -26,7 +26,11 @@ public class SafetyIntegrationTests(ITestOutputHelper output)
         
         // Act
         var author = await signInManager.UserManager.FindByEmailAsync("ropf@itu.dk");
-        cheepService.AddCheep(author!, "Hello'); DROP TABLE Cheeps; --");
+        if (author == null)
+        {
+            Assert.Fail("Could not find sample account");
+        }
+        cheepService.AddCheep(author, "Hello'); DROP TABLE Cheeps; --");
         
         // Assert
         var cheeps = cheepService.GetCheeps(1, "");
