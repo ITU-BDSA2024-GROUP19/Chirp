@@ -32,5 +32,6 @@ public class SafetyIntegrationTests(ITestOutputHelper output)
         // Assert
         var cheeps = cheepService.GetCheeps(1, "");
         Assert.NotEmpty(cheeps);
+        
     }
 }
