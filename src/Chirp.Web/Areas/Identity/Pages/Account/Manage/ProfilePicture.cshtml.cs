@@ -33,7 +33,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
 
         [BindProperty]
         public IFormFile? ProfilePicture { get; set; }
-        public string ProfilePictureUrl { get; set; }
+        public string? ProfilePictureUrl { get; set; }
 
         public async Task<IActionResult> OnGetAsync()
         {
