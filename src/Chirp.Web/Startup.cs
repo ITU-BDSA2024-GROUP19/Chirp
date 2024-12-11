@@ -41,7 +41,7 @@ public class Startup(IConfiguration configuration, SqliteConnection dbConn)
         services.AddSingleton(x =>
         {
             // Retrieve the connection string for use with the application. 
-            string connectionBlobString = Environment.GetEnvironmentVariable("AZURE_STORAGE_CONNECTION_STRING")!;
+            string connectionBlobString = configuration["AZURE_STORAGE_CONNECTION_STRING"] ?? throw new InvalidOperationException("Missing an Azure Blob Storage connection string");
 
             // Create a BlobServiceClient object 
             return new BlobServiceClient(connectionBlobString);
