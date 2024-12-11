@@ -189,7 +189,7 @@ public class CheepRepository : ICheepRepository
     
     private string GetBlobSasUri(string imageUrl, string username)
     {
-        if (imageUrl != "default.jpg")
+        if (imageUrl != "/images/icon1.png")
         {
             var blobClient = _blobContainerClient.GetBlobClient(username);
                     var sasBuilder = new BlobSasBuilder
