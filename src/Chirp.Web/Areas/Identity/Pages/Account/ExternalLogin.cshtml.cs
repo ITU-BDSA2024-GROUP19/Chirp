@@ -36,6 +36,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<Author> _emailStore;
         private readonly IEmailSender _emailSender;
         private readonly ILogger<ExternalLoginModel> _logger;
+        private readonly IWebHostEnvironment _environment;
 
         public ExternalLoginModel(
             IAuthorService chirpAccountService,
@@ -43,7 +44,8 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
             UserManager<Author> userManager,
             IUserStore<Author> userStore,
             ILogger<ExternalLoginModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IWebHostEnvironment environment)
         {
             _chirpAccountService = chirpAccountService;
             _signInManager = signInManager;
@@ -52,6 +54,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
             _emailStore = GetEmailStore();
             _logger = logger;
             _emailSender = emailSender;
+            _environment = environment;
         }
 
         /// <summary>
@@ -79,6 +82,8 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
         /// </summary>
         [TempData]
         public string ErrorMessage { get; set; }
+        
+        public string ProfilePictureUrl { get; set; }
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -99,6 +104,8 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
+            
+            public IFormFile ProfilePicture { get; set; }
         }
         
         public IActionResult OnGet() => RedirectToPage("./Login");
@@ -143,6 +150,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
                 ReturnUrl = returnUrl;
                 ProviderDisplayName = info.ProviderDisplayName;
                 var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+                ProfilePictureUrl = info.Principal.FindFirstValue("urn:github:avatar");
                 var accessToken = info.AuthenticationTokens!.FirstOrDefault(t => t.Name == "access_token")?.Value;
                 if (!string.IsNullOrEmpty(accessToken))
                 {
@@ -191,7 +199,26 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
                     result = await _userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
-                        _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
+                        ProfilePictureUrl = info.Principal.FindFirstValue("urn:github:avatar");
+                        
+                        var httpClient = new HttpClient();
+                        try
+                        {
+                            var response = await httpClient.GetAsync(ProfilePictureUrl);
+                            if (response.IsSuccessStatusCode)
+                            {
+                                var stream = await response.Content.ReadAsStreamAsync();
+                                _chirpAccountService.UpdateProfilePicture(user.UserName!, stream);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
+                            throw;
+                        }
+
+                        _logger.LogInformation("User created an account using {Name} provider.",
+                            info.LoginProvider);
                         await SendConfirmationEmail(user);
 
                         // If account confirmation is required, we need to show the link if we don't have a real email sender
@@ -204,7 +231,6 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
                             await _signInManager.SignInAsync(user, isPersistent: false, info.LoginProvider);
                             return LocalRedirect(returnUrl);
                         }
-
                     }
                 }
                 foreach (var error in result.Errors)

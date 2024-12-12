@@ -3,6 +3,7 @@ using System;
 using Chirp.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,42 +11,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chirp.Infrastructure.Migrations
 {
     [DbContext(typeof(ChirpDBContext))]
-    partial class ChirpDBContextModelSnapshot : ModelSnapshot
+    [Migration("20241029114904_AddIdentitySchema")]
+    partial class AddIdentitySchema
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.11");
-
-            modelBuilder.Entity("AuthorAuthor", b =>
-                {
-                    b.Property<string>("FollowersId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("FollowingId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("FollowersId", "FollowingId");
-
-                    b.HasIndex("FollowingId");
-
-                    b.ToTable("AuthorFollows", (string)null);
-                });
-
-            modelBuilder.Entity("AuthorCheep", b =>
-                {
-                    b.Property<int>("LikesCheepId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("LikesId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("LikesCheepId", "LikesId");
-
-                    b.HasIndex("LikesId");
-
-                    b.ToTable("CheepLikes", (string)null);
-                });
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.10");
 
             modelBuilder.Entity("Chirp.Core.Author", b =>
                 {
@@ -88,11 +61,6 @@ namespace Chirp.Infrastructure.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("ProfilePicture")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("TEXT");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("TEXT");
@@ -271,36 +239,6 @@ namespace Chirp.Infrastructure.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("AuthorAuthor", b =>
-                {
-                    b.HasOne("Chirp.Core.Author", null)
-                        .WithMany()
-                        .HasForeignKey("FollowersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Chirp.Core.Author", null)
-                        .WithMany()
-                        .HasForeignKey("FollowingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("AuthorCheep", b =>
-                {
-                    b.HasOne("Chirp.Core.Cheep", null)
-                        .WithMany()
-                        .HasForeignKey("LikesCheepId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Chirp.Core.Author", null)
-                        .WithMany()
-                        .HasForeignKey("LikesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Chirp.Core.Cheep", b =>

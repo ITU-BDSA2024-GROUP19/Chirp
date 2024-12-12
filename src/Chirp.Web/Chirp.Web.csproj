@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="AspNet.Security.OAuth.GitHub" Version="8.2.0" />
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.23.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
@@ -32,6 +33,10 @@
     <ItemGroup>
         <ProjectReference Include="../Chirp.Core/Chirp.Core.csproj" /> 
         <ProjectReference Include="../Chirp.Infrastructure/Chirp.Infrastructure.csproj" /> 
+    </ItemGroup>
+    
+    <ItemGroup>
+      <Folder Include="wwwroot\uploads\" />
     </ItemGroup>
 
 </Project>

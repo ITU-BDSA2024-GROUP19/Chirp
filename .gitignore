@@ -43,3 +43,6 @@ Chirp.sln.Dotsettings.user
 
 # Azure Config
 src/Chirp.Web/.azure/
+
+# local picture
+src/Chirp.Web/wwwroot/uploads/

@@ -7,7 +7,8 @@ public record CheepViewModel(
     string TimeStamp, 
     bool IsFollowed, 
     int LikeCount, 
-    bool IsLikedByUser) 
+    bool IsLikedByUser,
+    string AuthorProfilePicture) 
 {
     public static string TimestampToCEST(long timestamp)
     {

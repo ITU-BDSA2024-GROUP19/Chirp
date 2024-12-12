@@ -15,10 +15,14 @@ using Chirp.Core;
 using Chirp.Infrastructure;
 using Chirp.Infrastructure.Cheeps;
 using Chirp.Infrastructure.Authors;
+
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+
+using Azure.Storage.Blobs;
 
 namespace Chirp.Web;
 
@@ -33,6 +37,15 @@ public class Startup(IConfiguration configuration, SqliteConnection dbConn)
         services.AddScoped<ICheepRepository, CheepRepository>();
 
         services.AddScoped<ICheepService, CheepService>();
+        
+        services.AddSingleton(x =>
+        {
+            // Retrieve the connection string for use with the application. 
+            string connectionBlobString = configuration["azure:storage:connection:string"] ?? throw new InvalidOperationException("Missing an Azure Blob Storage connection string");
+
+            // Create a BlobServiceClient object 
+            return new BlobServiceClient(connectionBlobString);
+        });
 
         services.AddScoped<IAuthorRepository, AuthorRepository>();
 
@@ -52,6 +65,7 @@ public class Startup(IConfiguration configuration, SqliteConnection dbConn)
             options.CallbackPath = "/signin-github";
             options.SaveTokens = true;
             options.Scope.Add("user:email");
+            options.ClaimActions.MapJsonKey("urn:github:avatar", "avatar_url");
         });
 
         services.AddDefaultIdentity<Author>(options => 
@@ -61,6 +75,7 @@ public class Startup(IConfiguration configuration, SqliteConnection dbConn)
             .AddEntityFrameworkStores<ChirpDBContext>();
         
         services.AddRazorPages();
+            
     }
 
     public async void Configure(WebApplication app) 
@@ -99,4 +114,5 @@ public class Startup(IConfiguration configuration, SqliteConnection dbConn)
 
         app.MapRazorPages();
     }
+
  }

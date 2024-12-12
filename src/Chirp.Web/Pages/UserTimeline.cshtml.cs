@@ -45,7 +45,8 @@ public class UserTimelineModel : PageModel
                 CheepViewModel.TimestampToCEST(cheep.Timestamp),
                 cheep.IsFollowed, 
                 cheep.LikeCount, 
-                cheep.IsLikedByUser
+                cheep.IsLikedByUser,
+                cheep.AuthorProfilePicture
             ));
     }
 

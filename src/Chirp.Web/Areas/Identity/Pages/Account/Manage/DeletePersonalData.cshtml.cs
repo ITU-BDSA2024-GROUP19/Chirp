@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
 using Chirp.Core;
+using Chirp.Infrastructure.Authors;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -20,15 +21,18 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<Author> _userManager;
         private readonly SignInManager<Author> _signInManager;
         private readonly ILogger<DeletePersonalDataModel> _logger;
+        private readonly IAuthorService _authorService;
 
         public DeletePersonalDataModel(
             UserManager<Author> userManager,
             SignInManager<Author> signInManager,
-            ILogger<DeletePersonalDataModel> logger)
+            ILogger<DeletePersonalDataModel> logger,
+            IAuthorService authorService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _authorService = authorService;
         }
 
         /// <summary>
@@ -95,7 +99,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
                     return Page();
                 }
             }
-
+            _authorService.DeleteProfilePicture(user.UserName!);
             var result = await _userManager.DeleteAsync(user);
             var userId = await _userManager.GetUserIdAsync(user);
             if (!result.Succeeded)
