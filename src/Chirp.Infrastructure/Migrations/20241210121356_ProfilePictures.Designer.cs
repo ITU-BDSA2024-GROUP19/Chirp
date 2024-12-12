@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chirp.Infrastructure.Migrations
 {
     [DbContext(typeof(ChirpDBContext))]
-    [Migration("20241210121356_PorfilePictures")]
+    [Migration("20241210121356_ProfilePictures")]
     partial class ProfilePictures
     {
         /// <inheritdoc />
