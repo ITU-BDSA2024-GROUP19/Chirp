@@ -5,7 +5,7 @@
 namespace Chirp.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class PorfilePictures : Migration
+    public partial class ProfilePictures : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

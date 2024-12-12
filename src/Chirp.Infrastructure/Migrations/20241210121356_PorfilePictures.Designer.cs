@@ -12,7 +12,7 @@ namespace Chirp.Infrastructure.Migrations
 {
     [DbContext(typeof(ChirpDBContext))]
     [Migration("20241210121356_PorfilePictures")]
-    partial class PorfilePictures
+    partial class ProfilePictures
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
