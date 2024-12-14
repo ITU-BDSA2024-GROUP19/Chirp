@@ -37,15 +37,22 @@ public class Startup(IConfiguration configuration, SqliteConnection dbConn)
         services.AddScoped<ICheepRepository, CheepRepository>();
 
         services.AddScoped<ICheepService, CheepService>();
-        
-        services.AddSingleton(x =>
-        {
-            // Retrieve the connection string for use with the application. 
-            string connectionBlobString = configuration["azure:storage:connection:string"] ?? throw new InvalidOperationException("Missing an Azure Blob Storage connection string");
 
-            // Create a BlobServiceClient object 
-            return new BlobServiceClient(connectionBlobString);
-        });
+        // Retrieve the connection string for Azure Blob Storage
+        string? connectionBlobString = configuration["azure:storage:connection:string"];
+        
+        if (connectionBlobString != null)
+        {
+            services.AddSingleton(x => new BlobServiceClient(connectionBlobString));
+        }
+        else
+        {
+            Console.WriteLine("""
+                              Azure Blob Storage connection string not found.
+                              Blob storage will not be available.
+                              Profile pictures will use default fallback image.
+                              """);
+        }
 
         services.AddScoped<IAuthorRepository, AuthorRepository>();
 
