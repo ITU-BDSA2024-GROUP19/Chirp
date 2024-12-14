@@ -41,7 +41,7 @@ public class Startup(IConfiguration configuration, SqliteConnection dbConn)
         
         if (connectionBlobString != null)
         {
-            services.AddSingleton(x => new OptionalBlobServiceClient(new BlobServiceClient(connectionBlobString)));
+            services.AddSingleton<IOptionalBlobServiceClient, OptionalBlobServiceClient>(x => new OptionalBlobServiceClient(new BlobServiceClient(connectionBlobString)));
         }
         else
         {
@@ -50,7 +50,7 @@ public class Startup(IConfiguration configuration, SqliteConnection dbConn)
                               Blob storage will not be available.
                               Profile pictures will use default fallback image.
                               """);
-            services.AddSingleton<IOptionalBlobServiceClient, OptionalBlobServiceClient>();
+            services.AddSingleton<IOptionalBlobServiceClient, OptionalBlobServiceClient>(x => new OptionalBlobServiceClient());
         }
         
         services.AddScoped<ICheepRepository, CheepRepository>();
