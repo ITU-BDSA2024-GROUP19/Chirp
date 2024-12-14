@@ -2,16 +2,17 @@
 
 namespace Chirp.Infrastructure.External;
 
-public interface IBlobServiceClient
+public interface IOptionalBlobServiceClient
 {
     BlobContainerClient GetBlobContainerClient(string BlobContainerName);
+    bool IsAvailable();
 }
 
-public class AzureBlobServiceClient : IBlobServiceClient
+public class OptionalBlobServiceClient : IOptionalBlobServiceClient
 {
     private readonly BlobServiceClient? _client;
 
-    public AzureBlobServiceClient(BlobServiceClient? blobServiceClient = null)
+    public OptionalBlobServiceClient(BlobServiceClient? blobServiceClient = null)
     {
         _client = blobServiceClient;
     }
@@ -26,5 +27,10 @@ public class AzureBlobServiceClient : IBlobServiceClient
         {
             throw new InvalidOperationException("Azure Blob Service is unavailable");
         }
+    }
+    
+    public bool IsAvailable()
+    {
+        return _client != null;
     }
 }

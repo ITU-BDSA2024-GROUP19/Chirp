@@ -5,6 +5,8 @@ using System.ComponentModel.DataAnnotations;
 using Azure.Storage.Blobs;
 using Azure.Storage.Sas;
 
+using Chirp.Infrastructure.External;
+
 using Microsoft.VisualBasic;
 
 namespace Chirp.Infrastructure.Cheeps;
@@ -36,13 +38,16 @@ public class CheepRepository : ICheepRepository
 {
     private readonly ChirpDBContext _dbContext;
     private const int CHEEPS_PER_PAGE = 32;
-    private readonly BlobContainerClient _blobContainerClient;
+    private readonly BlobContainerClient? _blobContainerClient;
 
-    public CheepRepository(ChirpDBContext dbContext, BlobServiceClient blobServiceClient)
+    public CheepRepository(ChirpDBContext dbContext, IOptionalBlobServiceClient optionalBlobServiceClient)
     {
         _dbContext = dbContext;
-        _blobContainerClient = blobServiceClient.GetBlobContainerClient("profile-pictures");
-        _blobContainerClient.CreateIfNotExists();
+        if (optionalBlobServiceClient.IsAvailable())
+        {
+            _blobContainerClient = optionalBlobServiceClient.GetBlobContainerClient("profile-pictures");
+            _blobContainerClient.CreateIfNotExists();
+        }
     }
     public async Task AddCheep(Cheep cheep)
     {
@@ -189,7 +194,7 @@ public class CheepRepository : ICheepRepository
     
     private string GetBlobSasUri(string imageUrl, string username)
     {
-        if (imageUrl == "" || imageUrl == "default")
+        if (imageUrl == "" || imageUrl == "default" || _blobContainerClient == null)
         {
             return "/images/iconGrey.png";
         }

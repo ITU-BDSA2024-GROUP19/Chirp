@@ -24,6 +24,8 @@ using Microsoft.EntityFrameworkCore;
 
 using Azure.Storage.Blobs;
 
+using Chirp.Infrastructure.External;
+
 namespace Chirp.Web;
 
 public class Startup(IConfiguration configuration, SqliteConnection dbConn)
@@ -43,7 +45,7 @@ public class Startup(IConfiguration configuration, SqliteConnection dbConn)
         
         if (connectionBlobString != null)
         {
-            services.AddSingleton(x => new BlobServiceClient(connectionBlobString));
+            services.AddSingleton(x => new OptionalBlobServiceClient(new BlobServiceClient(connectionBlobString)));
         }
         else
         {
@@ -52,6 +54,7 @@ public class Startup(IConfiguration configuration, SqliteConnection dbConn)
                               Blob storage will not be available.
                               Profile pictures will use default fallback image.
                               """);
+            services.AddSingleton<IOptionalBlobServiceClient, OptionalBlobServiceClient>();
         }
 
         services.AddScoped<IAuthorRepository, AuthorRepository>();
