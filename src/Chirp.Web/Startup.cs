@@ -35,11 +35,7 @@ public class Startup(IConfiguration configuration, SqliteConnection dbConn)
         services.AddRouting();
 
         services.AddDbContext<ChirpDBContext>(options => options.UseSqlite(dbConn));
-
-        services.AddScoped<ICheepRepository, CheepRepository>();
-
-        services.AddScoped<ICheepService, CheepService>();
-
+        
         // Retrieve the connection string for Azure Blob Storage
         string? connectionBlobString = configuration["azure:storage:connection:string"];
         
@@ -56,6 +52,10 @@ public class Startup(IConfiguration configuration, SqliteConnection dbConn)
                               """);
             services.AddSingleton<IOptionalBlobServiceClient, OptionalBlobServiceClient>();
         }
+        
+        services.AddScoped<ICheepRepository, CheepRepository>();
+
+        services.AddScoped<ICheepService, CheepService>();
 
         services.AddScoped<IAuthorRepository, AuthorRepository>();
 
