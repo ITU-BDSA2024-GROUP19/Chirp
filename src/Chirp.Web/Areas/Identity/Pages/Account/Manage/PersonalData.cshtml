@@ -10,9 +10,29 @@
 <div class="row">
     <div class="col-md-6">
         <p>Your account contains personal data that you have given us. This page allows you to download or delete that data.</p>
+        
+        <button class="btn btn-primary" onclick="
+            const personalData = document.getElementById('personal-information');
+            if (personalData.style.display === 'none') {
+                personalData.style.display = 'block';
+            }
+            else {
+                personalData.style.display = 'none';
+            }
+            if (personalData.style.display === 'none') {
+                this.textContent = 'Show your personal data';
+            }
+            else {
+                this.textContent = 'Hide your personal data';
+            }
+            ">
+            Show your personal data
+        </button>
+
         @{
-            var display = Model.CurrentPage > 1 ? "block" : "none";
+        var display = Model.CurrentPage > 1 ? "block" : "none";
         }
+        
         <div id="personal-information" style="display: @display; margin-bottom: 10px">
             <ul>
                 @foreach (var data in Model.PersonalData)
@@ -41,24 +61,6 @@
             }
             }
         </div>
-        
-        <button class="btn btn-primary" onclick="
-            const personalData = document.getElementById('personal-information');
-            if (personalData.style.display === 'none') {
-                personalData.style.display = 'block';
-            }
-            else {
-                personalData.style.display = 'none';
-            }
-            if (personalData.style.display === 'none') {
-                this.textContent = 'Show your personal data';
-            }
-            else {
-                this.textContent = 'Hide your personal data';
-            }
-            ">
-            Show your personal data
-        </button>
         
         <form id="download-data" asp-page="DownloadPersonalData" method="post">
             <button class="btn btn-primary" type="submit">Download</button>
