@@ -24,6 +24,8 @@ using Microsoft.EntityFrameworkCore;
 
 using Azure.Storage.Blobs;
 
+using Chirp.Infrastructure.External;
+
 namespace Chirp.Web;
 
 public class Startup(IConfiguration configuration, SqliteConnection dbConn)
@@ -33,19 +35,27 @@ public class Startup(IConfiguration configuration, SqliteConnection dbConn)
         services.AddRouting();
 
         services.AddDbContext<ChirpDBContext>(options => options.UseSqlite(dbConn));
-
+        
+        // Retrieve the connection string for Azure Blob Storage
+        string? connectionBlobString = configuration["azure:storage:connection:string"];
+        
+        if (connectionBlobString != null)
+        {
+            services.AddSingleton<IOptionalBlobServiceClient, OptionalBlobServiceClient>(x => new OptionalBlobServiceClient(new BlobServiceClient(connectionBlobString)));
+        }
+        else
+        {
+            Console.WriteLine("""
+                              Azure Blob Storage connection string not found.
+                              Blob storage will not be available.
+                              Profile pictures will use default fallback image.
+                              """);
+            services.AddSingleton<IOptionalBlobServiceClient, OptionalBlobServiceClient>(x => new OptionalBlobServiceClient());
+        }
+        
         services.AddScoped<ICheepRepository, CheepRepository>();
 
         services.AddScoped<ICheepService, CheepService>();
-        
-        services.AddSingleton(x =>
-        {
-            // Retrieve the connection string for use with the application. 
-            string connectionBlobString = configuration["azure:storage:connection:string"] ?? throw new InvalidOperationException("Missing an Azure Blob Storage connection string");
-
-            // Create a BlobServiceClient object 
-            return new BlobServiceClient(connectionBlobString);
-        });
 
         services.AddScoped<IAuthorRepository, AuthorRepository>();
 

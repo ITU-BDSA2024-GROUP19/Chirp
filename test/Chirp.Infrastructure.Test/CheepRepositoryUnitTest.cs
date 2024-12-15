@@ -5,6 +5,7 @@ using Azure.Storage.Blobs;
 using Chirp.Core;
 using Chirp.Infrastructure.Authors;
 using Chirp.Infrastructure.Cheeps;
+using Chirp.Infrastructure.External;
 using Chirp.Infrastructure.Test.Stub;
 
 using Microsoft.AspNetCore.Identity;
@@ -48,7 +49,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
         _context = new ChirpDBContext(builder.Options);
         await _context.Database.EnsureCreatedAsync();
         
-        var blobServiceClientMock = new Mock<BlobServiceClient>();
+        var blobServiceClientMock = new Mock<IOptionalBlobServiceClient>();
         
         var blobContainerClientMock = new Mock<BlobContainerClient>();
         blobServiceClientMock
