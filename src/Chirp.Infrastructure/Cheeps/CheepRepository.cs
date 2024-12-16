@@ -29,8 +29,6 @@ public interface ICheepRepository
     Task<List<CheepDto>> GetCheepDTO(int page, string userName);
     Task<List<CheepDto>> GetCheepDTOFromAuthor(int page, string authorName, string userName);
     Task<List<CheepDto>> GetCheepDTOFromMe(int page, string userName);
-    Task<Author> GetAuthorByName(string name);
-    Task<Author> GetAuthorByEmail(string email);
     Task<List<CheepDto>> GetAllCheepDTOFromAuthor(string author, string userName);
 }
 
@@ -74,20 +72,6 @@ public class CheepRepository : ICheepRepository
         //TODO: Add restrictions/validations
         _dbContext.Update(cheep);
         await _dbContext.SaveChangesAsync();
-    }
-
-    public Task<Author> GetAuthorByName(string name)
-    {
-        var query = (from author in _dbContext.Authors where author.UserName == name select author);
-        
-        return query.FirstOrDefaultAsync()!;
-    }
-    
-    public Task<Author> GetAuthorByEmail(string email)
-    {
-        var query = (from author in _dbContext.Authors where author.Email == email select author);
-        
-        return query.FirstOrDefaultAsync()!;
     }
 
     public async Task<List<CheepDto>> GetCheepDTO(int page, string userName)

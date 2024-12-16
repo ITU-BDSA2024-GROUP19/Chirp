@@ -51,32 +51,4 @@ public class CheepServiceUnitTests
         // Assert
         Assert.Equal(expectedTime, result[0].Timestamp);
     }
-    
-    [Fact]
-    public void GetAuthorByName_ReturnsAuthor()
-    {
-        // Arrange
-        ICheepRepository cheepRepo = new CheepRepositoryStub();
-        ICheepService cheepService = new CheepService(cheepRepo, null!);
-        // Act
-        Author author = cheepService.GetAuthorByName("Author1");
-
-        // Assert
-        Assert.NotNull(author);
-        Assert.Equal("Author1", author.UserName);
-    }
-    
-    [Fact]
-    public void GetAuthorByEmail_ReturnsAuthor()
-    {
-        // Arrange
-        ICheepRepository cheepRepo = new CheepRepositoryStub();
-        ICheepService cheepService = new CheepService(cheepRepo, null!);
-        // Act
-        Author author = cheepService.GetAuthorByEmail("au1@itu.dk");
-        
-        // Assert
-        Assert.NotNull(author);
-        Assert.Equal("Author1", author.UserName);
-    }
 }
