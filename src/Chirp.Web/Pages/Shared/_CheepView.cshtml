@@ -39,7 +39,7 @@ https://stackoverflow.com/questions/32127261/asp-net-viewstart-cshtml-getting-th
                 @if (Model.IsLikedByUser)
                 {
                     <form method="post" autocomplete="off">
-                    <input type="hidden" name="ModelId" value="@Model.Id"/>
+                    <input type="hidden" name="cheepId" value="@Model.Id"/>
                     <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
                     <button class="btn btn-primary" type="submit" asp-page="/Actions/AuthorLikes" asp-page-handler="RemoveLike">Remove Like</button>
                     </form>
@@ -47,7 +47,7 @@ https://stackoverflow.com/questions/32127261/asp-net-viewstart-cshtml-getting-th
                 else
                 {
                     <form method="post" autocomplete="off">
-                    <input type="hidden" name="ModelId" value="@Model.Id"/>
+                    <input type="hidden" name="cheepId" value="@Model.Id"/>
                     <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
                     <button class="btn btn-primary" type="submit" asp-page="/Actions/AuthorLikes" asp-page-handler="Like">Like</button>
                     </form>
