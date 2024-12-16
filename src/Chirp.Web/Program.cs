@@ -1,7 +1,3 @@
-using Microsoft.Data.Sqlite;
-
-using InvalidOperationException = System.InvalidOperationException;
-
 namespace Chirp.Web;
 
 /// <summary>

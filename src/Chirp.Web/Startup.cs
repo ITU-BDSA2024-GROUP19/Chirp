@@ -25,7 +25,6 @@ using Azure.Storage.Blobs;
 
 using Chirp.Infrastructure.External;
 using Microsoft.Data.Sqlite;
-using Microsoft.Build.Execution;
 
 namespace Chirp.Web;
 
