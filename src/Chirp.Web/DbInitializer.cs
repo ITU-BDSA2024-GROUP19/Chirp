@@ -1,8 +1,7 @@
-using Chirp.Infrastructure;
-using Chirp.Infrastructure.Authors;
 using Chirp.Core;
+using Chirp.Infrastructure;
+
 using Microsoft.AspNetCore.Identity;
-using Chirp.Infrastructure.Cheeps;
 
 namespace Chirp.Web;
 
@@ -21,20 +20,20 @@ public class DbInitializer(ChirpDBContext chirpContext, UserManager<Author> user
 {
     private static Author buildSampleAuthor(string name, string email)
     {
-        return new Author() 
-        { 
-            UserName = name, 
-            Email = email, 
+        return new Author()
+        {
+            UserName = name,
+            Email = email,
             LockoutEnabled = true
         };
     }
 
     private static Author buildConfirmedSampleAuthor(string name, string email)
     {
-        return new Author() 
-        { 
-            UserName = name, 
-            Email = email, 
+        return new Author()
+        {
+            UserName = name,
+            Email = email,
             LockoutEnabled = true,
             EmailConfirmed = true
         };

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+
 using Microsoft.AspNetCore.Identity;
 
 namespace Chirp.Core;
@@ -6,7 +7,7 @@ namespace Chirp.Core;
 /// <summary>
 /// A Cheep is a message on Chirp. 
 /// </summary>
-public class Cheep 
+public class Cheep
 {
     /// <summary>Primary key for cheeps. Generated always.</summary>
     [Key]
@@ -25,14 +26,14 @@ public class Cheep
 /// An Author is a user on Chirp. 
 /// It extends the default IdentityUser type with fields specific to the Chirp application. 
 /// </summary>
-public class Author : IdentityUser 
+public class Author : IdentityUser
 {
     [StringLength(500)]
     public string ProfilePicture { get; set; } = "default";
     public ICollection<Cheep> Cheeps { get; set; } = new List<Cheep>();
     public ICollection<Cheep> Likes { get; set; } = new List<Cheep>();
     public ICollection<Author> Following { get; set; } = new List<Author>();
-    public ICollection<Author> Followers { get; set ;} = new List<Author>();
+    public ICollection<Author> Followers { get; set; } = new List<Author>();
 
     /// <summary>
     /// <para>Adds a new Cheep to this author with a given timestamp.</para>
@@ -40,8 +41,8 @@ public class Author : IdentityUser
     /// </summary>
     /// <param name="text"></param>
     /// <param name="timeStamp"></param>
-    public void AddSampleCheep(string text, DateTime timeStamp) 
+    public void AddSampleCheep(string text, DateTime timeStamp)
     {
-        Cheeps.Add(new Cheep() { Author = this, Text = text, TimeStamp = timeStamp});
+        Cheeps.Add(new Cheep() { Author = this, Text = text, TimeStamp = timeStamp });
     }
 }

@@ -1,6 +1,7 @@
+using Chirp.Infrastructure.Authors;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Chirp.Infrastructure.Authors;
 
 namespace Chirp.Web.Pages.Actions;
 

@@ -1,20 +1,21 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Chirp.Infrastructure.Cheeps;
-using Chirp.Web.Pages.Models;
+﻿using Chirp.Infrastructure.Cheeps;
 using Chirp.Web.Pages.Actions;
+using Chirp.Web.Pages.Models;
+
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Chirp.Web.Pages;
 
 public class UserTimelineModel : PageModel
 {
     private readonly ICheepService _cheepService;
-    
+
     public List<CheepViewModel> Cheeps { get; set; } = new List<CheepViewModel>();
 
     [BindProperty]
     public SendCheepModel.InputModel SendCheepInput { get; set; } = new();
-    
+
     public int CurrentPage { get; set; }
 
     public UserTimelineModel(ICheepService cheepService)
@@ -36,15 +37,15 @@ public class UserTimelineModel : PageModel
         {
             cheepData = _cheepService.GetCheepsFromAuthor(CurrentPage, author, userName);
         }
-        Cheeps = cheepData.ConvertAll(cheep => 
+        Cheeps = cheepData.ConvertAll(cheep =>
             new CheepViewModel
             (
-                cheep.Id, 
-                cheep.Author, 
-                cheep.Message, 
+                cheep.Id,
+                cheep.Author,
+                cheep.Message,
                 CheepViewModel.TimestampToCEST(cheep.Timestamp),
-                cheep.IsFollowed, 
-                cheep.LikeCount, 
+                cheep.IsFollowed,
+                cheep.LikeCount,
                 cheep.IsLikedByUser,
                 cheep.AuthorProfilePicture
             ));

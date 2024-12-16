@@ -1,8 +1,7 @@
 using System.Globalization;
+
 using Chirp.Core;
 using Chirp.Infrastructure.Authors;
-
-using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 
 
 namespace Chirp.Infrastructure.Cheeps;
@@ -16,8 +15,6 @@ public interface ICheepService
     List<CheepDto> GetAllCheepsFromAuthor(string author, string userName);
     Task LikeCheep(int cheepId, string authorName);
     Task RemoveLikeCheep(int cheepId, string authorName);
-    Author GetAuthorByName(string name);
-    Author GetAuthorByEmail(string email);
     void AddCheep(Author author, string message);
 }
 
@@ -25,13 +22,13 @@ public class CheepService : ICheepService
 {
     private readonly ICheepRepository _cheepRepository;
     private readonly IAuthorRepository _authorRepository;
-    
+
     public CheepService(ICheepRepository cheepRepository, IAuthorRepository authorRepository)
     {
         _cheepRepository = cheepRepository;
         _authorRepository = authorRepository;
     }
-    
+
     public List<CheepDto> GetCheeps(int page, string userName)
     {
         return _cheepRepository.GetCheepDTO(page, userName).Result;
@@ -51,7 +48,7 @@ public class CheepService : ICheepService
     {
         return _cheepRepository.GetCheepDTOFromMe(page, userName).Result;
     }
-    
+
     public List<CheepDto> GetAllCheepsFromAuthor(string author, string userName)
     {
         return _cheepRepository.GetAllCheepDTOFromAuthor(author, userName).Result;
@@ -87,18 +84,6 @@ public class CheepService : ICheepService
         TimeZoneInfo danishTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central Europe Standard Time");
         DateTime dateTime = TimeZoneInfo.ConvertTime(dateTimeOffset.UtcDateTime, danishTimeZone);
         return dateTime.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture); // ensures the right format that is required
-    }
-
-    public Author GetAuthorByName(string name)
-    {
-        Author author = _cheepRepository.GetAuthorByName(name).Result;
-        return author;
-    }
-    
-    public Author GetAuthorByEmail(string email)
-    {
-        Author author = _cheepRepository.GetAuthorByName(email).Result;
-        return author;
     }
 
     public void AddCheep(Author author, string message)

@@ -1,9 +1,11 @@
+using System.ComponentModel.DataAnnotations;
+
+using Chirp.Core;
+using Chirp.Infrastructure.Cheeps;
+
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Chirp.Infrastructure.Cheeps;
-using Microsoft.AspNetCore.Identity;
-using Chirp.Core;
-using System.ComponentModel.DataAnnotations;
 
 namespace Chirp.Web.Pages.Actions;
 
@@ -24,7 +26,7 @@ public class SendCheepModel : PageModel
     public InputModel Input { get; set; } = new();
 
     public SendCheepModel(
-        ICheepService cheepService, 
+        ICheepService cheepService,
         SignInManager<Author> signInManager)
     {
         _cheepService = cheepService;

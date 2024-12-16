@@ -1,10 +1,9 @@
-﻿using Chirp.Core;
-using Chirp.Infrastructure.Test.Stub;
+﻿using Chirp.Infrastructure.Test.Stub;
 
 namespace Chirp.Test;
-using Xunit;
 using Chirp.Infrastructure.Cheeps;
-using Chirp.Web.Pages.Models;
+
+using Xunit;
 
 public class CheepServiceUnitTests
 {
@@ -21,8 +20,8 @@ public class CheepServiceUnitTests
         Assert.NotNull(cheeps);
         Assert.NotEmpty(cheeps);
     }
-    
-    [Fact] 
+
+    [Fact]
     public void GetCheepsFromAuthor_ReturnsCheeps()
     {
         // Arrange
@@ -35,7 +34,7 @@ public class CheepServiceUnitTests
         Assert.NotNull(cheeps);
         Assert.NotEmpty(cheeps);
     }
-    
+
     [Fact]
     public void CheepService_CanRetrieveCorrectTimeFromCheep()
     {
@@ -50,33 +49,5 @@ public class CheepServiceUnitTests
 
         // Assert
         Assert.Equal(expectedTime, result[0].Timestamp);
-    }
-    
-    [Fact]
-    public void GetAuthorByName_ReturnsAuthor()
-    {
-        // Arrange
-        ICheepRepository cheepRepo = new CheepRepositoryStub();
-        ICheepService cheepService = new CheepService(cheepRepo, null!);
-        // Act
-        Author author = cheepService.GetAuthorByName("Author1");
-
-        // Assert
-        Assert.NotNull(author);
-        Assert.Equal("Author1", author.UserName);
-    }
-    
-    [Fact]
-    public void GetAuthorByEmail_ReturnsAuthor()
-    {
-        // Arrange
-        ICheepRepository cheepRepo = new CheepRepositoryStub();
-        ICheepService cheepService = new CheepService(cheepRepo, null!);
-        // Act
-        Author author = cheepService.GetAuthorByEmail("au1@itu.dk");
-        
-        // Assert
-        Assert.NotNull(author);
-        Assert.Equal("Author1", author.UserName);
     }
 }

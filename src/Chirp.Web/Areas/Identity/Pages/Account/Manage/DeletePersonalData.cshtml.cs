@@ -2,9 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System;
 using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
 
 using Chirp.Core;
 using Chirp.Infrastructure.Authors;
@@ -12,7 +10,6 @@ using Chirp.Infrastructure.Authors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
 
 namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
 {
@@ -84,13 +81,13 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
             }
 
             RequirePassword = await _userManager.HasPasswordAsync(user);
-            
+
             if (Input.Password == null)
             {
                 ModelState.AddModelError(string.Empty, "Password is required.");
                 return Page();
             }
-            
+
             if (RequirePassword)
             {
                 if (!await _userManager.CheckPasswordAsync(user, Input.Password))

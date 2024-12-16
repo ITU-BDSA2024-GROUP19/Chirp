@@ -1,7 +1,6 @@
-using Microsoft.Playwright;
 using System.Diagnostics;
 
-using NuGet.ProjectModel;
+using Microsoft.Playwright;
 
 namespace Chirp.Web.Test;
 

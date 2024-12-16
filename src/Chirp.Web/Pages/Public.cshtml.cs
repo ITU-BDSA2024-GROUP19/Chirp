@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Chirp.Infrastructure.Cheeps;
-using Chirp.Web.Pages.Models;
+﻿using Chirp.Infrastructure.Cheeps;
 using Chirp.Web.Pages.Actions;
+using Chirp.Web.Pages.Models;
+
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Chirp.Web.Pages;
 
@@ -14,7 +15,7 @@ public class PublicModel : PageModel
 
     [BindProperty]
     public SendCheepModel.InputModel SendCheepInput { get; set; } = new();
-    
+
     public int CurrentPage { get; set; }
 
     public PublicModel(ICheepService cheepService)
