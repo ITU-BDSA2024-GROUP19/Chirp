@@ -7,7 +7,7 @@ using System.Text.Json;
 using Chirp.Core;
 using Chirp.Infrastructure.Authors;
 using Chirp.Infrastructure.Cheeps;
-using Chirp.Web.Pages.Models;
+using Chirp.Web.Pages.Shared.Models;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
