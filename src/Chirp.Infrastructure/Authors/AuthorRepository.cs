@@ -20,8 +20,8 @@ public interface IAuthorRepository
     Task UpdateProfilePicture(string username, Stream profilePicture);
     Task<string> GetProfilePicture(string username);
     Task DeleteProfilePicture(string username);
-    
-    
+
+
 }
 
 public class AuthorRepository : IAuthorRepository
@@ -31,7 +31,7 @@ public class AuthorRepository : IAuthorRepository
     private readonly ChirpDBContext _dbContext;
     private readonly BlobContainerClient? _blobContainerClient;
 
-    public AuthorRepository (UserManager<Author> userManager, IUserStore<Author> userStore, ChirpDBContext dbContext, IOptionalBlobServiceClient optionalBlobServiceClient)
+    public AuthorRepository(UserManager<Author> userManager, IUserStore<Author> userStore, ChirpDBContext dbContext, IOptionalBlobServiceClient optionalBlobServiceClient)
     {
         _userManager = userManager;
         _userStore = userStore;
@@ -42,15 +42,16 @@ public class AuthorRepository : IAuthorRepository
             _blobContainerClient.CreateIfNotExists();
         }
     }
-    
+
     public Task<IdentityResult> AddAuthorAsync(Author user, string? password = null)
     {
-        if (password == null) {
+        if (password == null)
+        {
             return _userManager.CreateAsync(user);
         }
         return _userManager.CreateAsync(user, password);
     }
-    
+
     private IUserEmailStore<Author> GetEmailStore()
     {
         if (!_userManager.SupportsUserEmail)
@@ -59,7 +60,7 @@ public class AuthorRepository : IAuthorRepository
         }
         return (IUserEmailStore<Author>)_userStore;
     }
-    
+
     public async Task FollowAuthor(string followerName, string authorName)
     {
         var follower = await _dbContext.Authors
@@ -74,7 +75,7 @@ public class AuthorRepository : IAuthorRepository
         {
             throw new ArgumentException("User or author does not exist.");
         }
-        
+
         follower.Following.Add(author);
 
         await _dbContext.SaveChangesAsync();
@@ -93,7 +94,7 @@ public class AuthorRepository : IAuthorRepository
         {
             throw new ArgumentException("User or author does not exist");
         }
-        
+
         follower.Following.Remove(author);
 
         await _dbContext.SaveChangesAsync();
@@ -117,29 +118,29 @@ public class AuthorRepository : IAuthorRepository
     {
         return await _dbContext.Authors.Where(author => author.Email == email).ToListAsync();
     }
-    
+
     public async Task UpdateProfilePicture(string username, Stream profilePicture)
     {
         if (_blobContainerClient == null)
         {
             throw new InvalidOperationException("Azure Blob Service is unavailable");
         }
-        
+
         var author = await _dbContext.Authors
             .FirstOrDefaultAsync(a => a.UserName == username);
         if (author == null)
         {
             throw new ArgumentException("User does not exist.");
         }
-        
+
         BlobClient blobClient = _blobContainerClient.GetBlobClient(username);
         blobClient.Upload(profilePicture, true);
-        
-        var url =  blobClient.Uri.ToString();
+
+        var url = blobClient.Uri.ToString();
         author.ProfilePicture = url;
         await _dbContext.SaveChangesAsync();
     }
-    
+
     public async Task<string> GetProfilePicture(string username)
     {
         if (_blobContainerClient == null)
@@ -163,15 +164,15 @@ public class AuthorRepository : IAuthorRepository
                 Resource = "b",
                 ExpiresOn = DateTimeOffset.UtcNow.AddMinutes(5)
             };
-                    
+
             sasBuilder.SetPermissions(BlobSasPermissions.Read);
-                    
+
             var sasUri = blobClient.GenerateSasUri(sasBuilder);
             return sasUri.ToString();
         }
         return imageUrl;
     }
-    
+
     public async Task DeleteProfilePicture(string username)
     {
         if (_blobContainerClient == null)
@@ -184,11 +185,11 @@ public class AuthorRepository : IAuthorRepository
         {
             throw new ArgumentException("User does not exist.");
         }
-        
+
         BlobClient blobClient = _blobContainerClient.GetBlobClient(username);
-        
+
         author.ProfilePicture = "default";
-        
-        await Task.WhenAll(blobClient.DeleteIfExistsAsync(),_dbContext.SaveChangesAsync());
+
+        await Task.WhenAll(blobClient.DeleteIfExistsAsync(), _dbContext.SaveChangesAsync());
     }
 }

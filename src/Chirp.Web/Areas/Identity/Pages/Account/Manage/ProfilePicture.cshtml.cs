@@ -1,8 +1,7 @@
 ﻿using Chirp.Core;
-using Chirp.Infrastructure.Cheeps;
 using Chirp.Infrastructure.Authors;
+using Chirp.Infrastructure.Cheeps;
 
-using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -60,7 +59,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
                     "Please select a file.");
                 return RedirectToPage();
             }
-            
+
             if (ProfilePicture.Length > 0)
             {
                 var allowedExtensions = new[] { ".jpg", ".jpeg", ".png" };
@@ -79,7 +78,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
                         "The file size must be less than 2 MB.");
                     return Page();
                 }
-                
+
                 _authorService.UpdateProfilePicture(user.UserName!, ProfilePicture.OpenReadStream());
             }
 
@@ -94,10 +93,10 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
                 return NotFound("User not found.");
             }
             _authorService.DeleteProfilePicture(user.UserName!);
-            
+
             return RedirectToPage();
         }
     }
-    
-    
+
+
 }
