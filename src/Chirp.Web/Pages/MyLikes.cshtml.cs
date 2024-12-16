@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Chirp.Infrastructure.Cheeps;
-using Chirp.Web.Pages.Models;
+using Chirp.Web.Pages.Shared.Models;
 using Chirp.Web.Pages.Actions;
 
 namespace Chirp.Web.Pages;

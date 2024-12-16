@@ -1,4 +1,4 @@
-namespace Chirp.Web.Pages.Models;
+namespace Chirp.Web.Pages.Shared.Models;
 
 public record CheepViewModel(
     int Id,
