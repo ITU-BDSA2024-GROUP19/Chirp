@@ -20,8 +20,6 @@ public interface IAuthorRepository
     Task UpdateProfilePicture(string username, Stream profilePicture);
     Task<string> GetProfilePicture(string username);
     Task DeleteProfilePicture(string username);
-
-
 }
 
 public class AuthorRepository : IAuthorRepository
