@@ -7,6 +7,8 @@
     {
         <nav>
         <a href="/">Public Timeline</a> | 
+        <a href="/User/@User.Identity?.Name">My Timeline</a> | 
+        <a href="/MyLikes">My Likes</a> |
         <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">About Me</a> | <!--- Hello @User.Identity?.Name! -->
         <a asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">Logout</a>
         </nav>

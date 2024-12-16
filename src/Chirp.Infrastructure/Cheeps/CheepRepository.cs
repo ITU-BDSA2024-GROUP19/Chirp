@@ -26,6 +26,7 @@ public interface ICheepRepository
     Task UpdateCheep(Cheep cheep);
     Task<List<CheepDto>> GetCheepDTO(int page, string userName);
     Task<List<CheepDto>> GetCheepDTOFromAuthor(int page, string authorName, string userName);
+    Task<List<CheepDto>> GetCheepDTOFromAuthorLikes(int page, string userName);
     Task<List<CheepDto>> GetCheepDTOFromMe(int page, string userName);
     Task<Author> GetAuthorByName(string name);
     Task<Author> GetAuthorByEmail(string email);
@@ -115,6 +116,34 @@ public class CheepRepository : ICheepRepository
         var user = await _dbContext.Authors.FirstOrDefaultAsync(a => a.UserName == userName);
         var query = await (from cheep in _dbContext.Cheeps
                 where cheep.Author.UserName == authorName
+                orderby cheep.TimeStamp descending
+                select new CheepDto(
+                    cheep.CheepId,
+                    cheep.Author.UserName ?? "", 
+                    cheep.Text, 
+                    (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds, 
+                    user != null && cheep.Author.Followers.Contains(user),
+                    cheep.Likes.Count,
+                    user != null && cheep.Likes.Contains(user),
+                    cheep.Author.ProfilePicture
+                    ))
+            .Skip((page - 1) * CHEEPS_PER_PAGE)
+            .Take(CHEEPS_PER_PAGE)
+            .ToListAsync();
+        var result = query.Select(cheep => cheep with
+        {
+            AuthorProfilePicture = GetBlobSasUri(cheep.AuthorProfilePicture, cheep.Author)
+        });
+        return result.ToList();
+    }
+
+    public async Task<List<CheepDto>> GetCheepDTOFromAuthorLikes(int page, string userName)
+    {
+        var user = await _dbContext.Authors
+            .Include(a => a.Likes)
+            .FirstOrDefaultAsync(a => a.UserName == userName);
+        var query = await (from cheep in _dbContext.Cheeps
+                where user!.Likes.Contains(cheep)
                 orderby cheep.TimeStamp descending
                 select new CheepDto(
                     cheep.CheepId,
