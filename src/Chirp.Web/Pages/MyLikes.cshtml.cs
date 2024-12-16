@@ -41,7 +41,6 @@ public class MyLikesModel : PageModel
                 cheep.IsLikedByUser,
                 cheep.AuthorProfilePicture
             ));
-        Console.WriteLine(Cheeps.Count);
     }
 
 
