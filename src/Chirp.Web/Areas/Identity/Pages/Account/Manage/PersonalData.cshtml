@@ -10,34 +10,55 @@
 <div class="row">
     <div class="col-md-6">
         <p>Your account contains personal data that you have given us. This page allows you to download or delete that data.</p>
-        <p>Your personal data:</p>
-        <ul>
-            @foreach (var data in Model.PersonalData)
-            {
-                <li><strong>@data.Key:</strong> @data.Value</li>
+        
+        <button class="btn btn-primary" onclick="
+            const personalData = document.getElementById('personal-information');
+            if (personalData.style.display === 'none') {
+                personalData.style.display = 'block';
             }
-        </ul>
+            else {
+                personalData.style.display = 'none';
+            }
+            if (personalData.style.display === 'none') {
+                this.textContent = 'Show your personal data';
+            }
+            else {
+                this.textContent = 'Hide your personal data';
+            }
+            ">
+            Show your personal data
+        </button>
 
-        <div style="margin-bottom: 20px">
+        @{
+        var display = Model.CurrentPage > 1 ? "block" : "none";
+        }
+        
+        <div id="personal-information" style="display: @display; margin-bottom: 10px">
+            <ul>
+                @foreach (var data in Model.PersonalData)
+                {
+                    <li><strong>@data.Key:</strong> @data.Value</li>
+                }
+            </ul>
             @if (Model.TotalPages > 1)
             {
-                @if (Model.CurrentPage > 2)
-                {
-                    <a asp-page="PersonalData" asp-route-pageid="@(1)">First</a><text> - </text>
-                }
-                @if (Model.CurrentPage > 1)
-                {
-                    <a asp-page="PersonalData" asp-route-pageid="@(Model.CurrentPage - 1)">Previous</a><text> - </text>
-                }
-                <text>Page @Model.CurrentPage of @Model.TotalPages</text>
-                @if (Model.CurrentPage < Model.TotalPages)
-                {
-                    <text> - </text><a asp-page="PersonalData" asp-route-pageid="@(Model.CurrentPage + 1)">Next</a>
-                }
-                @if (Model.CurrentPage < Model.TotalPages - 1)
-                {
-                    <text> - </text><a asp-page="PersonalData" asp-route-pageid="@(Model.TotalPages)">Last</a>
-                }
+            @if (Model.CurrentPage > 2)
+            {
+            <a asp-page="PersonalData" asp-route-pageid="@(1)">First</a><text> - </text>
+            }
+            @if (Model.CurrentPage > 1)
+            {
+            <a asp-page="PersonalData" asp-route-pageid="@(Model.CurrentPage - 1)">Previous</a><text> - </text>
+            }
+            <text>Page @Model.CurrentPage of @Model.TotalPages</text>
+            @if (Model.CurrentPage < Model.TotalPages)
+            {
+            <text> - </text><a asp-page="PersonalData" asp-route-pageid="@(Model.CurrentPage + 1)">Next</a>
+            }
+            @if (Model.CurrentPage < Model.TotalPages - 1)
+            {
+            <text> - </text><a asp-page="PersonalData" asp-route-pageid="@(Model.TotalPages)">Last</a>
+            }
             }
         </div>
         
@@ -50,9 +71,6 @@
         <form method="get" asp-page="DeletePersonalData" class="w-100">
             <button type="submit" class="w-100 btn btn-lg btn-danger-custom">Delete</button>
         </form>
-        
-        
-        
     </div>
 </div>
 
