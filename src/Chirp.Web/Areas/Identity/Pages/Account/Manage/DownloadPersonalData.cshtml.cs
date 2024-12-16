@@ -2,22 +2,16 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 using Chirp.Core;
-using Chirp.Infrastructure.Cheeps;
 using Chirp.Infrastructure.Authors;
+using Chirp.Infrastructure.Cheeps;
+using Chirp.Web.Pages.Models;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
-using Chirp.Web.Pages.Models;
 
 namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
 {
@@ -72,7 +66,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
             }
 
             personalData.Add($"Authenticator Key", await _userManager.GetAuthenticatorKeyAsync(user));
-            
+
             var cheeps = _cheepService.GetAllCheepsFromAuthor(user.UserName, user.UserName);
             var cheepsList = new List<Dictionary<string, string>>();
             for (int i = 0; i < cheeps.Count; i++)
@@ -80,12 +74,12 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
                 cheepsList.Add(new Dictionary<string, string>
                 {
                     { "Message", cheeps[i].Message },
-                    { "TimeStamp", CheepModel.TimestampToCEST(cheeps[i].Timestamp) },
+                    { "TimeStamp", CheepViewModel.TimestampToCEST(cheeps[i].Timestamp) },
                     { "Author", cheeps[i].Author.ToString() }
                 });
             }
             personalData.Add("Cheeps", cheepsList);
-            
+
             var follows = _authorService.GetAllFollowingFromAuthor(user.UserName!);
             var followList = new List<Dictionary<string, string>>();
             for (int i = 0; i < follows.Count; i++)
@@ -98,7 +92,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
             personalData.Add("Follows", followList);
 
             Response.Headers.TryAdd("Content-Disposition", "attachment; filename=PersonalData.json");
-            
+
             var personalDataJson = JsonSerializer.SerializeToUtf8Bytes(personalData);
             return new FileContentResult(personalDataJson, "application/json");
         }

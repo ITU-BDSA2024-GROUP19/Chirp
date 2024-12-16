@@ -1,5 +1,6 @@
-using Microsoft.Playwright;
 using System.Diagnostics;
+
+using Microsoft.Playwright;
 
 namespace Chirp.Web.Test;
 
@@ -31,7 +32,7 @@ public class Playwright_safetyTests : PageTest
         _serverProcess.Dispose();
         Thread.Sleep(500);
     }
-    
+
     [Test]
     public async Task HelgeLogsIn_AttemptsXSSAttack()
     {

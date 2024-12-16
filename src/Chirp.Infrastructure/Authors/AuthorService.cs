@@ -17,6 +17,9 @@ public interface IAuthorService
     List<Author> GetAllFollowingFromAuthor(string authorName);
     Author? GetAuthorByUsername(string username);
     public ICollection<Author> GetAuthorByEmail(string email);
+    void UpdateProfilePicture(string username, Stream profilePicture);
+    string GetProfilePicture(string username);
+    void DeleteProfilePicture(string username);
 }
 
 public class AuthorService : IAuthorService
@@ -26,7 +29,7 @@ public class AuthorService : IAuthorService
     private readonly IUserStore<Author> _userStore;
     private readonly IUserEmailStore<Author> _emailStore;
 
-    public AuthorService (
+    public AuthorService(
         IAuthorRepository repository,
         UserManager<Author> userManager,
         IUserStore<Author> userStore)
@@ -38,7 +41,7 @@ public class AuthorService : IAuthorService
     }
 
     public record AddAuthorResult(Author User, IdentityResult IdentityResult);
-    
+
     public async Task<AddAuthorResult> AddAuthor(string userName, string email, string? password = null)
     {
         Author user = CreateUser();
@@ -47,7 +50,7 @@ public class AuthorService : IAuthorService
         var result = await _repository.AddAuthorAsync(user, password);
         return new AddAuthorResult(user, result);
     }
-    
+
     private Author CreateUser()
     {
         try
@@ -56,12 +59,12 @@ public class AuthorService : IAuthorService
         }
         catch
         {
-            throw new InvalidOperationException($"Can't create an instance of '{nameof(Author)}'. " + 
+            throw new InvalidOperationException($"Can't create an instance of '{nameof(Author)}'. " +
                                                 $"Ensure that '{nameof(Author)}' is not an abstract class and has a parameterless constructor, or alternatively " +
                                                 $"override the external login page in /Areas/Identity/Pages/Account/ExternalLogin.cshtml");
         }
     }
-    
+
     private IUserEmailStore<Author> GetEmailStore()
     {
         if (!_userManager.SupportsUserEmail)
@@ -70,7 +73,7 @@ public class AuthorService : IAuthorService
         }
         return (IUserEmailStore<Author>)_userStore;
     }
-    
+
     public void FollowAuthor(string followerName, string authorName)
     {
         _repository.FollowAuthor(followerName, authorName);
@@ -93,5 +96,19 @@ public class AuthorService : IAuthorService
     public ICollection<Author> GetAuthorByEmail(string email)
     {
         return _repository.GetAuthorByEmailAsync(email).Result;
+    }
+    public void UpdateProfilePicture(string username, Stream profilePicture)
+    {
+        _repository.UpdateProfilePicture(username, profilePicture);
+    }
+
+    public string GetProfilePicture(string username)
+    {
+        return _repository.GetProfilePicture(username).Result;
+    }
+
+    public void DeleteProfilePicture(string username)
+    {
+        _repository.DeleteProfilePicture(username);
     }
 }

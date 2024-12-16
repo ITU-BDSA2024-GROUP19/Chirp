@@ -2,27 +2,32 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using Chirp.Core;
-using System;
 using System.ComponentModel.DataAnnotations;
+using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Text.Json;
+
+using Chirp.Core;
+using Chirp.Infrastructure.Authors;
+
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Logging;
-using Chirp.Infrastructure.Cheeps;
-using Chirp.Infrastructure.Authors;
 
 namespace Chirp.Web.Areas.Identity.Pages.Account
 {
+    public class GitHubEmail
+    {
+        public string Email { get; set; }
+        public bool Primary { get; set; }
+        public bool Verified { get; set; }
+        public string Visibility { get; set; }
+    }
     [AllowAnonymous]
     public class ExternalLoginModel : PageModel
     {
@@ -33,6 +38,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<Author> _emailStore;
         private readonly IEmailSender _emailSender;
         private readonly ILogger<ExternalLoginModel> _logger;
+        private readonly IWebHostEnvironment _environment;
 
         public ExternalLoginModel(
             IAuthorService chirpAccountService,
@@ -40,7 +46,8 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
             UserManager<Author> userManager,
             IUserStore<Author> userStore,
             ILogger<ExternalLoginModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IWebHostEnvironment environment)
         {
             _chirpAccountService = chirpAccountService;
             _signInManager = signInManager;
@@ -49,6 +56,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
             _emailStore = GetEmailStore();
             _logger = logger;
             _emailSender = emailSender;
+            _environment = environment;
         }
 
         /// <summary>
@@ -77,6 +85,8 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
         [TempData]
         public string ErrorMessage { get; set; }
 
+        public string ProfilePictureUrl { get; set; }
+
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
@@ -96,8 +106,10 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
+
+            public IFormFile ProfilePicture { get; set; }
         }
-        
+
         public IActionResult OnGet() => RedirectToPage("./Login");
 
         public IActionResult OnPost(string provider, string returnUrl = null)
@@ -127,7 +139,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
             if (result.Succeeded)
             {
-                _logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info.Principal.Identity.Name, info.LoginProvider);
+                _logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info!.Principal!.Identity!.Name, info.LoginProvider);
                 return LocalRedirect(returnUrl);
             }
             if (result.IsLockedOut)
@@ -139,13 +151,30 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
                 // If the user does not have an account, then ask the user to create an account.
                 ReturnUrl = returnUrl;
                 ProviderDisplayName = info.ProviderDisplayName;
-                if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
+                var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+                ProfilePictureUrl = info.Principal.FindFirstValue("urn:github:avatar");
+                var accessToken = info.AuthenticationTokens!.FirstOrDefault(t => t.Name == "access_token")?.Value;
+                if (!string.IsNullOrEmpty(accessToken))
                 {
-                    Input = new InputModel
+                    using var client = new HttpClient();
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                    var response = await client.GetAsync("https://api.github.com/user/emails");
+                    if (response.IsSuccessStatusCode)
                     {
-                        Email = info.Principal.FindFirstValue(ClaimTypes.Email)
-                    };
+                        var input = await response.Content.ReadAsStringAsync();
+                        var emails = JsonSerializer.Deserialize<GitHubEmail[]>(input);
+                        var primaryEmail = emails.FirstOrDefault(e => e.Primary)?.Email;
+                        if (!string.IsNullOrEmpty(primaryEmail))
+                        {
+                            email = primaryEmail;
+                        }
+                    }
                 }
+                Input = new InputModel
+                {
+                    Email = email ?? string.Empty,
+                    UserName = info.Principal.FindFirstValue(ClaimTypes.Name) ?? string.Empty
+                };
                 return Page();
             }
         }
@@ -172,7 +201,26 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
                     result = await _userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
-                        _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
+                        ProfilePictureUrl = info.Principal.FindFirstValue("urn:github:avatar");
+
+                        var httpClient = new HttpClient();
+                        try
+                        {
+                            var response = await httpClient.GetAsync(ProfilePictureUrl);
+                            if (response.IsSuccessStatusCode)
+                            {
+                                var stream = await response.Content.ReadAsStreamAsync();
+                                _chirpAccountService.UpdateProfilePicture(user.UserName!, stream);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
+                            throw;
+                        }
+
+                        _logger.LogInformation("User created an account using {Name} provider.",
+                            info.LoginProvider);
                         await SendConfirmationEmail(user);
 
                         // If account confirmation is required, we need to show the link if we don't have a real email sender
@@ -185,7 +233,6 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
                             await _signInManager.SignInAsync(user, isPersistent: false, info.LoginProvider);
                             return LocalRedirect(returnUrl);
                         }
-
                     }
                 }
                 foreach (var error in result.Errors)
@@ -193,7 +240,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
-            
+
             ProviderDisplayName = info.ProviderDisplayName;
             ReturnUrl = returnUrl;
             return Page();

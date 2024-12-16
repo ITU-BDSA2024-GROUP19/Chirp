@@ -10,6 +10,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    # Ensures we have the secret for access to Azure Storage.
+    # https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsenv
+    env:
+      azure__storage__connection__string: ${{ secrets.AZURE__STORAGE__CONNECTION__STRING }}
+
     steps:
     - uses: actions/checkout@v3
     - name: Setup .NET

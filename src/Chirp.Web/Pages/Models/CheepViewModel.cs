@@ -1,6 +1,14 @@
 namespace Chirp.Web.Pages.Models;
 
-public record CheepModel(string Author, string Message, string TimeStamp, bool IsFollowed) 
+public record CheepViewModel(
+    int Id,
+    string Author,
+    string Message,
+    string TimeStamp,
+    bool IsFollowed,
+    int LikeCount,
+    bool IsLikedByUser,
+    string AuthorProfilePicture)
 {
     public static string TimestampToCEST(long timestamp)
     {

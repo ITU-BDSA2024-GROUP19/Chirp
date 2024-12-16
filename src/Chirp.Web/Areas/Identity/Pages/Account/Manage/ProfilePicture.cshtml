@@ -1,0 +1,45 @@
+﻿@page
+@model ProfilePictureModel
+@{
+    ViewData["Title"] = "Picture";
+    ViewData["ActivePage"] = ManageNavPages.ChangeProfilePictureClass(ViewContext);
+}
+
+<h3>@ViewData["Title"]</h3>
+
+<div class="row">
+    <div class="col-md-6">
+        @if (Model.ProfilePictureUrl != "default.jpg")
+        {
+            <div>
+                <img src="@Model.ProfilePictureUrl" alt="Profile Picture" style="max-width: 200px; max-height: 200px;" />
+            </div>
+            <form method="post" enctype="multipart/form-data" asp-page-handler="Upload">
+                <div class="form-group">
+                    <label for="profilePicture">Change Profile Picture</label>
+                    <input type="file" class="form-control" id="profilePicture" name="profilePicture"/>
+                </div>
+                <button type="submit" class="btn btn-primary">Upload</button>
+            </form>
+            <form method="post" asp-page-handler="Delete">
+                <button type="submit" class="btn btn-danger">Delete Profile Picture</button>
+            </form>
+        }
+        else
+        {
+            <p>No profile picture uploaded.</p>
+            <form method="post" enctype="multipart/form-data" asp-page-handler="Upload">
+                <div class="form-group">
+                    <label for="profilePicture">Upload Profile Picture</label>
+                    <input type="file" class="form-control" id="profilePicture" name="profilePicture"/>
+                </div>
+                <button type="submit" class="btn btn-primary">Upload</button>
+            </form>
+        }
+        
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
