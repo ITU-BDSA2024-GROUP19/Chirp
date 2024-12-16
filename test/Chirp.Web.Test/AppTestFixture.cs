@@ -25,7 +25,7 @@ public class AppTestFixture : IDisposable
     {
         var builder = WebApplication.CreateBuilder();
 
-        var startup = new Startup(builder.Configuration, _dbConn);
+        var startup = new Startup(builder.Configuration, builder.Environment);
 
         startup.ConfigureServices(builder.Services);
 

@@ -4,19 +4,17 @@ using InvalidOperationException = System.InvalidOperationException;
 
 namespace Chirp.Web;
 
+/// <summary>
+/// Chrip web application entry-point code.
+/// Explained in Lock chapter 3.6
+/// </summary>
 public class Program
 {
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        string dbPath = builder.Configuration["CHIRPDBPATH"] ?? throw new InvalidOperationException("You must specify a environment variable CHIRPDBPATH, use eg. $env:CHIRPDBPATH=C:/Temp/db.db");
-        string connectionString = "Data Source=" + dbPath;
-
-        using var dbConn = new SqliteConnection(connectionString);
-        dbConn.Open();
-
-        var startup = new Startup(builder.Configuration, dbConn);
+        var startup = new Startup(builder.Configuration, builder.Environment);
 
         startup.ConfigureServices(builder.Services);
 
