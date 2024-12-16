@@ -8,56 +8,63 @@ Information on obtaining context information in partial:
 https://stackoverflow.com/questions/32127261/asp-net-viewstart-cshtml-getting-the-request
 *@
 
-<li class="grid-container">
-    
+<li>
+    <div style="float:left;display:table-cell;">
         <img src="@Model.AuthorProfilePicture"
-                 alt="@Model.Author's profile picture"
-                 class="profile-pic"
-                 style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;" />
-    <div>
-        <strong><a href="/User/@Model.Author">@Model.Author</a></strong>
-        <small>&mdash; @Model.TimeStamp</small>
-    
-    <p>
-        @Model.Message
-    </p>
-    <div class="grid-item">
-            @if (SignInManager.IsSignedIn(User))
-            {
-                @if (Model.IsFollowed && Model.Author != User.Identity?.Name)
-                {
-                    <form method="post" autocomplete="off" class="item1">
-                        <input type="hidden" name="authorName" value="@Model.Author" />
-                        <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
-                        <button class="btn-cheep" type="submit" asp-page="/Actions/AuthorFollows" asp-page-handler="Unfollow">Unfollow</button>
-                    </form>
-                }
-                else if (!Model.IsFollowed && Model.Author != User.Identity?.Name)
-                {
-                    <form method="post" autocomplete="off" class="item1">
-                        <input type="hidden" name="authorName" value="@Model.Author" />
-                        <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
-                        <button class="btn-cheep" type="submit" asp-page="/Actions/AuthorFollows" asp-page-handler="Follow">Follow</button>
-                    </form>
-                }
-
-                @if (Model.IsLikedByUser)
-                {
-                    <form method="post" autocomplete="off" class="item2">
-                    <input type="hidden" name="cheepId" value="@Model.Id"/>
-                    <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
-                    <button class="btn btn-cheep" type="submit" asp-page="/Actions/AuthorLikes" asp-page-handler="RemoveLike">Remove Like</button>
-                    </form>
-                }
-                else
-                {
-                    <form method="post" autocomplete="off" class="item2">
-                    <input type="hidden" name="cheepId" value="@Model.Id"/>
-                    <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
-                    <button class="btn btn-cheep" type="submit" asp-page="/Actions/AuthorLikes" asp-page-handler="Like">Like</button>
-                    </form>
-                }
-            }
+             alt="@Model.Author's profile picture"
+             class="profile-pic"
+             style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;" />
     </div>
+    <div style="display:table-cell;">
+        <p>
+            <strong><a href="/User/@Model.Author">@Model.Author</a></strong>
+            <small>&mdash; @Model.TimeStamp</small>
+        </p>
+        <p>
+            @Model.Message
+        </p>
+        @if (SignInManager.IsSignedIn(User))
+        {
+            @if (Model.IsFollowed && Model.Author != User.Identity?.Name)
+            {
+                <form method="post" autocomplete="off">
+                    <input type="hidden" name="authorName" value="@Model.Author" />
+                    <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
+                    <button  type="submit" asp-page="/Actions/AuthorFollows" asp-page-handler="Unfollow">Unfollow</button>
+                </form>
+            }
+            else if (!Model.IsFollowed && Model.Author != User.Identity?.Name)
+            {
+                <form method="post" autocomplete="off">
+                    <input type="hidden" name="authorName" value="@Model.Author" />
+                    <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
+                    <button type="submit" asp-page="/Actions/AuthorFollows" asp-page-handler="Follow">Follow</button>
+                </form>
+            }
+            @if (Model.IsLikedByUser)
+            {
+                <form method="post" autocomplete="off">
+                    <input type="hidden" name="cheepId" value="@Model.Id"/>
+                    <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
+                    <button type="submit" asp-page="/Actions/AuthorLikes" asp-page-handler="RemoveLike">Unlike</button>
+                </form>
+            }
+            else
+            {
+                <form method="post" autocomplete="off">
+                    <input type="hidden" name="cheepId" value="@Model.Id"/>
+                    <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
+                    <button type="submit" asp-page="/Actions/AuthorLikes" asp-page-handler="Like">Like</button>
+                </form>
+            } 
+        }
+        @if (@Model.LikeCount == 1)
+        {
+            <small>1 like</small>
+        }
+        else 
+        {
+            <small>@Model.LikeCount likes</small>
+        }
     </div>
 </li>
