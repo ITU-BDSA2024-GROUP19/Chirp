@@ -143,6 +143,10 @@ public class Startup(IConfiguration configuration, IHostEnvironment environment)
             app.UseExceptionHandler("/Error");
             app.UseHsts();  // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
         }
+        else
+        {
+            app.UseDeveloperExceptionPage();
+        }
 
         using (var scope = app.Services.CreateScope())
         {
@@ -158,8 +162,6 @@ public class Startup(IConfiguration configuration, IHostEnvironment environment)
                 await initializer.SeedDatabase();
             }
         }
-
-        app.UseDeveloperExceptionPage();
 
         app.UseHttpsRedirection();
 
