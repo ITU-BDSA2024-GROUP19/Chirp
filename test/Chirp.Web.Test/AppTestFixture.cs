@@ -1,24 +1,26 @@
-using Microsoft.Data.Sqlite;
 using Microsoft.AspNetCore.Builder;
 
 namespace Chirp.Web.Test;
 
 public class AppTestFixture : IDisposable
 {
-    private readonly SqliteConnection _dbConn;
-    public WebApplication App {get;}
+    public WebApplication App { get; }
 
     public AppTestFixture() 
     {
-        _dbConn = new SqliteConnection("Data Source=:memory:");
-        _dbConn.Open();
+        Environment.SetEnvironmentVariable("CHIRPDBPATH", ":memory:");
         App = PrepareTestApplication();
     }
 
     public void Dispose()
     {
-        _dbConn.Dispose();
-        App.DisposeAsync();
+        DisposeAsync().Wait();
+        GC.SuppressFinalize(this);
+    }
+
+    public async Task DisposeAsync()
+    {
+        await App.DisposeAsync();
     }
 
     private WebApplication PrepareTestApplication() 
