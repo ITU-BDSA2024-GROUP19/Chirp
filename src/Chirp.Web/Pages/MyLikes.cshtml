@@ -1,0 +1,65 @@
+﻿@page "/MyLikes"
+@model Chirp.Web.Pages.MyLikesModel
+@inject SignInManager<Author> SignInManager
+@inject UserManager<Author> UserManager
+
+@{
+    ViewData["Title"] = "Chirp!";
+    Layout = "Shared/_Layout";
+    var routeName = HttpContext.GetRouteValue("author");
+}
+
+<div>
+    <h2> My Liked Cheeps</h2>
+
+    @if (User.Identity!.Name == (string)routeName!)
+    {
+         <partial name="_SendCheepForm" model="Model.SendCheepInput" />
+    }
+
+    @if (Model.Cheeps.Any())
+    {
+        <ul id="messagelist" class="cheeps">
+            @foreach (var cheep in Model.Cheeps)
+            {
+                <li>
+                    <p>
+                        <strong>
+                            <img src="@cheep.AuthorProfilePicture"
+                                alt="@cheep.Author's profile picture"
+                                class="profile-pic"
+                                style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;" />
+                            <a href="/User/@cheep.Author">@cheep.Author</a>
+                        </strong>
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            @if (cheep.IsLikedByUser)
+                            {
+                                <form method="post" autocomplete="off">
+                                <input type="hidden" name="cheepId" value="@cheep.Id"/>
+                                <input type="hidden" name="returnUrl" value="@Request.Path" />
+                                <button class="btn btn-primary" type="submit" asp-page="/Actions/AuthorLikes" asp-page-handler="RemoveLike">Remove Like</button>
+                                </form>
+                            }
+                        }
+                        @cheep.Message
+                        <small>&mdash; @cheep.TimeStamp</small>
+                    </p>
+                </li>
+            }
+            <div style="margin: auto; width: 50%; text-align: center;">
+                Showing @Model.Cheeps.Count messages <br>
+                @if (Model.CurrentPage > 1)
+                {
+                <a href="/@routeName?page=@(Model.CurrentPage - 1)">prev. page</a>
+                <span>-</span>
+                }
+                <a href="/@routeName?page=@(Model.CurrentPage + 1)">next page</a>
+            </div>
+        </ul>
+    }
+    else
+    {
+        <em>There are no cheeps so far.</em>
+    }
+</div>
