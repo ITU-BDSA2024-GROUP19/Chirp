@@ -72,4 +72,9 @@ public class CheepRepositoryStub : ICheepRepository
     {
         throw new NotImplementedException();
     }
+
+    public Task<List<CheepDto>> GetCheepDTOFromAuthorLikes(int page, string userName)
+    {
+        throw new NotImplementedException();
+    }
 }
