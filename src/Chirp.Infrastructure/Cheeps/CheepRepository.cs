@@ -1,22 +1,21 @@
-using Microsoft.EntityFrameworkCore;
-using Chirp.Core;
 using System.ComponentModel.DataAnnotations;
 
 using Azure.Storage.Blobs;
 using Azure.Storage.Sas;
 
+using Chirp.Core;
 using Chirp.Infrastructure.External;
 
-using Microsoft.VisualBasic;
+using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Infrastructure.Cheeps;
 
 public record CheepDto(
     int Id,
-    string Author, 
-    string Message, 
-    long Timestamp, 
-    bool IsFollowed, 
+    string Author,
+    string Message,
+    long Timestamp,
+    bool IsFollowed,
     int LikeCount,
     bool IsLikedByUser,
     string AuthorProfilePicture
@@ -53,7 +52,7 @@ public class CheepRepository : ICheepRepository
         {
             throw new ValidationException("Cheep content must be less than 160 characters!");
         }
-        else 
+        else
         {
             _dbContext.Add(cheep);
             await _dbContext.SaveChangesAsync();
@@ -78,17 +77,17 @@ public class CheepRepository : ICheepRepository
     {
         var user = await _dbContext.Authors.FirstOrDefaultAsync(a => a.UserName == userName);
         var query = await (from cheep in _dbContext.Cheeps
-                orderby cheep.TimeStamp descending
-                select new CheepDto(
-                    cheep.CheepId,
-                    cheep.Author.UserName ?? "", 
-                    cheep.Text, 
-                    (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds, 
-                    user != null && cheep.Author.Followers.Contains(user),
-                    cheep.Likes.Count,
-                    user != null && cheep.Likes.Contains(user),
-                    cheep.Author.ProfilePicture
-                ))
+                           orderby cheep.TimeStamp descending
+                           select new CheepDto(
+                               cheep.CheepId,
+                               cheep.Author.UserName ?? "",
+                               cheep.Text,
+                               (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds,
+                               user != null && cheep.Author.Followers.Contains(user),
+                               cheep.Likes.Count,
+                               user != null && cheep.Likes.Contains(user),
+                               cheep.Author.ProfilePicture
+                           ))
             .Skip((page - 1) * CHEEPS_PER_PAGE)
             .Take(CHEEPS_PER_PAGE)
             .ToListAsync();
@@ -98,23 +97,23 @@ public class CheepRepository : ICheepRepository
         });
         return result.ToList();
     }
-    
+
     public async Task<List<CheepDto>> GetCheepDTOFromAuthor(int page, string authorName, string userName)
     {
         var user = await _dbContext.Authors.FirstOrDefaultAsync(a => a.UserName == userName);
         var query = await (from cheep in _dbContext.Cheeps
-                where cheep.Author.UserName == authorName
-                orderby cheep.TimeStamp descending
-                select new CheepDto(
-                    cheep.CheepId,
-                    cheep.Author.UserName ?? "", 
-                    cheep.Text, 
-                    (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds, 
-                    user != null && cheep.Author.Followers.Contains(user),
-                    cheep.Likes.Count,
-                    user != null && cheep.Likes.Contains(user),
-                    cheep.Author.ProfilePicture
-                    ))
+                           where cheep.Author.UserName == authorName
+                           orderby cheep.TimeStamp descending
+                           select new CheepDto(
+                               cheep.CheepId,
+                               cheep.Author.UserName ?? "",
+                               cheep.Text,
+                               (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds,
+                               user != null && cheep.Author.Followers.Contains(user),
+                               cheep.Likes.Count,
+                               user != null && cheep.Likes.Contains(user),
+                               cheep.Author.ProfilePicture
+                               ))
             .Skip((page - 1) * CHEEPS_PER_PAGE)
             .Take(CHEEPS_PER_PAGE)
             .ToListAsync();
@@ -128,19 +127,19 @@ public class CheepRepository : ICheepRepository
     {
         var user = await _dbContext.Authors.FirstOrDefaultAsync(a => a.UserName == userName);
         var query = await (from cheep in _dbContext.Cheeps
-                where cheep.Author.UserName == userName || 
-                      cheep.Author.Followers.Any(f => f.UserName == userName)
-                orderby cheep.TimeStamp descending
-                select new CheepDto(
-                    cheep.CheepId,
-                    cheep.Author.UserName ?? "", 
-                    cheep.Text, 
-                    (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds, 
-                    user != null && cheep.Author.Followers.Contains(user),
-                    cheep.Likes.Count,
-                    user != null && cheep.Likes.Contains(user),
-                    cheep.Author.ProfilePicture
-                    ))
+                           where cheep.Author.UserName == userName ||
+                                 cheep.Author.Followers.Any(f => f.UserName == userName)
+                           orderby cheep.TimeStamp descending
+                           select new CheepDto(
+                               cheep.CheepId,
+                               cheep.Author.UserName ?? "",
+                               cheep.Text,
+                               (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds,
+                               user != null && cheep.Author.Followers.Contains(user),
+                               cheep.Likes.Count,
+                               user != null && cheep.Likes.Contains(user),
+                               cheep.Author.ProfilePicture
+                               ))
             .Skip((page - 1) * CHEEPS_PER_PAGE)
             .Take(CHEEPS_PER_PAGE)
             .ToListAsync();
@@ -150,24 +149,24 @@ public class CheepRepository : ICheepRepository
         });
         return result.ToList();
     }
-    
+
     // Removed cheep.Author.Followers.Any(f => f.UserName == author) from the query and the .Skip(0) and .Take(CHEEPS_PER_PAGE); as no pagination is needed is this method.
     public async Task<List<CheepDto>> GetAllCheepDTOFromAuthor(string author, string userName)
     {
         var user = await _dbContext.Authors.FirstOrDefaultAsync(a => a.UserName == userName);
         var query = await (from cheep in _dbContext.Cheeps
-            where cheep.Author.UserName == author
-            orderby cheep.TimeStamp ascending
-            select new CheepDto(
-                cheep.CheepId,
-                cheep.Author.UserName ?? "", 
-                cheep.Text, 
-                (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds, 
-                user != null && cheep.Author.Followers.Contains(user),
-                cheep.Likes.Count,
-                user != null && cheep.Likes.Contains(user),
-                cheep.Author.ProfilePicture
-            ))
+                           where cheep.Author.UserName == author
+                           orderby cheep.TimeStamp ascending
+                           select new CheepDto(
+                               cheep.CheepId,
+                               cheep.Author.UserName ?? "",
+                               cheep.Text,
+                               (long)cheep.TimeStamp.Subtract(DateTime.UnixEpoch).TotalSeconds,
+                               user != null && cheep.Author.Followers.Contains(user),
+                               cheep.Likes.Count,
+                               user != null && cheep.Likes.Contains(user),
+                               cheep.Author.ProfilePicture
+                           ))
             .ToListAsync();
         var result = query.Select(cheep => cheep with
         {
@@ -175,7 +174,7 @@ public class CheepRepository : ICheepRepository
         });
         return result.ToList();
     }
-    
+
     private string GetBlobSasUri(string imageUrl, string username)
     {
         if (imageUrl == "" || imageUrl == "default" || _blobContainerClient == null)
@@ -192,9 +191,9 @@ public class CheepRepository : ICheepRepository
                 Resource = "b",
                 ExpiresOn = DateTimeOffset.UtcNow.AddMinutes(5)
             };
-                    
+
             sasBuilder.SetPermissions(BlobSasPermissions.Read);
-                    
+
             var sasUri = blobClient.GenerateSasUri(sasBuilder);
             return sasUri.ToString();
         }

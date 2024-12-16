@@ -2,20 +2,22 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using Chirp.Core;
 using System.ComponentModel.DataAnnotations;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
+
+using Chirp.Core;
+using Chirp.Infrastructure.Authors;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using Chirp.Infrastructure.Authors;
 
 namespace Chirp.Web.Areas.Identity.Pages.Account
 {
@@ -82,7 +84,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
         /// </summary>
         [TempData]
         public string ErrorMessage { get; set; }
-        
+
         public string ProfilePictureUrl { get; set; }
 
         /// <summary>
@@ -104,10 +106,10 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
-            
+
             public IFormFile ProfilePicture { get; set; }
         }
-        
+
         public IActionResult OnGet() => RedirectToPage("./Login");
 
         public IActionResult OnPost(string provider, string returnUrl = null)
@@ -200,7 +202,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
                     if (result.Succeeded)
                     {
                         ProfilePictureUrl = info.Principal.FindFirstValue("urn:github:avatar");
-                        
+
                         var httpClient = new HttpClient();
                         try
                         {
@@ -238,7 +240,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
-            
+
             ProviderDisplayName = info.ProviderDisplayName;
             ReturnUrl = returnUrl;
             return Page();

@@ -1,8 +1,7 @@
 using System.Globalization;
+
 using Chirp.Core;
 using Chirp.Infrastructure.Authors;
-
-using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 
 
 namespace Chirp.Infrastructure.Cheeps;
@@ -22,13 +21,13 @@ public class CheepService : ICheepService
 {
     private readonly ICheepRepository _cheepRepository;
     private readonly IAuthorRepository _authorRepository;
-    
+
     public CheepService(ICheepRepository cheepRepository, IAuthorRepository authorRepository)
     {
         _cheepRepository = cheepRepository;
         _authorRepository = authorRepository;
     }
-    
+
     public List<CheepDto> GetCheeps(int page, string userName)
     {
         return _cheepRepository.GetCheepDTO(page, userName).Result;
@@ -38,12 +37,12 @@ public class CheepService : ICheepService
     {
         return _cheepRepository.GetCheepDTOFromAuthor(page, author, userName).Result;
     }
-    
+
     public List<CheepDto> GetCheepsFromMe(int page, string userName)
     {
         return _cheepRepository.GetCheepDTOFromMe(page, userName).Result;
     }
-    
+
     public List<CheepDto> GetAllCheepsFromAuthor(string author, string userName)
     {
         return _cheepRepository.GetAllCheepDTOFromAuthor(author, userName).Result;

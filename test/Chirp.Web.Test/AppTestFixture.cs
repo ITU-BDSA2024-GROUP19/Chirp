@@ -6,7 +6,7 @@ public class AppTestFixture : IDisposable
 {
     public WebApplication App { get; }
 
-    public AppTestFixture() 
+    public AppTestFixture()
     {
         Environment.SetEnvironmentVariable("CHIRPDBPATH", ":memory:");
         App = PrepareTestApplication();
@@ -23,7 +23,7 @@ public class AppTestFixture : IDisposable
         await App.DisposeAsync();
     }
 
-    private WebApplication PrepareTestApplication() 
+    private WebApplication PrepareTestApplication()
     {
         var builder = WebApplication.CreateBuilder();
 
@@ -34,7 +34,7 @@ public class AppTestFixture : IDisposable
         var app = builder.Build();
 
         startup.Configure(app);
-        
+
         return app;
     }
 }

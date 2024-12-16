@@ -11,20 +11,19 @@
  * for more information concerning the license and the contributors participating to this project.
  */
 
+using Azure.Storage.Blobs;
+
 using Chirp.Core;
 using Chirp.Infrastructure;
-using Chirp.Infrastructure.Cheeps;
 using Chirp.Infrastructure.Authors;
+using Chirp.Infrastructure.Cheeps;
+using Chirp.Infrastructure.External;
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-
-using Azure.Storage.Blobs;
-
-using Chirp.Infrastructure.External;
 using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Web;
 
@@ -34,7 +33,7 @@ namespace Chirp.Web;
 /// <param name="configuration"></param>
 /// <param name="environment"></param>
 public class Startup(IConfiguration configuration, IHostEnvironment environment)
- {
+{
     /// <summary>
     /// Configures the stack of all services used by Chirp. 
     /// Services are then obtained through dependency injection as required.
@@ -67,23 +66,25 @@ public class Startup(IConfiguration configuration, IHostEnvironment environment)
 
         // This singleton pattern allows in-memory SQLite to work correctly.
         // From: https://www.answeroverflow.com/m/1071789602316238919
-        services.AddSingleton<SqliteConnection>(_ => {
+        services.AddSingleton<SqliteConnection>(_ =>
+        {
             var connection = new SqliteConnection("Data Source=" + dbPath);
             connection.Open();
             return connection;
         });
 
-        services.AddDbContext<ChirpDBContext>((serviceProvider, options) => {
+        services.AddDbContext<ChirpDBContext>((serviceProvider, options) =>
+        {
             var connection = serviceProvider.GetRequiredService<SqliteConnection>();
             options.UseSqlite(connection);
         });
-        
+
         // Evaluate connection to Azure Blob Storage for profile picture support:
         string? connectionBlobString = configuration["azure:storage:connection:string"];
-        
+
         if (connectionBlobString != null)
         {
-            services.AddSingleton<IOptionalBlobServiceClient, OptionalBlobServiceClient>(x => 
+            services.AddSingleton<IOptionalBlobServiceClient, OptionalBlobServiceClient>(x =>
                 new OptionalBlobServiceClient(new BlobServiceClient(connectionBlobString)));
         }
         else
@@ -93,10 +94,10 @@ public class Startup(IConfiguration configuration, IHostEnvironment environment)
                               Blob storage will not be available.
                               Profile pictures will use default fallback image.
                               """);
-            services.AddSingleton<IOptionalBlobServiceClient, OptionalBlobServiceClient>(x => 
+            services.AddSingleton<IOptionalBlobServiceClient, OptionalBlobServiceClient>(x =>
                 new OptionalBlobServiceClient());
         }
-        
+
         // Chirp infrastructure services:
         services.AddScoped<ICheepRepository, CheepRepository>();
 
@@ -111,7 +112,7 @@ public class Startup(IConfiguration configuration, IHostEnvironment environment)
         {
             options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
         })
-        
+
         .AddCookie()
 
         .AddGitHub(options =>
@@ -124,7 +125,7 @@ public class Startup(IConfiguration configuration, IHostEnvironment environment)
             options.ClaimActions.MapJsonKey("urn:github:avatar", "avatar_url");
         });
 
-        services.AddDefaultIdentity<Author>(options => 
+        services.AddDefaultIdentity<Author>(options =>
         {
             options.SignIn.RequireConfirmedAccount = true;
         })
@@ -135,7 +136,7 @@ public class Startup(IConfiguration configuration, IHostEnvironment environment)
     /// Configures the middleware stack for Chirp.
     /// </summary>
     /// <param name="app"></param>
-    public async void Configure(WebApplication app) 
+    public async void Configure(WebApplication app)
     {
         if (!app.Environment.IsDevelopment())
         {
@@ -147,7 +148,7 @@ public class Startup(IConfiguration configuration, IHostEnvironment environment)
         {
             using var context = scope.ServiceProvider.GetRequiredService<ChirpDBContext>();
             using var userManager = scope.ServiceProvider.GetRequiredService<UserManager<Author>>();
-            
+
             context.Database.Migrate();
 
             // Seeds with default dataset if starting with an empty DB.
@@ -172,4 +173,4 @@ public class Startup(IConfiguration configuration, IHostEnvironment environment)
         app.MapRazorPages();
     }
 
- }
+}

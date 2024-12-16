@@ -1,10 +1,9 @@
-﻿using Chirp.Core;
-using Chirp.Infrastructure.Test.Stub;
+﻿using Chirp.Infrastructure.Test.Stub;
 
 namespace Chirp.Test;
-using Xunit;
 using Chirp.Infrastructure.Cheeps;
-using Chirp.Web.Pages.Models;
+
+using Xunit;
 
 public class CheepServiceUnitTests
 {
@@ -21,8 +20,8 @@ public class CheepServiceUnitTests
         Assert.NotNull(cheeps);
         Assert.NotEmpty(cheeps);
     }
-    
-    [Fact] 
+
+    [Fact]
     public void GetCheepsFromAuthor_ReturnsCheeps()
     {
         // Arrange
@@ -35,7 +34,7 @@ public class CheepServiceUnitTests
         Assert.NotNull(cheeps);
         Assert.NotEmpty(cheeps);
     }
-    
+
     [Fact]
     public void CheepService_CanRetrieveCorrectTimeFromCheep()
     {

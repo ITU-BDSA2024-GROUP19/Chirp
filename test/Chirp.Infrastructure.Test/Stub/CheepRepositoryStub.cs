@@ -6,13 +6,13 @@ namespace Chirp.Infrastructure.Test.Stub;
 public class CheepRepositoryStub : ICheepRepository
 {
     private readonly List<Cheep> _cheeps = new();
-    
+
     public Task AddCheep(Cheep cheep)
     {
         _cheeps.Add(cheep);
         return Task.CompletedTask;
     }
-    
+
     public Task<List<CheepDto>> GetCheepDTO(int page, string username)
     {
         var mockCheeps = new List<CheepDto>
@@ -21,10 +21,10 @@ public class CheepRepositoryStub : ICheepRepository
             new CheepDto(2, "Author3", "This is a mock cheep 3", 1634567910, true, 0, false, "https://www.example.com"),
             new CheepDto(3, "Author2", "This is a mock cheep 2", 1634567900,true, 0, false, "https://www.example.com"),
         };
-        
+
         return Task.FromResult(mockCheeps);
     }
-    
+
     public Task<List<CheepDto>> GetCheepDTOFromAuthor(int page, string authorName, string userName)
     {
         var mockCheeps = new List<CheepDto>
@@ -33,7 +33,7 @@ public class CheepRepositoryStub : ICheepRepository
             new CheepDto(2, "Author2", "This is a mock cheep 2", 1634567900, true, 0, false, "https://www.example.com"),
             new CheepDto(3, "Author3", "This is a mock cheep 3", 1634567910, true, 0, false, "https://www.example.com")
         };
-        
+
         return Task.FromResult(mockCheeps);
     }
     public Task<List<CheepDto>> GetCheepDTOFromMe(int page, string userName)
@@ -44,7 +44,7 @@ public class CheepRepositoryStub : ICheepRepository
             new CheepDto(2, "Author2", "This is a mock cheep 2", 1634567900, true, 0, false,"https://www.example.com"),
             new CheepDto(3, "Author3", "This is a mock cheep 3", 1634567910, true, 0, false,"https://www.example.com")
         };
-        
+
         return Task.FromResult(mockCheeps);
     }
     public Task<Author> GetAuthorByName(string name)

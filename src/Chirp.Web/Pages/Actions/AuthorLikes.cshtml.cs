@@ -1,17 +1,19 @@
+using Chirp.Infrastructure.Cheeps;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Chirp.Infrastructure.Cheeps;
 
 namespace Chirp.Web.Pages.Actions;
 
 
 
-public class AuthorLikesModel : PageModel 
+public class AuthorLikesModel : PageModel
 {
     private readonly ICheepService _cheepService;
 
 
-    public AuthorLikesModel(ICheepService cheepService) {
+    public AuthorLikesModel(ICheepService cheepService)
+    {
         _cheepService = cheepService;
     }
 

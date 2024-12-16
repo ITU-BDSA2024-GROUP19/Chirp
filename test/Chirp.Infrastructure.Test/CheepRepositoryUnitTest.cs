@@ -3,12 +3,9 @@
 using Azure.Storage.Blobs;
 
 using Chirp.Core;
-using Chirp.Infrastructure.Authors;
 using Chirp.Infrastructure.Cheeps;
 using Chirp.Infrastructure.External;
-using Chirp.Infrastructure.Test.Stub;
 
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
@@ -39,7 +36,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
         _context.Cheeps.AddRange(cheeps);
         _context.SaveChanges();
     }
-    
+
     public async Task InitializeAsync()
     {
         var connection = new SqliteConnection("Filename=:memory:");
@@ -48,21 +45,21 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
 
         _context = new ChirpDBContext(builder.Options);
         await _context.Database.EnsureCreatedAsync();
-        
+
         var blobServiceClientMock = new Mock<IOptionalBlobServiceClient>();
-        
+
         var blobContainerClientMock = new Mock<BlobContainerClient>();
         blobServiceClientMock
             .Setup(client => client.GetBlobContainerClient(It.IsAny<string>()))
             .Returns(blobContainerClientMock.Object);
-        
+
         blobContainerClientMock
             .Setup(container => container.GetBlobClient(It.IsAny<string>()))
             .Returns(new Mock<BlobClient>().Object);
 
         _cheepRepo = new CheepRepository(_context, blobServiceClientMock.Object);
     }
-    
+
     public Task DisposeAsync()
     {
         return Task.CompletedTask;
@@ -73,7 +70,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
         // Arrange
         var a13 = new Author() { UserName = "Test Author", Email = "test@itu.dk", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>() };
         var cheep = new Cheep() { CheepId = 658, Author = a13, Text = "Test Message", TimeStamp = DateTime.UtcNow };
-        
+
         // Act
         await _cheepRepo.AddCheep(cheep);
 
@@ -89,7 +86,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
     {
         // Arrange
         DbTestInitializer();
-        
+
         // Act
         var cheeps = await _cheepRepo.GetCheepDTO(1, "Author1");
 
@@ -104,9 +101,9 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
     {
         // Arrange
         DbTestInitializer();
-        
+
         // Act
-        var cheeps = await _cheepRepo.GetCheepDTO(2,"UnknownAuthor");
+        var cheeps = await _cheepRepo.GetCheepDTO(2, "UnknownAuthor");
 
         // Assert
         Assert.Empty(cheeps);
@@ -117,7 +114,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
     {
         // Arrange
         DbTestInitializer();
-        
+
         // Act
         var cheepsByAuthor = await _cheepRepo.GetCheepDTOFromAuthor(1, "Author1", "Author1");
 
@@ -125,7 +122,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
         Assert.NotEmpty(cheepsByAuthor);
         Assert.All(cheepsByAuthor, cheep => Assert.Equal("Author1", cheep.Author));
     }
-    
+
     [Fact]
     public async Task GetCheepDTOFromAuthor_WithNoCheepsForAuthor_ReturnsEmptyList()
     {
@@ -145,7 +142,7 @@ public class CheepRepositoryUnitTest : IAsyncLifetime
         DbTestInitializer();
         var a14 = new Author() { UserName = "Test Author", Email = "test@itu.dk", Cheeps = new List<Cheep>(), Following = new List<Author>(), Followers = new List<Author>() };
         var cheep = new Cheep() { CheepId = 658, Author = a14, Text = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH", TimeStamp = DateTime.UtcNow };
-        
+
         // Act And Assert
         var exception = await Assert.ThrowsAnyAsync<ValidationException>(() => _cheepRepo.AddCheep(cheep));
         Assert.Equal("Cheep content must be less than 160 characters!", exception.Message);

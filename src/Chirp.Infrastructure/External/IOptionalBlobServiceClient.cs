@@ -19,7 +19,7 @@ public class OptionalBlobServiceClient : IOptionalBlobServiceClient
 
     public BlobContainerClient GetBlobContainerClient(string blobContainerName)
     {
-        if (_client != null) 
+        if (_client != null)
         {
             return _client.GetBlobContainerClient(blobContainerName);
         }
@@ -28,7 +28,7 @@ public class OptionalBlobServiceClient : IOptionalBlobServiceClient
             throw new InvalidOperationException("Azure Blob Service is unavailable");
         }
     }
-    
+
     public bool IsAvailable()
     {
         return _client != null;

@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Chirp.Infrastructure.Cheeps;
-using Chirp.Web.Pages.Models;
+﻿using Chirp.Infrastructure.Cheeps;
 using Chirp.Web.Pages.Actions;
+using Chirp.Web.Pages.Models;
+
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Chirp.Web.Pages;
 
@@ -14,7 +15,7 @@ public class PublicModel : PageModel
 
     [BindProperty]
     public SendCheepModel.InputModel SendCheepInput { get; set; } = new();
-    
+
     public int CurrentPage { get; set; }
 
     public PublicModel(ICheepService cheepService)
@@ -28,8 +29,8 @@ public class PublicModel : PageModel
     {
         var pageQuery = Request.Query["page"];
         CurrentPage = Convert.ToInt32(pageQuery) == 0 ? 1 : Convert.ToInt32(pageQuery);
-        Cheeps = _cheepService.GetCheeps(CurrentPage,User.Identity?.Name!).ConvertAll(cheep => 
-        new CheepViewModel(cheep.Id, cheep.Author, cheep.Message, CheepViewModel.TimestampToCEST(cheep.Timestamp),cheep.IsFollowed, cheep.LikeCount, cheep.IsLikedByUser,cheep.AuthorProfilePicture));
+        Cheeps = _cheepService.GetCheeps(CurrentPage, User.Identity?.Name!).ConvertAll(cheep =>
+        new CheepViewModel(cheep.Id, cheep.Author, cheep.Message, CheepViewModel.TimestampToCEST(cheep.Timestamp), cheep.IsFollowed, cheep.LikeCount, cheep.IsLikedByUser, cheep.AuthorProfilePicture));
     }
 
 
