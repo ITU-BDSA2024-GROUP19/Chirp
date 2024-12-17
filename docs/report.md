@@ -27,6 +27,8 @@ Here comes a description of our domain model.
 
 ## Architecture — In the small
 
+![Illustration of the _Chirp!_ code architecture as a UML class diagram.](images/code-architecture.png)
+
 ## Architecture of deployed application
 
 ## User activities
