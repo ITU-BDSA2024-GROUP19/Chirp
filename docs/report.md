@@ -31,7 +31,7 @@ Here comes a description of our domain model.
 
 ## Architecture of deployed application
 
-![Illustration of the _Chirp!_ deployment as a package diagram.](images/deployment-diagram.png)
+![Illustration of the _Chirp!_ deployment as a UML package diagram.](images/deployment-diagram.png)
 
 ## User activities
 
@@ -39,11 +39,17 @@ Here comes a description of our domain model.
 
 ## Sequence of functionality/calls trough _Chirp!_
 
+![Illustration of a sequence of calls through _Chirp! as a UML sequence diagram.](images/sequence_diagram.png)
+
 # Process
 
 ## Build, test, release, and deployment
 
+![Illustration of _Chirp! build, test and deployment workflows a UML activity diagram.](images/github-actions.png)
+
 ## Team work
+
+![Illustration of the workflow when working on _Chirp!  as a UML activity diagram.](images/workflow.png)
 
 ## How to make _Chirp!_ work locally
 
