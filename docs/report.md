@@ -21,7 +21,16 @@ toc: true
 
 ## Domain model
 
-Here comes a description of our domain model.
+The two main entities of _Chirp!_ are `Author` and `Cheep`. 
+
+- An `Author` represents one of our users. This type is implemented as an extension of the default `IdentityUser` type.[^1] Authors can follow each other on _Chirp!_ 
+- A `Cheep` is a message posted to _Chirp!_ by an author. Additionally for this project, users are able to "like" Cheeps.
+
+These entity types are saved to a database using _Enitiy Framework Core_.[^2] EF Core supports saving these entities in a relational database for the application, and is able to apply _migrations_ to this database as the entities change and features are added. 
+
+[^1]: _IdentityUser Class Reference_ https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.identity.identityuser
+
+[^2]: Lock, Chapter 12: _Saving data with Entity Framework Core_ 
 
 ![Illustration of the _Chirp!_ data model as a UML class diagram.](images/domain_model.png)
 
