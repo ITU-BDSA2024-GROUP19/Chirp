@@ -40,8 +40,8 @@ These entity types are saved to a database using _Enitiy Framework Core_.[^2] EF
 
 Above is an illustration of the organization of our code base.
 We have implemented the 'Onion Architecture'. The four colours in the diagram refer to the four layers of the architectural pattern[^3].
-Our code base is divided into Web, Architecture, and Core.
-It is worth noting that Chirp.Infrastructure contains both the Service and Repository layer.
+Our code base is divided into `Chirp.Web`, `Chirp.Architecture`, and `Chirp.Core`.
+It is worth noting that `Chirp.Infrastructure` contains both the Service and Repository layer.
 The diagram shows that our code base only has inward dependencies, in compliance with the 'Onion Architecture'. Thereby no inner layer has any knowledge of outer layers.
  
 [^3]: _Colouring of the 'Onion Architecture' inspiration_ https://github.com/itu-bdsa/lecture_notes/blob/main/sessions/session_07/images/onion_architecture.webp
@@ -63,6 +63,11 @@ The diagram shows that our code base only has inward dependencies, in compliance
 ## Build, test, release, and deployment
 
 ![Illustration of _Chirp! build, test and deployment workflows as a UML activity diagram.](images/github-actions.png)
+Above is an illustration of how our two workflows interact with different github action triggers.
+We have two workflows:
+- _`build_and_test`_ makes sure the program builds and tests locally.
+- _`bdsa2024group19chirprazordeploy`_ handles deployment to Azure.
+
 If a pull request is triggered our build_and_test workflow is activated.
 If a push to main is triggered both workflows are activated sequentially.
 Both of our workflows run on a local Ubuntu instance, that is created at the start of the workflow.
