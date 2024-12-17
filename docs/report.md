@@ -193,6 +193,8 @@ Lastly, we have an integration test, making sure SQL injection attacks can not h
 
 We have chosen to release our project under the MIT License. Anyone can use the project for any purpose, provided that the license and our mark is retained with the work. We accept no liability and provide no warranty for such use. 
 
-To adopt this license, we first looked at any dependencies that our project had. Namely the Microsoft `.nuget` packages released under the MIT license and other third party tools such as `Moq` released under the BSD-3 license. The dependencies we identified do not place restrictions on our project source release through their licensing. 
+To adopt this license, we first looked at any dependencies that our project had. Namely the Microsoft `.nuget` packages released under the MIT license, as well as other third party tools such as `Moq` released under the BSD-3 license. The dependencies we identified do not place restrictions on our project source release through their licensing. 
+
+An important reference for an overview of software licensing options in the open source community has been `https://choosealicense.com/`. Insight into the importance of licensing for promoting competition and continued development was promoted by attending a guest lecture on the subject by Martin von Haller Grønbæk at ITU. 
 
 ## LLMs, ChatGPT, CoPilot, and others
