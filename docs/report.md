@@ -74,10 +74,22 @@ Both of our workflows run on a local Ubuntu instance, that is created at the sta
 Both the workflows checks out our code base, sets up .NET8 and runs a dotnet restore, build and test.
 The deployment workflow then deploys the newly build application to Azure. Note that this workflow is only triggered on a push to main.
 
-
 ## Team work
 
 ![Illustration of the workflow when working on _Chirp!  as a UML activity diagram.](images/workflow.png)
+When a new task arises, an issue is created on github using it's build-in ticket system.
+The issue is then created based on a set of rules shown in our `README.md` file, including:
+- Issue Title Format: "('Session week number', 'issue number') 'Title of the issue at hand'"
+- User Story Format: "As a (user type), I want to (task) so that (goal)." (Please write in issue description)
+- Acceptance Criteria: Follow a point format of the intended outcomes of the issue.
+
+After the issue has been created, a development branch is added. If we identify the task as a feature, the branch name has the prefix _feature/_, thereby creating a feature directory.
+Otherwise the prefix should be _issue/_.
+Afterwards, development begins and runs iteratively until all acceptance criteria are satisfied.
+If the developer thinks the task is done, they create a pull request.
+If another group member believes changes are necessary, a new development cycle begins.
+The contents are only pushed to main when the pull request gets a minimum of one approval.
+
 
 ## How to make _Chirp!_ work locally
 
