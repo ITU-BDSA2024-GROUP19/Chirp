@@ -4,8 +4,17 @@
 @inject UserManager<Author> UserManager
 
 @*
-Information on obtaining context information in partial:
+Partial markup for a single Cheep as a list item.
+
+User interaction is implemented through forms.
+Designated pages handle form HTTP POST calls and redirect to "returnUrl".
+It is not necessary to modify the page model to accept these forms.
+
+- Information on how to obtain context information within a partial:
 https://stackoverflow.com/questions/32127261/asp-net-viewstart-cshtml-getting-the-request
+
+- For more information on form tag helpers and bind properties:
+https://learn.microsoft.com/en-us/aspnet/core/mvc/views/working-with-forms?view=aspnetcore-9.0
 *@
 
 <li>

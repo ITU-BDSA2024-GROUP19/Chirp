@@ -2,6 +2,17 @@
 @inject SignInManager<Author> SignInManager
 @model SendCheepModel.InputModel
 
+@*
+Partial markup of a form to post Cheeps.
+
+A designated page handles form HTTP POST calls and redirects to "returnUrl".
+Pages using this partial must contain "SendCheepModel.InputModel" as a BindProperty field
+and pass the field to this partial. This makes "asp-for" bind properties work correctly. 
+
+- For more information on form tag helpers and bind properties:
+https://learn.microsoft.com/en-us/aspnet/core/mvc/views/working-with-forms?view=aspnetcore-9.0
+*@
+
 @if (SignInManager.IsSignedIn(User))
 {
     <div class="cheepbox">
