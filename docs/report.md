@@ -33,8 +33,9 @@ Here comes a description of our domain model.
 
 ![Illustration of the _Chirp!_ deployment as a package diagram.](images/deployment-diagram.png)
 
-
 ## User activities
+
+![Illustration of _Chirp!_ user activities as a UML activity diagram.](images/user_activities.png)
 
 ## Sequence of functionality/calls trough _Chirp!_
 
