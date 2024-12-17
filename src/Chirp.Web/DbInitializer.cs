@@ -6,13 +6,15 @@ using Microsoft.AspNetCore.Identity;
 namespace Chirp.Web;
 
 /// <summary>
-/// <para>This class is responsible for adding the sample dataset when the app is first deployed.</para>
-/// 
-/// <para>The original class was supplied with the sample project, to which we have made modifications. 
+/// <para>
+/// This class is responsible for adding the sample dataset when the app is first deployed.
+/// </para><para>
+/// The original class was supplied with the sample project, to which we have made modifications. 
 /// With inspiration from Microsoft the article <a href="https://learn.microsoft.com/da-dk/ef/core/change-tracking/#simple-query-and-update">'Change Tracking in EF Core'</a> 
-/// and the OOP paradigm we have worked with previously, we made the entity classes support the necessary manipulations directly.</para>
-/// 
-/// <para>The main outcome of these changes is, that this class of hard-coded data is now easier to maintain.</para>
+/// and the OOP paradigm we have worked with previously, we made the entity classes support the necessary manipulations directly.
+/// </para><para>
+/// With the changes made, it is now easier to modify the site without upsetting this codepage.
+/// </para>
 /// </summary>
 /// <param name="chirpContext">Called directly to save the sample data.</param>
 /// <param name="userManager">Called to add access to select sample accounts.</param>
