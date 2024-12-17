@@ -81,6 +81,12 @@ The deployment workflow then deploys the newly build application to Azure. Note 
 
 ## How to make _Chirp!_ work locally
 
+- Environment variables for the database connection string and the Azure storage connection string depends of if you run the sourcecode directly, which is seen as development state, or run from the published project. If not in development state, enivorment variables are needed to be set.
+- If in development state, database will be stored directly in memory and the default stock image will be shown, instead of those provided by the Azure cloud storage.
+- Examples of these environment variables is: 
+
+- Warnings of deprecated or old dependencies can be fixed by deleting old packages from the n
+
 ## How to run test suite locally
 
 # Ethics
