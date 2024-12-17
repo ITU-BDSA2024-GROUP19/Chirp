@@ -60,6 +60,7 @@ The diagram shows that our code base only has inward dependencies, in compliance
 
 ## User activities
 
+The illustration below shows two user journeys. The first one shows the journey of an unauthorized user, and the second one shows what becomes available when the user has logged in (is authorized). 
 ![Illustration of _Chirp!_ user activities as a UML activity diagram.](images/user_activities.png)
 
 ## Sequence of functionality/calls trough _Chirp!_
