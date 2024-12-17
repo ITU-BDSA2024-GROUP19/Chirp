@@ -173,4 +173,8 @@ AccountName=chirpstorage;AccountKey=yourkey;EndpointSuffix=core.windows.net"
 
 ## License
 
+We have chosen to release our project under the MIT License. Anyone can use the project for any purpose provided that the license and our mark is retained with the work. We accept no liability and provide no warranty for such use. 
+
+To adopt this license, we first looked at any dependencies that our project had. Namely the Microsoft `.nuget` packages released under the MIT license and other third party tools such as `Moq` released under the BSD-3 license. The dependencies we identified do not place restrictions on our project source release through their licensing. 
+
 ## LLMs, ChatGPT, CoPilot, and others
