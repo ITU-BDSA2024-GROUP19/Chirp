@@ -20,5 +20,10 @@ public class Program
 
         app.Run();
     }
-
+    
+    public class AssemblyClassLocator
+    {
+        
+    }
 }
+
