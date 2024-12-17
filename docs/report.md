@@ -39,10 +39,12 @@ These entity types are saved to a database using _Enitiy Framework Core_.[^2] EF
 ![Illustration of the _Chirp!_ code architecture as a UML class diagram.](images/code-architecture.png)
 
 Above is an illustration of the organization of our code base.
-We have implemented the 'Onion Architecture'. The four colours in the diagram refer to the four layers of the architectural pattern.
+We have implemented the 'Onion Architecture'. The four colours in the diagram refer to the four layers of the architectural pattern[^3].
 Our code base is divided into Web, Architecture, and Core.
 It is worth noting that Chirp.Infrastructure contains both the Service and Repository layer.
 The diagram shows that our code base only has inward dependencies, in compliance with the 'Onion Architecture'. Thereby no inner layer has any knowledge of outer layers.
+ 
+[^3]: _Colouring of the 'Onion Architecture' inspiration_ https://github.com/itu-bdsa/lecture_notes/blob/main/sessions/session_07/images/onion_architecture.webp
 
 ## Architecture of deployed application
 
