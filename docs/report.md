@@ -70,6 +70,9 @@ The illustration below shows two user journeys. The first one shows the journey 
 
 ## Sequence of functionality/calls trough _Chirp!_
 
+The sequence diagram below illustrates the sequence of messages and data needed to render the entire public timeline for an unauthorized user.
+The sequence starts with the user loading the application thereby sending a HTTP GET request. The diagram ends with a fully rendered public timeline returned to the user.
+
 ![Illustration of a sequence of calls through _Chirp! as a UML sequence diagram.](images/sequence_diagram.png)
 
 # Process
