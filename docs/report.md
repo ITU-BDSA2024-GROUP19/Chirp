@@ -72,6 +72,8 @@ All of the HTTP GET/POST requests are then handled by Azure App Service using an
 
 The illustration below shows two user journeys. The first one shows the journey of a non-authorized user, and the second one shows what becomes available when the user has logged in/is authorized. 
 
+We can se that the actions that change the website are only available to authorized users. This includes the ability to post a Cheep, follow other users, and like Cheeps.
+
 ![Illustration of _Chirp!_ user activities as a UML activity diagram.](images/user_activities.png)
 
 \pagebreak
@@ -80,6 +82,8 @@ The illustration below shows two user journeys. The first one shows the journey 
 
 The sequence diagram below illustrates the sequence of messages and data needed to render the entire public timeline for a non-authorized user.
 The sequence starts with the user loading the application thereby sending a HTTP GET request. The diagram ends with a fully rendered public timeline returned to the user.
+
+The LINQ query returns a `Task<List<CheepDTO>>` that is convert to a `<List<CheepDTO>>` and then finally tranformed the result to a `List<CheepViewModel>` with the loop.
 
 ![Illustration of a sequence of calls through _Chirp! as a UML sequence diagram.](images/sequence_diagram.png)
 
