@@ -46,8 +46,11 @@ In addition, `Chirp.Web` uses a `CheepViewModel` to represent the same data when
 
 Above is an illustration of the organization of our code base.
 We have implemented the 'Onion Architecture'. The four colours in the diagram refer to the four layers of the architectural pattern[^3].
-Our code base is divided into `Chirp.Web`, `Chirp.Architecture`, and `Chirp.Core`.
-It is worth noting that `Chirp.Infrastructure` contains both the Service and Repository layer.
+Our code base is divided into three folders:
+- `Chirp.Web` handles the outer UI layer. In this folder all code referring to displaying our application resides. This includes all Razor Pages and their respective models. As this is the outermost layer, `Chirp.Web` has knowledge of all architectural layers.
+- `Chirp.Architecture` contains both the Service and Repository layer. This has been done to make the `Author` and `Cheep` service and repository pairs easily accessible. The services depend on the repositories, and the repositories depend on the entity classes in `Chirp.Core`.
+- `Chirp.Core` only contains the two Domain Entities `Author` and `Cheep`. Hence `Chirp.Core` has no knowledge of any other layers.
+
 The diagram shows that our code base only has inward dependencies, in compliance with the 'Onion Architecture'. Thereby no inner layer has any knowledge of outer layers.
  
 [^3]: _Colouring of the 'Onion Architecture' inspiration_ https://github.com/itu-bdsa/lecture_notes/blob/main/sessions/session_07/images/onion_architecture.webp
