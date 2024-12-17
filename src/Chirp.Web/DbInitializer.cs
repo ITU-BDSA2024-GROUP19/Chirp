@@ -20,7 +20,7 @@ namespace Chirp.Web;
 /// <param name="userManager">Called to add access to select sample accounts.</param>
 public class DbInitializer(ChirpDBContext chirpContext, UserManager<Author> userManager)
 {
-    private static Author buildSampleAuthor(string name, string email)
+    private static Author BuildSampleAuthor(string name, string email)
     {
         return new Author()
         {
@@ -30,7 +30,7 @@ public class DbInitializer(ChirpDBContext chirpContext, UserManager<Author> user
         };
     }
 
-    private static Author buildConfirmedSampleAuthor(string name, string email)
+    private static Author BuildConfirmedSampleAuthor(string name, string email)
     {
         return new Author()
         {
@@ -43,18 +43,18 @@ public class DbInitializer(ChirpDBContext chirpContext, UserManager<Author> user
 
     public async Task SeedDatabase()
     {
-        var a1 = buildSampleAuthor("Roger Histand", "Roger+Histand@hotmail.com");
-        var a2 = buildSampleAuthor("Luanna Muro", "Luanna-Muro@ku.dk");
-        var a3 = buildSampleAuthor("Wendell Ballan", "Wendell-Ballan@gmail.com");
-        var a4 = buildSampleAuthor("Nathan Sirmon", "Nathan+Sirmon@dtu.dk");
-        var a5 = buildSampleAuthor("Quintin Sitts", "Quintin+Sitts@itu.dk");
-        var a6 = buildSampleAuthor("Mellie Yost", "Mellie+Yost@ku.dk");
-        var a7 = buildSampleAuthor("Malcolm Janski", "Malcolm-Janski@gmail.com");
-        var a8 = buildSampleAuthor("Octavio Wagganer", "Octavio.Wagganer@dtu.dk");
-        var a9 = buildSampleAuthor("Johnnie Calixto", "Johnnie+Calixto@itu.dk");
-        var a10 = buildConfirmedSampleAuthor("Jacqualine_Gilcoine", "Jacqualine.Gilcoine@gmail.com");
-        var a11 = buildConfirmedSampleAuthor("Helge", "ropf@itu.dk");
-        var a12 = buildConfirmedSampleAuthor("Adrian", "adho@itu.dk");
+        var a1 = BuildSampleAuthor("Roger Histand", "Roger+Histand@hotmail.com");
+        var a2 = BuildSampleAuthor("Luanna Muro", "Luanna-Muro@ku.dk");
+        var a3 = BuildSampleAuthor("Wendell Ballan", "Wendell-Ballan@gmail.com");
+        var a4 = BuildSampleAuthor("Nathan Sirmon", "Nathan+Sirmon@dtu.dk");
+        var a5 = BuildSampleAuthor("Quintin Sitts", "Quintin+Sitts@itu.dk");
+        var a6 = BuildSampleAuthor("Mellie Yost", "Mellie+Yost@ku.dk");
+        var a7 = BuildSampleAuthor("Malcolm Janski", "Malcolm-Janski@gmail.com");
+        var a8 = BuildSampleAuthor("Octavio Wagganer", "Octavio.Wagganer@dtu.dk");
+        var a9 = BuildSampleAuthor("Johnnie Calixto", "Johnnie+Calixto@itu.dk");
+        var a10 = BuildConfirmedSampleAuthor("Jacqualine_Gilcoine", "Jacqualine.Gilcoine@gmail.com");
+        var a11 = BuildConfirmedSampleAuthor("Helge", "ropf@itu.dk");
+        var a12 = BuildConfirmedSampleAuthor("Adrian", "adho@itu.dk");
 
         var authors = new List<Author>() { a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12 };
 
