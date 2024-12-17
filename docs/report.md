@@ -167,7 +167,25 @@ export AZURE__STORAGE__CONNECTION__STRING="DefaultEndpointsProtocol=https;
 AccountName=chirpstorage;AccountKey=yourkey;EndpointSuffix=core.windows.net"
 ```
 
-## How to run test suite locally
+## Test suite
+
+### How to run test suite locally
+
+### Our tests
+In our test suite, we have created Unit tests for the `CheepRepository`and `CheepService`.
+These tests are run on a repository stub imitating the real `CheepRepository`.
+The Unit tests, test most methods in both the `CheepService` and `CheepRepository`.
+
+Furthermore we have created different UI tests, using the Playwright framework, that focus on checking that the _Chirp!_ website runs as intended.
+
+This includes:
+
+- Testing against XSS attacks
+- Testing that the authentication works as intended
+- Testing that the website displays cheeps as intended
+
+Lastly, we have an integration test, making sure SQL injection attacks can not happen.
+
 
 # Ethics
 
