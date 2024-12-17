@@ -114,10 +114,17 @@ The contents are only pushed to main when the pull request gets a minimum of one
 
 - Environment variables for the database connection string and the Azure storage connection string depends on if you run the sourcecode directly, which is seen as development state, or not. If not in development state, environment variables are needed to be set.
 - If in development state, database will be stored directly in memory and the default stock image will be shown, instead of those provided by the Azure cloud storage. Environment variables are not needed to be set, but can still be set for the enhanced experience in development state.
-- Examples of these environment variables is: `$env:CHIRPDBPATH=":memory:"`, `$env:CHIRPDBPATH='C:/Temp/db.db'`, `$env:AZURE_STORAGE_CONNECTION_STRING="DefaultEndpointsProtocol=https;AccountName=chirpstorage;AccountKey=yourkey;EndpointSuffix=core.windows.net"` etc.
+- Examples of these environment variables is: 
+
+```
+$env:CHIRPDBPATH=":memory:"
+$env:CHIRPDBPATH='C:/Temp/db.db'
+$env:AZURE_STORAGE_CONNECTION_STRING="DefaultEndpointsProtocol=https;
+AccountName=chirpstorage;AccountKey=yourkey;EndpointSuffix=core.windows.net"
+```
 
 - Warnings of deprecated or old dependencies can be fixed by deleting old packages from the running machines NuGet cache. This can be done by running `dotnet nuget locals all --clear` in the terminal. Or manually deleting the packages from `C:\Users\<INSERT_YOUR_OWN_USERNAME>\.nuget\packages` and delete the packages that are no longer needed.
-- Example of this issue could be the .nuget\packages\system.text.json that is being relied on in the project by the package Azure.Storage.Blobs. This states that System.Text.Json ≥ 6.0.10 is needed, but this allows for packages that are older and have warnings and secuirity issues.
+- Example of this issue could be the `.nuget\packages\system.text.json` that is being relied on in the project by the package Azure.Storage.Blobs. This states that System.Text.Json version 6.0.10 or greater is needed, but this allows for packages that are older and have warnings and secuirity issues.
 
 - If above steps are followed, the project should be able to run with the simple `dotnet run` command in your preferred IDE.
 
