@@ -31,7 +31,7 @@ Here comes a description of our domain model.
 
 ## Architecture of deployed application
 
-![Illustration of the _Chirp!_ deployment as a package diagram.](images/code-architecture.png)
+![Illustration of the _Chirp!_ deployment as a package diagram.](images/deployment-diagram.png)
 
 
 ## User activities
