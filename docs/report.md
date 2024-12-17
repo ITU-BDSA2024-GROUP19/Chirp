@@ -202,3 +202,8 @@ To adopt this license, we first looked at any dependencies that our project had.
 An important reference for an overview of software licensing options in the open source community has been `https://choosealicense.com/`. Insight into the importance of licensing for promoting competition and continued development was promoted by attending a guest lecture on the subject by Martin von Haller Grønbæk at ITU. 
 
 ## LLMs, ChatGPT, CoPilot, and others
+
+We have tried not to rely on services such as ChatGPT. Although the amount of code related data LLM's possess, they often lack the perspective required to write code that adheres to most common programming principles.
+
+However, in the instances where ChatGPT has been used, we have refrained from listing it as a Co-Author. There are a couple of reasons for this:
+- Throughout the lifetime of the project, ChatGPT has not been used to paste 
