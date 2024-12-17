@@ -34,7 +34,7 @@ public class AuthorFollowsModel : PageModel
     /// </summary>
     /// <param name="authorName">Author to follow.</param>
     /// <param name="returnUrl"></param>
-    /// <returns></returns>
+    /// <returns>Redirect to returnUrl.</returns>
     public IActionResult OnPostFollow(string authorName, string? returnUrl = null)
     {
         Console.WriteLine("AuthorFollows OnPostFollow(...) called");
@@ -50,7 +50,7 @@ public class AuthorFollowsModel : PageModel
     /// </summary>
     /// <param name="authorName">Author to unfollow.</param>
     /// <param name="returnUrl"></param>
-    /// <returns></returns>
+    /// <returns>Redirect to returnUrl.</returns>
     public IActionResult OnPostUnfollow(string authorName, string? returnUrl = null)
     {
         Console.WriteLine("AuthorFollows OnPostUnfollow(...) called");
