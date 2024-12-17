@@ -38,6 +38,8 @@ In addition, `Chirp.Web` uses a `CheepViewModel` to represent the same data when
 
 ![Illustration of the _Chirp!_ data model as a UML class diagram.](images/domain_model.png)
 
+\pagebreak
+
 ## Architecture — In the small
 
 ![Illustration of the _Chirp!_ code architecture as a UML class diagram.](images/code-architecture.png)
