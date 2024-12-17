@@ -5,7 +5,7 @@ author:
 - "Lluc Paret Aguer <llpa@itu.dk>"
 - "Gustav Hejgaard <ghej@itu.dk>"
 - "Ronas Jacob Coban Olsen <rono@itu.dk>"
-- "Jacob Sponholtz <adho@itu.dk>"
+- "Jacob Sponholtz <spon@itu.dk>"
 - "Jakob Sønder <jakso@itu.dk>"
 numbersections: true
 papersize: a4
@@ -44,7 +44,9 @@ In addition, content preparation in `Chirp.Web` formats `CheepDto` data for web 
 
 Below is an illustration of the organization of our code base.
 We have implemented the 'Onion Architecture'. The four colours in the diagram refer to the four layers of the architectural pattern[^3].
+
 Our code base is divided into three folders:
+
 - `Chirp.Web` handles the outer UI layer. In this folder all code referring to displaying our application resides. This includes all Razor Pages and their respective models. As this is the outermost layer, `Chirp.Web` has knowledge of all architectural layers.
 - `Chirp.Architecture` contains both the Service and Repository layer. This has been done to make the `Author` and `Cheep` service and repository pairs easily accessible. The services depend on the repositories, and the repositories depend on the entity classes in `Chirp.Core`.
 - `Chirp.Core` only contains the two Domain Entities `Author` and `Cheep`. Hence `Chirp.Core` has no knowledge of any other layers.
@@ -55,6 +57,8 @@ The diagram shows that our code base only has inward dependencies, in compliance
  
 [^3]: _Colouring of the 'Onion Architecture' inspiration_ https://github.com/itu-bdsa/lecture_notes/blob/main/sessions/session_07/images/onion_architecture.webp
 
+\pagebreak
+
 ## Architecture of deployed application
 
 The class diagram below shows how the architecture of _Chirp!_ looks when deployed. It is a client-server application where clients connect to a webservice through HTTP. 
@@ -62,18 +66,24 @@ All of the HTTP GET/POST requests are then handled by Azure App Service using an
 
 ![Illustration of the _Chirp!_ deployment as a UML package diagram.](images/deployment-diagram.png)
 
+\pagebreak
+
 ## User activities
 
-The illustration below shows two user journeys. The first one shows the journey of an unauthorized user, and the second one shows what becomes available when the user has logged in/is authorized. 
+The illustration below shows two user journeys. The first one shows the journey of a non-authorized user, and the second one shows what becomes available when the user has logged in/is authorized. 
 
 ![Illustration of _Chirp!_ user activities as a UML activity diagram.](images/user_activities.png)
 
+\pagebreak
+
 ## Sequence of functionality/calls trough _Chirp!_
 
-The sequence diagram below illustrates the sequence of messages and data needed to render the entire public timeline for an unauthorized user.
+The sequence diagram below illustrates the sequence of messages and data needed to render the entire public timeline for a non-authorized user.
 The sequence starts with the user loading the application thereby sending a HTTP GET request. The diagram ends with a fully rendered public timeline returned to the user.
 
 ![Illustration of a sequence of calls through _Chirp! as a UML sequence diagram.](images/sequence_diagram.png)
+
+\pagebreak
 
 # Process
 
@@ -94,10 +104,14 @@ The deployment workflow then deploys the newly build application to Azure. Note 
 
 ![Illustration of _Chirp! build, test and deployment workflows as a UML activity diagram.](images/github-actions.png)
 
+\pagebreak
+
 ## Team work
 
 When a new task arises, an issue is created on github using it's build-in ticket system.
+
 The issue is then created based on a set of rules shown in our `README.md` file, including:
+
 - Issue Title Format: "('Session week number', 'issue number') 'Title of the issue at hand'"
 - User Story Format: "As a (user type), I want to (task) so that (goal)." (Please write in issue description)
 - Acceptance Criteria: Follow a point format of the intended outcomes of the issue.
@@ -111,20 +125,23 @@ The contents are only pushed to main when the pull request gets a minimum of one
 
 ![Illustration of the workflow when working on _Chirp!  as a UML activity diagram.](images/workflow.png)
 
+\pagebreak
+
 ## How to make _Chirp!_ work locally
 
 ### How to run the project from source code 
 
-- The project can simply be run locally by running the `dotnet run` from the Chirp.Web directory in the terminal.
+- The project can simply be run locally using the `dotnet run` command from the Chirp.Web directory in the terminal.
 
 - Environment variables for the database connection string and the Azure storage connection string depends on if you run the sourcecode directly, which is seen as development state, or not. If not in development state, environment variables are needed to be set.
 - If in development state, database will be stored directly in memory and the default stock image will be shown, instead of those provided by the Azure cloud storage. Environment variables are not needed to be set, but can still be set for the enhanced experience in development state.
-- Examples of these environment variables is: 
 
-```
-$env:CHIRPDBPATH=":memory:"
-$env:CHIRPDBPATH='C:/Temp/db.db'
-$env:AZURE_STORAGE_CONNECTION_STRING="DefaultEndpointsProtocol=https;
+Examples of these environment variables are: 
+
+```bash
+export CHIRPDBPATH=":memory:"
+export CHIRPDBPATH="/Temp/db.db"
+export AZURE__STORAGE__CONNECTION__STRING="DefaultEndpointsProtocol=https;
 AccountName=chirpstorage;AccountKey=yourkey;EndpointSuffix=core.windows.net"
 ```
 
@@ -134,12 +151,21 @@ AccountName=chirpstorage;AccountKey=yourkey;EndpointSuffix=core.windows.net"
 
 ### How to run the published program
  
-- download the .tar.gz file from the release page on github.
-- extract the file
-- Since the project is published to linux, the project can be run by running the `Chirp.Web` file in the bash terminal.
-- Remember to minimum have the environment variable for the database location set, and optional set the Azure storage connection string.
-- Examples of these environment variables is: `$env:CHIRPDBPATH=":memory:"`, `$env:CHIRPDBPATH='C:/Temp/db.db'`, `$env:AZURE_STORAGE_CONNECTION_STRING="DefaultEndpointsProtocol=https;AccountName=chirpstorage;AccountKey=yourkey;EndpointSuffix=core.windows.net"` etc.
-- Run in the linux bash terminal by running `./Chirp.Web`
+- Download the .tar.gz file from the release page on GitHub. This is a release for Linux x64.
+- Extract the published program to a directory.
+- The project can be run by executing `Chirp.Web` in the bash terminal set to the release directory.
+- It is mandatory to set the environment variable `CHIRPDBPATH` to the SQLite database location. Optionally set the Azure Blob Storage and GitHub OAuth variables.
+- Setting `CHIRPDBPATH` to `":memory:"` will run _Chirp!_ with an in-memory database and sample user data. 
+- For persistent user data, set `CHIRPDBPATH` to the path for a database file. E.g. `/chirpdata/chirp.db`. The database will automatically be created if it does not exist, but the directory must exist.
+
+Examples of these environment variables are: 
+
+```bash
+export CHIRPDBPATH=":memory:"
+export CHIRPDBPATH="/Temp/db.db"
+export AZURE__STORAGE__CONNECTION__STRING="DefaultEndpointsProtocol=https;
+AccountName=chirpstorage;AccountKey=yourkey;EndpointSuffix=core.windows.net"
+```
 
 ## How to run test suite locally
 
