@@ -23,13 +23,16 @@ toc: true
 
 Here comes a description of our domain model.
 
-![Illustration of the _Chirp!_ data model as UML class diagram.](images/domain_model.png)
+![Illustration of the _Chirp!_ data model as a UML class diagram.](images/domain_model.png)
 
 ## Architecture — In the small
 
 ![Illustration of the _Chirp!_ code architecture as a UML class diagram.](images/code-architecture.png)
 
 ## Architecture of deployed application
+
+![Illustration of the _Chirp!_ deployment as a package diagram.](images/code-architecture.png)
+
 
 ## User activities
 
