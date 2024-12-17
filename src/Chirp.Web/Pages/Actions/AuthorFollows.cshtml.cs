@@ -6,10 +6,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace Chirp.Web.Pages.Actions;
 
 /// <summary>
-/// Form post page for following and un-following other Authors.
-/// 
+/// <para>Form post page for following and un-following other Authors.</para>
+/// <para>
 /// - Information on how OnPost handlers work:
 /// https://www.aspsnippets.com/Articles/3165/Using-the-OnPost-handler-method-in-ASPNet-Core-Razor-Pages/#google_vignette
+/// </para>
 /// </summary>
 public class AuthorFollowsModel : PageModel
 {
@@ -30,7 +31,7 @@ public class AuthorFollowsModel : PageModel
     }
 
     /// <summary>
-    /// Updates Chirp! so that the calling user now follows a specified user.
+    /// Post to Chirp! that the calling user now follows a specified user.
     /// </summary>
     /// <param name="authorName">Author to follow.</param>
     /// <param name="returnUrl"></param>
@@ -46,7 +47,7 @@ public class AuthorFollowsModel : PageModel
     }
 
     /// <summary>
-    /// Updates Chirp! so that the calling user no longer follows a specified user.
+    /// Post to Chirp! that the calling user no longer follows a specified user.
     /// </summary>
     /// <param name="authorName">Author to unfollow.</param>
     /// <param name="returnUrl"></param>
