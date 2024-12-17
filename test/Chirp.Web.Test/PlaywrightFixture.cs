@@ -197,7 +197,7 @@ namespace Chirp.Web.Test
                 Browser.Chromium => ChromiumBrowser.Value,
                 Browser.Firefox => FirefoxBrowser.Value,
                 Browser.Webkit => WebkitBrowser.Value,
-                _ => throw new InvalidOperationException(),
+                _ => throw new NotSupportedException(),
             };
         }
     }
