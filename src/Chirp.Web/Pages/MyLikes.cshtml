@@ -22,30 +22,7 @@
         <ul id="messagelist" class="cheeps">
             @foreach (var cheep in Model.Cheeps)
             {
-                <li>
-                    <p>
-                        <strong>
-                            <img src="@cheep.AuthorProfilePicture"
-                                alt="@cheep.Author's profile picture"
-                                class="profile-pic"
-                                style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;" />
-                            <a href="/User/@cheep.Author">@cheep.Author</a>
-                        </strong>
-                        @if (SignInManager.IsSignedIn(User))
-                        {
-                            @if (cheep.IsLikedByUser)
-                            {
-                                <form method="post" autocomplete="off">
-                                <input type="hidden" name="cheepId" value="@cheep.Id"/>
-                                <input type="hidden" name="returnUrl" value="@Request.Path" />
-                                <button class="btn btn-primary" type="submit" asp-page="/Actions/AuthorLikes" asp-page-handler="RemoveLike">Remove Like</button>
-                                </form>
-                            }
-                        }
-                        @cheep.Message
-                        <small>&mdash; @cheep.TimeStamp</small>
-                    </p>
-                </li>
+                <partial name="_CheepView" model="cheep" />
             }
             <div style="margin: auto; width: 50%; text-align: center;">
                 Showing @Model.Cheeps.Count messages <br>

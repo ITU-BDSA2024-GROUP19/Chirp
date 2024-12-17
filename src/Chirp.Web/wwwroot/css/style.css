@@ -143,7 +143,7 @@ div.page ul.cheeps li {
 }
 
 div.page ul.cheeps p {
-  margin: 0;
+  margin: 2pt 0 2pt 0;
 }
 
 div.page ul.cheeps li img {
@@ -300,4 +300,9 @@ ul.nav li a:hover {
 .btn-danger-custom:hover {
     background-color: #c82333;
     border-color: #bd2130;
+}
+
+div.page ul.cheeps form {
+    display: inline-block;
+    margin-right: 5px;
 }

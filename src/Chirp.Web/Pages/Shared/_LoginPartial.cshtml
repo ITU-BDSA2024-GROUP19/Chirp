@@ -3,21 +3,26 @@
 @inject SignInManager<Author> SignInManager
 @inject UserManager<Author> UserManager
 
-    @if (SignInManager.IsSignedIn(User))
-    {
-        <nav>
-        <a href="/">Public Timeline</a> | 
-        <a href="/User/@User.Identity?.Name">My Timeline</a> | 
-        <a href="/MyLikes">My Likes</a> |
-        <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">About Me</a> | <!--- Hello @User.Identity?.Name! -->
-        <a asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">Logout</a>
-        </nav>
-    }
-    else
-    {
-        <nav>
-        <a href="/">Public Timeline</a> | 
-        <a asp-area="Identity" asp-page="/Account/Register">Register</a> | 
-        <a asp-area="Identity" asp-page="/Account/Login">Login</a>
-        </nav>
-    }
+@*
+Partial markup for the navigation bar.
+Inserted into the _Layout partial.
+*@
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <nav>
+    <a href="/">Public Timeline</a> | 
+    <a href="/User/@User.Identity?.Name">My Timeline</a> | 
+    <a href="/MyLikes">My Likes</a> |
+    <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">About Me</a> | <!--- Hello @User.Identity?.Name! -->
+    <a asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">Logout</a>
+    </nav>
+}
+else
+{
+    <nav>
+    <a href="/">Public Timeline</a> | 
+    <a asp-area="Identity" asp-page="/Account/Register">Register</a> | 
+    <a asp-area="Identity" asp-page="/Account/Login">Login</a>
+    </nav>
+}
