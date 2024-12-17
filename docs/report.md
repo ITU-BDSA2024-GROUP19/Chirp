@@ -28,6 +28,10 @@ The two main entities of _Chirp!_ are `Author` and `Cheep`.
 
 These entity types are saved to a database using _Enitiy Framework Core_.[^2] EF Core supports saving these entities in a relational database for the application, and is able to apply _migrations_ to this database as the entities change and features are added. 
 
+In addition to the main entities, we have derived types for data transfer and page model types. Data transfer objects such as `CheepDto` are used where data leaves `Chirp.Infrastructure` for other services. In this way we have greater control over data leaving our infrastructure layer. Example: Each `Cheep` has an `Author` object reference to the writer. This entity has fields with email data, password hashes, etc. A `CheepDto` passed to another service only contains the author name and profile picture link.
+
+In addition, `Chirp.Web` uses a `CheepViewModel` to represent the same data when prepared for display on the website. This design choice allows `CheepDto` to also be used for other services such as serving Cheeps as JSON. 
+
 [^1]: _IdentityUser Class Reference_ https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.identity.identityuser
 
 [^2]: Lock, Chapter 12: _Saving data with Entity Framework Core_ 
