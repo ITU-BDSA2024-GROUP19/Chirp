@@ -42,9 +42,7 @@ In addition, `Chirp.Web` uses a `CheepViewModel` to represent the same data when
 
 ## Architecture — In the small
 
-![Illustration of the _Chirp!_ code architecture as a UML class diagram.](images/code-architecture.png)
-
-Above is an illustration of the organization of our code base.
+Below is an illustration of the organization of our code base.
 We have implemented the 'Onion Architecture'. The four colours in the diagram refer to the four layers of the architectural pattern[^3].
 Our code base is divided into three folders:
 - `Chirp.Web` handles the outer UI layer. In this folder all code referring to displaying our application resides. This includes all Razor Pages and their respective models. As this is the outermost layer, `Chirp.Web` has knowledge of all architectural layers.
@@ -52,6 +50,7 @@ Our code base is divided into three folders:
 - `Chirp.Core` only contains the two Domain Entities `Author` and `Cheep`. Hence `Chirp.Core` has no knowledge of any other layers.
 
 The diagram shows that our code base only has inward dependencies, in compliance with the 'Onion Architecture'. Thereby no inner layer has any knowledge of outer layers.
+![Illustration of the _Chirp!_ code architecture as a UML class diagram.](images/code-architecture.png)
  
 [^3]: _Colouring of the 'Onion Architecture' inspiration_ https://github.com/itu-bdsa/lecture_notes/blob/main/sessions/session_07/images/onion_architecture.webp
 
@@ -71,8 +70,7 @@ The diagram shows that our code base only has inward dependencies, in compliance
 
 ## Build, test, release, and deployment
 
-![Illustration of _Chirp! build, test and deployment workflows as a UML activity diagram.](images/github-actions.png)
-Above is an illustration of how our two workflows interact with different github action triggers.
+Below is an illustration of how our two workflows interact with different github action triggers.
 We have two workflows:
 - _`build_and_test`_ makes sure the program builds and tests locally.
 - _`bdsa2024group19chirprazordeploy`_ handles deployment to Azure.
@@ -83,9 +81,10 @@ Both of our workflows run on a local Ubuntu instance, that is created at the sta
 Both the workflows checks out our code base, sets up .NET8 and runs a dotnet restore, build and test.
 The deployment workflow then deploys the newly build application to Azure. Note that this workflow is only triggered on a push to main.
 
+![Illustration of _Chirp! build, test and deployment workflows as a UML activity diagram.](images/github-actions.png)
+
 ## Team work
 
-![Illustration of the workflow when working on _Chirp!  as a UML activity diagram.](images/workflow.png)
 When a new task arises, an issue is created on github using it's build-in ticket system.
 The issue is then created based on a set of rules shown in our `README.md` file, including:
 - Issue Title Format: "('Session week number', 'issue number') 'Title of the issue at hand'"
@@ -98,7 +97,7 @@ Afterwards, development begins and runs iteratively until all acceptance criteri
 If the developer thinks the task is done, they create a pull request.
 If another group member believes changes are necessary, a new development cycle begins.
 The contents are only pushed to main when the pull request gets a minimum of one approval.
-
+![Illustration of the workflow when working on _Chirp!  as a UML activity diagram.](images/workflow.png)
 
 ## How to make _Chirp!_ work locally
 
