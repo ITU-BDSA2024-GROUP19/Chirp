@@ -5,6 +5,13 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Chirp.Web.Pages.Actions;
 
+/// <summary>
+/// <para>Form post page for following and un-following other Authors.</para>
+/// <para>
+/// - Information on how OnPost handlers work:
+/// https://www.aspsnippets.com/Articles/3165/Using-the-OnPost-handler-method-in-ASPNet-Core-Razor-Pages/#google_vignette
+/// </para>
+/// </summary>
 public class AuthorFollowsModel : PageModel
 {
     private readonly IAuthorService _authorService;
@@ -14,12 +21,21 @@ public class AuthorFollowsModel : PageModel
         _authorService = authorService;
     }
 
+    /// <summary>
+    /// HTTP GET is not supported by this page.
+    /// </summary>
+    /// <returns>Always: 405 - Method Not Allowed</returns>
     public IActionResult OnGet()
     {
         return new StatusCodeResult(405); // Method not allowed
     }
 
-    //https://www.aspsnippets.com/Articles/3165/Using-the-OnPost-handler-method-in-ASPNet-Core-Razor-Pages/#google_vignette
+    /// <summary>
+    /// Post to Chirp! that the calling user now follows a specified user.
+    /// </summary>
+    /// <param name="authorName">Author to follow.</param>
+    /// <param name="returnUrl"></param>
+    /// <returns>Redirect to returnUrl.</returns>
     public IActionResult OnPostFollow(string authorName, string? returnUrl = null)
     {
         Console.WriteLine("AuthorFollows OnPostFollow(...) called");
@@ -30,6 +46,12 @@ public class AuthorFollowsModel : PageModel
         return LocalRedirect(returnUrl);
     }
 
+    /// <summary>
+    /// Post to Chirp! that the calling user no longer follows a specified user.
+    /// </summary>
+    /// <param name="authorName">Author to unfollow.</param>
+    /// <param name="returnUrl"></param>
+    /// <returns>Redirect to returnUrl.</returns>
     public IActionResult OnPostUnfollow(string authorName, string? returnUrl = null)
     {
         Console.WriteLine("AuthorFollows OnPostUnfollow(...) called");

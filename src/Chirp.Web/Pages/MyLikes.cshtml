@@ -1,6 +1,7 @@
-﻿@page "/User/{author}"
-@model Chirp.Web.Pages.UserTimelineModel
+﻿@page "/MyLikes"
+@model Chirp.Web.Pages.MyLikesModel
 @inject SignInManager<Author> SignInManager
+@inject UserManager<Author> UserManager
 
 @{
     ViewData["Title"] = "Chirp!";
@@ -9,7 +10,7 @@
 }
 
 <div>
-    <h2> @routeName's Timeline </h2>
+    <h2> My Liked Cheeps</h2>
 
     @if (User.Identity!.Name == (string)routeName!)
     {

@@ -10,6 +10,7 @@ public interface ICheepService
 {
     List<CheepDto> GetCheeps(int page, string userName);
     List<CheepDto> GetCheepsFromAuthor(int page, string author, string userName);
+    List<CheepDto> GetCheepsFromAuthorLikes(int page, string userName);
     List<CheepDto> GetCheepsFromMe(int page, string userName);
     List<CheepDto> GetAllCheepsFromAuthor(string author, string userName);
     Task LikeCheep(int cheepId, string authorName);
@@ -38,6 +39,11 @@ public class CheepService : ICheepService
         return _cheepRepository.GetCheepDTOFromAuthor(page, author, userName).Result;
     }
 
+    public List<CheepDto> GetCheepsFromAuthorLikes(int page, string userName)
+    {
+        return _cheepRepository.GetCheepDTOFromAuthorLikes(page, userName).Result;
+    }
+    
     public List<CheepDto> GetCheepsFromMe(int page, string userName)
     {
         return _cheepRepository.GetCheepDTOFromMe(page, userName).Result;
