@@ -56,11 +56,13 @@ The diagram shows that our code base only has inward dependencies, in compliance
 
 ## Architecture of deployed application
 
+The class diagram below shows how the architecture of _Chirp!_ looks when deployed. It is a client-server application where clients connect to a webservice through HTTP. 
+All of the HTTP GET/POST requests are then handled by Azure App Service using an SQLite database.
 ![Illustration of the _Chirp!_ deployment as a UML package diagram.](images/deployment-diagram.png)
 
 ## User activities
 
-The illustration below shows two user journeys. The first one shows the journey of an unauthorized user, and the second one shows what becomes available when the user has logged in (is authorized). 
+The illustration below shows two user journeys. The first one shows the journey of an unauthorized user, and the second one shows what becomes available when the user has logged in/is authorized. 
 ![Illustration of _Chirp!_ user activities as a UML activity diagram.](images/user_activities.png)
 
 ## Sequence of functionality/calls trough _Chirp!_
