@@ -60,7 +60,13 @@ The diagram shows that our code base only has inward dependencies, in compliance
 
 ## Build, test, release, and deployment
 
-![Illustration of _Chirp! build, test and deployment workflows a UML activity diagram.](images/github-actions.png)
+![Illustration of _Chirp! build, test and deployment workflows as a UML activity diagram.](images/github-actions.png)
+If a pull request is triggered our build_and_test workflow is activated.
+If a push to main is triggered both workflows are activated sequentially.
+Both of our workflows run on a local Ubuntu instance, that is created at the start of the workflow.
+Both the workflows checks out our code base, sets up .NET8 and runs a dotnet restore, build and test.
+The deployment workflow then deploys the newly build application to Azure. Note that this workflow is only triggered on a push to main.
+
 
 ## Team work
 
