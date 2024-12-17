@@ -50,6 +50,7 @@ Our code base is divided into three folders:
 - `Chirp.Core` only contains the two Domain Entities `Author` and `Cheep`. Hence `Chirp.Core` has no knowledge of any other layers.
 
 The diagram shows that our code base only has inward dependencies, in compliance with the 'Onion Architecture'. Thereby no inner layer has any knowledge of outer layers.
+
 ![Illustration of the _Chirp!_ code architecture as a UML class diagram.](images/code-architecture.png)
  
 [^3]: _Colouring of the 'Onion Architecture' inspiration_ https://github.com/itu-bdsa/lecture_notes/blob/main/sessions/session_07/images/onion_architecture.webp
@@ -58,11 +59,13 @@ The diagram shows that our code base only has inward dependencies, in compliance
 
 The class diagram below shows how the architecture of _Chirp!_ looks when deployed. It is a client-server application where clients connect to a webservice through HTTP. 
 All of the HTTP GET/POST requests are then handled by Azure App Service using an SQLite database.
+
 ![Illustration of the _Chirp!_ deployment as a UML package diagram.](images/deployment-diagram.png)
 
 ## User activities
 
 The illustration below shows two user journeys. The first one shows the journey of an unauthorized user, and the second one shows what becomes available when the user has logged in/is authorized. 
+
 ![Illustration of _Chirp!_ user activities as a UML activity diagram.](images/user_activities.png)
 
 ## Sequence of functionality/calls trough _Chirp!_
@@ -74,7 +77,9 @@ The illustration below shows two user journeys. The first one shows the journey 
 ## Build, test, release, and deployment
 
 Below is an illustration of how our two workflows interact with different github action triggers.
+
 We have two workflows:
+
 - _`build_and_test`_ makes sure the program builds and tests locally.
 - _`bdsa2024group19chirprazordeploy`_ handles deployment to Azure.
 
@@ -100,6 +105,7 @@ Afterwards, development begins and runs iteratively until all acceptance criteri
 If the developer thinks the task is done, they create a pull request.
 If another group member believes changes are necessary, a new development cycle begins.
 The contents are only pushed to main when the pull request gets a minimum of one approval.
+
 ![Illustration of the workflow when working on _Chirp!  as a UML activity diagram.](images/workflow.png)
 
 ## How to make _Chirp!_ work locally
