@@ -171,4 +171,46 @@ public class Playwright_StatusTest : PageTest
             }, 
             Test.Browser.Chromium);
     }
+    
+    [Fact]
+    public async Task UserCanNotCreateMultipleUsersWithSameEmail()
+    {
+        var url = "https://localhost:5000";
+        
+        using var hostFactory = new WebTestingHostFactory<Program>();
+        hostFactory.WithWebHostBuilder(builder =>  // Override host configuration to mock stuff if required.
+        {
+            builder.UseUrls(url);   // Setup the url to use.
+        })
+        .CreateDefaultClient();
+
+        await _playwrightFixture.GotoPageAsync(
+            url,
+            async (page) =>
+            {
+                await page.GetByRole(AriaRole.Link, new() { Name = "Register" }).ClickAsync();
+                await page.GetByPlaceholder("username").ClickAsync();
+                await page.GetByPlaceholder("username").FillAsync("test");
+                await page.GetByPlaceholder("name@example.com").ClickAsync();
+                await page.GetByPlaceholder("name@example.com").FillAsync("test@gmail.com");
+                await page.GetByLabel("Password", new() { Exact = true }).ClickAsync();
+                await page.GetByLabel("Password", new() { Exact = true }).FillAsync("Test123!");
+                await page.GetByLabel("Confirm Password").ClickAsync();
+                await page.GetByLabel("Confirm Password").FillAsync("Test123!");
+                await page.GetByRole(AriaRole.Button, new() { Name = "Register" }).ClickAsync();
+                await page.GetByRole(AriaRole.Link, new() { Name = "Click here to confirm your" }).ClickAsync();
+                await page.GetByRole(AriaRole.Button, new() { Name = "Go to Login" }).ClickAsync();
+                await page.GetByRole(AriaRole.Button, new() { Name = "GitHub" }).ClickAsync();
+                await page.GetByLabel("Username or email address").FillAsync("jakobsnder@gmail.com");
+                await page.GetByLabel("Password").ClickAsync();
+                await page.GetByLabel("Password").FillAsync("Luzetti13");
+                await page.GetByRole(AriaRole.Button, new() { Name = "Sign in", Exact = true }).ClickAsync();
+                await page.GotoAsync(url + "/Identity/Account/ExternalLogin?returnUrl=%2F&handler=Callback");
+                await page.GetByPlaceholder("Please enter your email.").ClickAsync();
+                await page.GetByPlaceholder("Please enter your email.").FillAsync("test@gmail.com");
+                await page.GetByRole(AriaRole.Button, new() { Name = "Register" }).ClickAsync();
+                await Expect(Page.GetByRole(AriaRole.Listitem)).ToContainTextAsync("Email 'test@gmail.com' is already taken.");
+            }, 
+            Test.Browser.Chromium);
+    }
 }
