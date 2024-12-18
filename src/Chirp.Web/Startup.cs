@@ -151,7 +151,7 @@ public class Startup(IConfiguration configuration, IHostEnvironment environment)
     /// Configures the middleware stack for Chirp.
     /// </summary>
     /// <param name="app"></param>
-    public async void Configure(WebApplication app)
+    public async Task Configure(WebApplication app)
     {
         if (!app.Environment.IsDevelopment())
         {
