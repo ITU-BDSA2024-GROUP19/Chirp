@@ -46,21 +46,21 @@ namespace Chirp.Web.Test
         /// <summary>
         /// Playwright module.
         /// </summary>
-        public IPlaywright Playwright { get; private set; }
+        public IPlaywright? Playwright { get; private set; }
         /// <summary>
         /// Chromium lazy initializer.
         /// </summary>
-        public Lazy<Task<IBrowser>> ChromiumBrowser { get; private set; }
+        public Lazy<Task<IBrowser>>? ChromiumBrowser { get; private set; }
 
         /// <summary>
         /// Firefox lazy initializer.
         /// </summary>
-        public Lazy<Task<IBrowser>> FirefoxBrowser { get; private set; }
+        public Lazy<Task<IBrowser>>? FirefoxBrowser { get; private set; }
 
         /// <summary>
         /// Webkit lazy initializer.
         /// </summary>
-        public Lazy<Task<IBrowser>> WebkitBrowser { get; private set; }
+        public Lazy<Task<IBrowser>>? WebkitBrowser { get; private set; }
         /// <summary>
         /// Initialize the Playwright fixture.
         /// </summary>
@@ -219,13 +219,20 @@ namespace Chirp.Web.Test
         /// <returns>The selected IBrowser instance.</returns>
         private Task<IBrowser> SelectBrowserAsync(Browser browser)
         {
-            return browser switch
+            switch (browser)
             {
-                Browser.Chromium => ChromiumBrowser.Value,
-                Browser.Firefox => FirefoxBrowser.Value,
-                Browser.Webkit => WebkitBrowser.Value,
-                _ => throw new NotSupportedException(),
+                case Browser.Chromium:
+                    if (ChromiumBrowser != null) return ChromiumBrowser.Value;
+                    break;
+                case Browser.Firefox:
+                    if (FirefoxBrowser != null) return FirefoxBrowser.Value;
+                    break;
+                case Browser.Webkit:
+                    if (WebkitBrowser != null) return WebkitBrowser.Value;
+                    break;
             };
+
+            throw new NotSupportedException();
         }
     }
     
