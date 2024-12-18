@@ -101,13 +101,10 @@ Below is an illustration of how our two workflows interact with different github
 
 We have three workflows:
 
-- _`build_and_test`_ makes sure the program builds and tests locally.
-- _`github-auto-release-WebApp`_ handles new releases of _Chirp!_, and deploys them to Azure
-- _`bdsa2024group19chirprazordeploy`_ handles deployment to Azure.
+- _`build_and_test`_ makes sure the program builds and tests locally. This workflow is activated whenever a pull request is first made, as a check prior to review.
+- _`github-auto-release-WebApp`_ creates new releases of _Chirp!_. This workflow is activated whenever we tag a specific commit on the main branch with a version tag. 
+- _`bdsa2024group19chirprazordeploy`_ handles deployment to Azure. When a pull request to the main branch closes with a merge, this workflow deploys the new version to our website.
 
-If a pull request is triggered our _`build_and_test`_ workflow is activated.
-If a tag is added to the main branch the _`github-auto-release-WebApp`_ is triggered
-If a push to main is triggered both the _`build_and_test`_ and _`bdsa2024group19chirprazordeploy`_ workflows are activated sequentially.
 All of our workflows run on a local Ubuntu instance, that is created at the start of the workflow.
 All the workflows checks out our code base, sets up .NET8 and runs a dotnet restore, build and test.
 The deployment and release workflow then deploys the newly build application to Azure. Finally the release workflow creates a new github release with the necessary files.
