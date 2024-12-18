@@ -9,6 +9,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Infrastructure.Authors;
 
+/// <summary>
+/// Interface defining access to the "Authors" database set.
+/// </summary>
 public interface IAuthorRepository
 {
     Task<IdentityResult> AddAuthorAsync(Author user, string? password = null);
@@ -22,6 +25,9 @@ public interface IAuthorRepository
     Task DeleteProfilePicture(string username);
 }
 
+/// <summary>
+/// Repository class for access to the "Authors" database set.
+/// </summary>
 public class AuthorRepository : IAuthorRepository
 {
     private readonly UserManager<Author> _userManager;

@@ -2,9 +2,23 @@
 
 namespace Chirp.Infrastructure.External;
 
+/// <summary>
+/// Defines an optional connection to a Blob Container Client.
+/// Made for use with Azure Storage.
+/// </summary>
 public interface IOptionalBlobServiceClient
 {
-    BlobContainerClient GetBlobContainerClient(string BlobContainerName);
+    /// <summary>
+    /// Makes call to BlobServiceClient.GetBlobContainerClient()
+    /// </summary>
+    /// <param name="blobContainerName"></param>
+    /// <returns>A BlobContainerClient for the desired container.</returns>
+    BlobContainerClient GetBlobContainerClient(string blobContainerName);
+
+    /// <summary>
+    /// Poll method for whether a BlobServiceClient is available.
+    /// </summary>
+    /// <returns><b>true</b> when a BlobServiceClient is available.</returns>
     bool IsAvailable();
 }
 

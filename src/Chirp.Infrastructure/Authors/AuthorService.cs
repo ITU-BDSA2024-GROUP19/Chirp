@@ -1,14 +1,12 @@
-// Re-uses substantial parts of the Identity page models code, for which this license applies.
-//
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-
 using Chirp.Core;
 
 using Microsoft.AspNetCore.Identity;
 
 namespace Chirp.Infrastructure.Authors;
 
+/// <summary>
+/// Defines services related to the Author entity on <i>Chirp!</i>
+/// </summary>
 public interface IAuthorService
 {
     Task<AuthorService.AddAuthorResult> AddAuthor(string userName, string email, string? password = null);
@@ -22,6 +20,9 @@ public interface IAuthorService
     void DeleteProfilePicture(string username);
 }
 
+/// <summary>
+/// Implements services related to the Author entity on <i>Chirp!</i>
+/// </summary>
 public class AuthorService : IAuthorService
 {
     private readonly IAuthorRepository _repository;
@@ -49,29 +50,6 @@ public class AuthorService : IAuthorService
         await _emailStore.SetEmailAsync(user, email, CancellationToken.None);
         var result = await _repository.AddAuthorAsync(user, password);
         return new AddAuthorResult(user, result);
-    }
-
-    private Author CreateUser()
-    {
-        try
-        {
-            return Activator.CreateInstance<Author>();
-        }
-        catch
-        {
-            throw new InvalidOperationException($"Can't create an instance of '{nameof(Author)}'. " +
-                                                $"Ensure that '{nameof(Author)}' is not an abstract class and has a parameterless constructor, or alternatively " +
-                                                $"override the external login page in /Areas/Identity/Pages/Account/ExternalLogin.cshtml");
-        }
-    }
-
-    private IUserEmailStore<Author> GetEmailStore()
-    {
-        if (!_userManager.SupportsUserEmail)
-        {
-            throw new NotSupportedException("The default UI requires a user store with email support.");
-        }
-        return (IUserEmailStore<Author>)_userStore;
     }
 
     public void FollowAuthor(string followerName, string authorName)
@@ -110,5 +88,36 @@ public class AuthorService : IAuthorService
     public void DeleteProfilePicture(string username)
     {
         _repository.DeleteProfilePicture(username);
+    }
+
+    // Re-used part of the Identity page models code, for which this license applies:
+    //
+    // Licensed to the .NET Foundation under one or more agreements.
+    // The .NET Foundation licenses this file to you under the MIT license.
+    private Author CreateUser()
+    {
+        try
+        {
+            return Activator.CreateInstance<Author>();
+        }
+        catch
+        {
+            throw new InvalidOperationException($"Can't create an instance of '{nameof(Author)}'. " +
+                                                $"Ensure that '{nameof(Author)}' is not an abstract class and has a parameterless constructor, or alternatively " +
+                                                $"override the external login page in /Areas/Identity/Pages/Account/ExternalLogin.cshtml");
+        }
+    }
+
+    // Re-used part of the Identity page models code, for which this license applies:
+    //
+    // Licensed to the .NET Foundation under one or more agreements.
+    // The .NET Foundation licenses this file to you under the MIT license.
+    private IUserEmailStore<Author> GetEmailStore()
+    {
+        if (!_userManager.SupportsUserEmail)
+        {
+            throw new NotSupportedException("The default UI requires a user store with email support.");
+        }
+        return (IUserEmailStore<Author>)_userStore;
     }
 }
