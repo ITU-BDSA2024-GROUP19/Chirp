@@ -91,7 +91,7 @@ public class Playwright_StatusTest : PageTest
     [Fact]
     public async Task PageOnRootSameAsPageOne()
     {
-        var url = "https://localhost:5001";
+        var url = "https://localhost:5000";
         
         using var hostFactory = new WebTestingHostFactory<Program>();
         var cli = hostFactory.WithWebHostBuilder(builder =>  // Override host configuration to mock stuff if required.
@@ -104,5 +104,30 @@ public class Playwright_StatusTest : PageTest
         _output.WriteLine(body_1);  // Allows us to see response body in test result output.
         var body_2 = await cli.GetStringAsync("/?page=1");
         Assert.True(body_1.SequenceEqual(body_2));
+    }
+
+    [Fact]
+    public async Task HelgesPrivateTimelineIsDisplayed()
+    {
+        var url = "https://localhost:5000";
+        
+        using var hostFactory = new WebTestingHostFactory<Program>();
+        hostFactory.WithWebHostBuilder(builder =>  // Override host configuration to mock stuff if required.
+        {
+            builder.UseUrls(url);   // Setup the url to use.
+        })
+        .CreateDefaultClient();
+
+        await _playwrightFixture.GotoPageAsync(
+            url + "/User/Helge",
+            async (page) =>
+            {
+                await Expect(page.Locator("h2")).ToContainTextAsync("Helge's Timeline");
+                await Expect(page.GetByRole(AriaRole.Strong)).ToContainTextAsync("Helge");
+                await Expect(page.GetByRole(AriaRole.Listitem)).ToContainTextAsync("— 01-08-2023 14:16:48");
+                await Expect(page.GetByRole(AriaRole.Listitem)).ToContainTextAsync("Hello, BDSA students!");
+                await Expect(page.Locator("#messagelist")).ToContainTextAsync("Showing 1 messages next page");
+            }, 
+            Test.Browser.Chromium);
     }
 }
