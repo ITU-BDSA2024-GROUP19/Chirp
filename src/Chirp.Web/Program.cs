@@ -16,9 +16,14 @@ public class Program
 
         var app = builder.Build();
 
-        startup.Configure(app);
+        startup.Configure(app).Wait();
 
         app.Run();
     }
-
+    
+    public class AssemblyClassLocator
+    {
+        
+    }
 }
+
