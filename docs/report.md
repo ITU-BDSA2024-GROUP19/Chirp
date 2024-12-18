@@ -36,7 +36,7 @@ Content preparation in `Chirp.Web` formats `CheepDto` data for web display as `C
 
 [^1]: _IdentityUser Class Reference_ https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.identity.identityuser
 
-[^2]: Lock, Chapter 12: _Saving data with Entity Framework Core_ 
+[^2]: Andrew Lock, "ASP.NET Core in Action", Chapter 12: _Saving data with Entity Framework Core_, 3rd edition, 2023
 
 ![Illustration of the _Chirp!_ data model as a UML class diagram.](images/domain_model.png)
 
