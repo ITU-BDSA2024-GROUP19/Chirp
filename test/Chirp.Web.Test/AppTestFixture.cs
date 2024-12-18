@@ -33,7 +33,7 @@ public class AppTestFixture : IDisposable
 
         var app = builder.Build();
 
-        startup.Configure(app);
+        startup.Configure(app).Wait();
 
         return app;
     }
