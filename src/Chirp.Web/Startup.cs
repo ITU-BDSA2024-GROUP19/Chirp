@@ -142,6 +142,7 @@ public class Startup(IConfiguration configuration, IHostEnvironment environment)
         services.AddDefaultIdentity<Author>(options =>
         {
             options.SignIn.RequireConfirmedAccount = true;
+            options.User.RequireUniqueEmail = true;
         })
             .AddEntityFrameworkStores<ChirpDBContext>();
     }
