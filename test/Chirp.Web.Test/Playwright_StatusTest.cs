@@ -25,6 +25,9 @@
 using Microsoft.AspNetCore.Hosting;
 using Xunit;
 using Microsoft.Playwright;
+using Xunit.Abstractions;
+
+using Assert = Xunit.Assert;
 
 namespace Chirp.Web.Test;
 
@@ -46,15 +49,20 @@ namespace Chirp.Web.Test;
 [Collection(PlaywrightFixture.PlaywrightCollection)]
 public class Playwright_StatusTest : PageTest
 {
-    private readonly PlaywrightFixture playwrightFixture;
+    private readonly PlaywrightFixture _playwrightFixture;
+    private readonly ITestOutputHelper _output;
+
     /// <summary>
     /// Setup test class injecting a playwrightFixture instance.
     /// </summary>
     /// <param name="playwrightFixture">The playwrightFixture
     /// instance.</param>
-    public Playwright_StatusTest(PlaywrightFixture playwrightFixture)
+    public Playwright_StatusTest(
+        PlaywrightFixture playwrightFixture,
+        ITestOutputHelper output)
     {
-        this.playwrightFixture = playwrightFixture;
+        _playwrightFixture = playwrightFixture;
+        _output = output;
     }
     
     [Fact]
@@ -69,7 +77,7 @@ public class Playwright_StatusTest : PageTest
         })
         .CreateDefaultClient();
 
-        await playwrightFixture.GotoPageAsync(
+        await _playwrightFixture.GotoPageAsync(
             url,
             async (page) =>
             {
@@ -78,5 +86,23 @@ public class Playwright_StatusTest : PageTest
                 await Expect(page.GetByText("Showing 32 messages next page")).ToBeVisibleAsync();
             }, 
             Test.Browser.Chromium);
+    }
+
+    [Fact]
+    public async Task PageOnRootSameAsPageOne()
+    {
+        var url = "https://localhost:5001";
+        
+        using var hostFactory = new WebTestingHostFactory<Program>();
+        var cli = hostFactory.WithWebHostBuilder(builder =>  // Override host configuration to mock stuff if required.
+        {
+            builder.UseUrls(url);   // Setup the url to use.
+        })
+        .CreateClient();
+
+        var body_1 = await cli.GetStringAsync("/");
+        _output.WriteLine(body_1);  // Allows us to see response body in test result output.
+        var body_2 = await cli.GetStringAsync("/?page=1");
+        Assert.True(body_1.SequenceEqual(body_2));
     }
 }
