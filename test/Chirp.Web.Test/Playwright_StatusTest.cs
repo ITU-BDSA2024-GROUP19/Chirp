@@ -147,6 +147,7 @@ public class Playwright_StatusTest : PageTest
             url,
             async (page) =>
             {
+                // Login Action
                 await page.GetByRole(AriaRole.Link, new() { Name = "Login" }).ClickAsync();
                 await page.GetByPlaceholder("username").ClickAsync();
                 await page.GetByPlaceholder("username").FillAsync("Helge");
@@ -154,14 +155,19 @@ public class Playwright_StatusTest : PageTest
                 await page.GetByPlaceholder("password").FillAsync("LetM31n!");
                 await page.GetByRole(AriaRole.Button, new() { Name = "Log in" }).ClickAsync();
 
+                // Assert Login 
                 await Expect(page.Locator("h3")).ToContainTextAsync("What's on your mind Helge?");
                 await Expect(page.GetByRole(AriaRole.Navigation)).ToContainTextAsync("Logout");
 
+                // Attack Action
                 await page.Locator("#Message").ClickAsync();
                 await page.Locator("#Message").FillAsync("Hello, I am feeling good!<script>alert('If you see this in a popup, you are in trouble!');</script>");
                 await page.GetByRole(AriaRole.Button, new() { Name = "Share" }).ClickAsync();
 
+                // Assert Attack 
                 await Expect(page.Locator("#messagelist")).ToContainTextAsync("<script>alert('If you see this in a popup, you are in trouble!');</script>");
+                
+                // Logout Action
                 await page.GetByRole(AriaRole.Link, new() { Name = "Logout" }).ClickAsync();
                 await page.GetByRole(AriaRole.Button, new() { Name = "Click here to Logout" }).ClickAsync();
             }, 
