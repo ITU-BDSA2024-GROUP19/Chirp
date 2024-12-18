@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Chirp.Infrastructure.Authors;
 
+/// <summary>
+/// Defines services related to the Author entity on <i>Chirp!</i>
+/// </summary>
 public interface IAuthorService
 {
     Task<AuthorService.AddAuthorResult> AddAuthor(string userName, string email, string? password = null);
@@ -17,6 +20,9 @@ public interface IAuthorService
     void DeleteProfilePicture(string username);
 }
 
+/// <summary>
+/// Implements services related to the Author entity on <i>Chirp!</i>
+/// </summary>
 public class AuthorService : IAuthorService
 {
     private readonly IAuthorRepository _repository;

@@ -6,6 +6,9 @@ using Chirp.Infrastructure.Authors;
 
 namespace Chirp.Infrastructure.Cheeps;
 
+/// <summary>
+/// Defines services related to the Cheep entity on <i>Chirp!</i>
+/// </summary>
 public interface ICheepService
 {
     List<CheepDto> GetCheeps(int page, string userName);
@@ -18,6 +21,9 @@ public interface ICheepService
     void AddCheep(Author author, string message);
 }
 
+/// <summary>
+/// Implements services related to the Cheep entity on <i>Chirp!</i>
+/// </summary>
 public class CheepService : ICheepService
 {
     private readonly ICheepRepository _cheepRepository;
