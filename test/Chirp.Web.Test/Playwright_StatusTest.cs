@@ -31,6 +31,8 @@ namespace Chirp.Web.Test;
 /// <summary>
 /// <para>Collection of tests to confirm that the site is working as intended.</para>
 /// 
+/// <para>The tests are intended to mimic those run on https://itu-bdsa.github.io/status/report_razor_apps.html</para>
+/// 
 /// <para>
 /// Credit to Xavier Solau for releasing this Playwright test setup as a sample under MIT license:
 /// https://github.com/xaviersolau/DevArticles/tree/e2e_test_blazor_with_playwright/MyBlazorApp/MyAppTests
@@ -56,7 +58,7 @@ public class Playwright_StatusTest : PageTest
     }
     
     [Fact]
-    public async Task HomepageTest()
+    public async Task PublicTimelineIsDisplayed()
     {
         var url = "https://localhost:5000";
         
