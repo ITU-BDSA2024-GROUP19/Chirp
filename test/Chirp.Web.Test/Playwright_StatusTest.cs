@@ -130,4 +130,41 @@ public class Playwright_StatusTest : PageTest
             }, 
             Test.Browser.Chromium);
     }
+
+    [Fact]
+    public async Task HelgeLogsIn_AttemptsXSSAttack()
+    {
+        var url = "https://localhost:5000";
+        
+        using var hostFactory = new WebTestingHostFactory<Program>();
+        hostFactory.WithWebHostBuilder(builder =>  // Override host configuration to mock stuff if required.
+        {
+            builder.UseUrls(url);   // Setup the url to use.
+        })
+        .CreateDefaultClient();
+
+        await _playwrightFixture.GotoPageAsync(
+            url,
+            async (page) =>
+            {
+                await page.GetByRole(AriaRole.Link, new() { Name = "Login" }).ClickAsync();
+                await page.GetByPlaceholder("username").ClickAsync();
+                await page.GetByPlaceholder("username").FillAsync("Helge");
+                await page.GetByPlaceholder("password").ClickAsync();
+                await page.GetByPlaceholder("password").FillAsync("LetM31n!");
+                await page.GetByRole(AriaRole.Button, new() { Name = "Log in" }).ClickAsync();
+
+                await Expect(page.Locator("h3")).ToContainTextAsync("What's on your mind Helge?");
+                await Expect(page.GetByRole(AriaRole.Navigation)).ToContainTextAsync("Logout");
+
+                await page.Locator("#Message").ClickAsync();
+                await page.Locator("#Message").FillAsync("Hello, I am feeling good!<script>alert('If you see this in a popup, you are in trouble!');</script>");
+                await page.GetByRole(AriaRole.Button, new() { Name = "Share" }).ClickAsync();
+
+                await Expect(page.Locator("#messagelist")).ToContainTextAsync("<script>alert('If you see this in a popup, you are in trouble!');</script>");
+                await page.GetByRole(AriaRole.Link, new() { Name = "Logout" }).ClickAsync();
+                await page.GetByRole(AriaRole.Button, new() { Name = "Click here to Logout" }).ClickAsync();
+            }, 
+            Test.Browser.Chromium);
+    }
 }
