@@ -57,7 +57,7 @@ The diagram shows that our code base only has inward dependencies, in compliance
 
 ![Illustration of the _Chirp!_ code architecture as a UML class diagram.](images/code-architecture.png)
  
-[^3]: _Colouring of the 'Onion Architecture' inspiration_ https://github.com/itu-bdsa/lecture_notes/blob/main/sessions/session_07/images/onion_architecture.webp
+[^3]: _Colouring of the 'Onion Architecture' inspiration_ https://raw.githubusercontent.com/itu-bdsa/lecture_notes/refs/heads/main/sessions/session_07/images/onion_architecture.webp
 
 \pagebreak
 
