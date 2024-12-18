@@ -1,18 +1,45 @@
-﻿using FluentAssertions;
-using Microsoft.Playwright;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
+﻿/*
+ * Source MIT license:
+ *
+ * Copyright (c) 2022 Xavier Solau
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */ 
 
-//Taken from: https://github.com/xaviersolau/DevArticles/blob/e2e_test_blazor_with_playwright/MyBlazorApp/MyAppTests/PlaywrightFixture.cs
+using FluentAssertions;
+using Microsoft.Playwright;
+using Xunit;
 
 namespace Chirp.Web.Test
 {
     /// <summary>
-    /// Playwright fixture implementing an asynchronous life cycle.
+    /// <para>Fixture allowing Playwright to configure the testing environment as necessary.</para>
+    /// 
+    /// <para>
+    /// Credit to Xavier Solau for releasing this Playwright test setup as a sample under MIT license:
+    /// https://github.com/xaviersolau/DevArticles/tree/e2e_test_blazor_with_playwright/MyBlazorApp/MyAppTests
+    /// </para>
+    /// 
+    /// <para>
+    /// Five part blog post series explaining this setup:
+    /// https://medium.com/younited-tech-blog/end-to-end-test-a-blazor-app-with-playwright-part-1-224e8894c0f3
+    /// </para>
     /// </summary>
     public class PlaywrightFixture : IAsyncLifetime
     {
@@ -89,13 +116,13 @@ namespace Chirp.Web.Test
         private static void InstallPlaywright()
         {
             var exitCode = Microsoft.Playwright.Program.Main(
-              new[] { "install-deps" });
+              ["install-deps"]);
             if (exitCode != 0)
             {
                 throw new Exception(
                   $"Playwright exited with code {exitCode} on install-deps");
             }
-            exitCode = Microsoft.Playwright.Program.Main(new[] { "install" });
+            exitCode = Microsoft.Playwright.Program.Main(["install"]);
             if (exitCode != 0)
             {
                 throw new Exception(
