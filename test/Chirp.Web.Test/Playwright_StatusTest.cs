@@ -82,7 +82,7 @@ public class Playwright_StatusTest : PageTest
             async (page) =>
             {
                 await Expect(page.GetByRole(AriaRole.Heading, new() { Name = "Public Timeline" })).ToBeVisibleAsync();
-                await Expect(page.Locator("li").GetByText("Jacqualine_Gilcoine — 01-08-2023 15:17:39 Starbuck now is what we hear the")).ToBeVisibleAsync();
+                await Expect(page.Locator("#messagelist")).ToContainTextAsync("Jacqualine_Gilcoine — 08/01/2023 15:17:39 Starbuck now is what we hear the worst. 0 likes");
                 await Expect(page.GetByText("Showing 32 messages next page")).ToBeVisibleAsync();
             }, 
             Test.Browser.Chromium);
@@ -123,9 +123,7 @@ public class Playwright_StatusTest : PageTest
             async (page) =>
             {
                 await Expect(page.Locator("h2")).ToContainTextAsync("Helge's Timeline");
-                await Expect(page.GetByRole(AriaRole.Strong)).ToContainTextAsync("Helge");
-                await Expect(page.GetByRole(AriaRole.Listitem)).ToContainTextAsync("— 01-08-2023 14:16:48");
-                await Expect(page.GetByRole(AriaRole.Listitem)).ToContainTextAsync("Hello, BDSA students!");
+                await Expect(page.GetByRole(AriaRole.Listitem)).ToContainTextAsync("Helge — 08/01/2023 14:16:48 Hello, BDSA students! 0 likes");
                 await Expect(page.Locator("#messagelist")).ToContainTextAsync("Showing 1 messages next page");
             }, 
             Test.Browser.Chromium);
