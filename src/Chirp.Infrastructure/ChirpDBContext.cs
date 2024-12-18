@@ -5,6 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Infrastructure;
 
+/// <summary>
+/// Entity Framework database context used for <i>Chirp!</i>
+/// </summary>
 public class ChirpDBContext : IdentityDbContext<Author>
 {
     public DbSet<Cheep> Cheeps { get; set; }
