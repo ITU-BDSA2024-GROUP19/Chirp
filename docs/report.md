@@ -180,7 +180,7 @@ In our test suite, we have created Unit tests for the `CheepRepository`and `Chee
 These tests are run on a repository stub imitating the real `CheepRepository`.
 The Unit tests, test most methods in both the `CheepService` and `CheepRepository`.
 
-Furthermore we have created different UI tests, using the Playwright framework, that focus on checking that the _Chirp!_ website runs as intended.
+Furthermore we have created different End-to-End UI tests, using the Playwright framework, that focus on checking that the _Chirp!_ website runs as intended.
 
 This includes:
 
@@ -189,7 +189,7 @@ This includes:
 - Testing that the website displays cheeps as intended
 
 Lastly, we have an integration test, making sure SQL injection attacks can not happen.
-
+Although not all aspects of the application are tested, we tested what we deemed most important, making sure to use and learn all the testing frameworks that were provided.
 
 # Ethics
 
