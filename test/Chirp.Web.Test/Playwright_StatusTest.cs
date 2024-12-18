@@ -205,7 +205,7 @@ public class Playwright_StatusTest : PageTest
                 await page.GetByLabel("Password").ClickAsync();
                 await page.GetByLabel("Password").FillAsync("Luzetti13");
                 await page.GetByRole(AriaRole.Button, new() { Name = "Sign in", Exact = true }).ClickAsync();
-                await page.GotoAsync("https://localhost:5273/Identity/Account/ExternalLogin?returnUrl=%2F&handler=Callback");
+                await page.GotoAsync(url + "/Identity/Account/ExternalLogin?returnUrl=%2F&handler=Callback");
                 await page.GetByPlaceholder("Please enter your email.").ClickAsync();
                 await page.GetByPlaceholder("Please enter your email.").FillAsync("test@gmail.com");
                 await page.GetByRole(AriaRole.Button, new() { Name = "Register" }).ClickAsync();
