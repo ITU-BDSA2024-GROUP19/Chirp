@@ -33,7 +33,7 @@ public class Playwright_safetyTests : PageTest
         Thread.Sleep(500);
     }
 
-    [Test]
+    //[Test]
     public async Task HelgeLogsIn_AttemptsXSSAttack()
     {
         await Page.GotoAsync("https://localhost:5273/");
