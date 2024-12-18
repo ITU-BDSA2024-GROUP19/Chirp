@@ -121,11 +121,10 @@ All features for the _Chirp!_ application have been completed. The last unresolv
 
 These include:
 
-- An exception when the user attempts to confirm the same email for a second account
 - The ability for users logged in through github, to delete their account without creating a password
 - Small refactorings, enabling easier readability of our code base
 
-As for our test suite, testing for the `AuthorRepository` and the forget me feature has not been completed.
+As for our test suite, testing for the `AuthorRepository` and the forget me feature have not been completed. Our playwright tests only works locally, so we filtered them out of our github workflows. In addition a larger playwright test suite would have been ideal as more edge case UI errors would have been detected sooner.
 
 (PICTURE OF PROJECT BOARD)
 
