@@ -244,10 +244,10 @@ However, there are cases where ChatGPT has been used. Here are some key examples
 
 ### Copilots
 
-Several IDE's have been in use during the project, namely Visual Studio, VSCode, and Jetbrains Rider. By default, Rider has a built-in feature called IntelliSense, that adds suggestions to complete statements.
+Several IDE's have been in use during the project, namely Visual Studio 22, Visual Studio Code, and Jetbrains Rider. By default, Rider has a built-in feature called IntelliSense, that adds suggestions to complete statements.
 
 IntelliSense has been used often, although many of its autocomplete suggestions have been ignored, as much like ChatGPT, it does not always understand the context of the environment, and thus has a tendency to provide inapplicable suggestions.
 
-The use of IntelliSense has also been extended with GitHub Copilot, an extension for rider. This service provides optimized autocomplete suggestions, to improve on IntelliSense.
+The use of IntelliSense has also been extended with GitHub Copilot, an extension for Rider. This service provides optimized autocomplete suggestions, to improve on IntelliSense.
 
 No other LLM's have been used during the project.
