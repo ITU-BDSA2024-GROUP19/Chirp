@@ -58,17 +58,14 @@ public class Playwright_StatusTest : PageTest
     [Fact]
     public async Task HomepageTest()
     {
-        var url = "https://localhost:5273";
+        var url = "https://localhost:5000";
         
         using var hostFactory = new WebTestingHostFactory<Program>();
-        hostFactory
-            // Override host configuration to mock stuff if required.
-            .WithWebHostBuilder(builder =>
-            {
-                // Setup the url to use.
-                builder.UseUrls(url);
-            })
-            .CreateDefaultClient();
+        hostFactory.WithWebHostBuilder(builder =>  // Override host configuration to mock stuff if required.
+        {
+            builder.UseUrls(url);   // Setup the url to use.
+        })
+        .CreateDefaultClient();
 
         await playwrightFixture.GotoPageAsync(
             url,
@@ -77,6 +74,7 @@ public class Playwright_StatusTest : PageTest
                 await Expect(page.GetByRole(AriaRole.Heading, new() { Name = "Public Timeline" })).ToBeVisibleAsync();
                 await page.Locator("li").Filter(new() { HasText = "Jacqualine_Gilcoine — 01-08-2023 15:17:39 Starbuck now is what we hear the" }).ClickAsync();
                 await Expect(page.GetByText("Showing 32 messages next page")).ToBeVisibleAsync();
-            }, Test.Browser.Chromium);
+            }, 
+            Test.Browser.Chromium);
     }
 }
