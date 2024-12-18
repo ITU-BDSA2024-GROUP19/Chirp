@@ -74,7 +74,7 @@ public class Playwright_StatusTest : PageTest
             async (page) =>
             {
                 await Expect(page.GetByRole(AriaRole.Heading, new() { Name = "Public Timeline" })).ToBeVisibleAsync();
-                await page.Locator("li").Filter(new() { HasText = "Jacqualine_Gilcoine — 01-08-2023 15:17:39 Starbuck now is what we hear the" }).ClickAsync();
+                await Expect(page.Locator("li").GetByText("Jacqualine_Gilcoine — 01-08-2023 15:17:39 Starbuck now is what we hear the")).ToBeVisibleAsync();
                 await Expect(page.GetByText("Showing 32 messages next page")).ToBeVisibleAsync();
             }, 
             Test.Browser.Chromium);
