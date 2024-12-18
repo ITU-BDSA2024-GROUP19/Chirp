@@ -112,6 +112,23 @@ The deployment workflow then deploys the newly build application to Azure. Note 
 
 ## Team work
 
+### What tasks remain unresolved
+
+All features for the _Chirp!_ application have been completed. The last unresolved tasks are refinements that would have been nice to have for a smoother user experience.
+
+
+These include:
+
+- An exception when the user attempts to confirm the same email for a second account
+- The ability for users logged in through github, to delete their account without creating a password
+- Small refactorings, enabling easier readability of our code base
+
+As for our test suite, testing for the `AuthorRepository` and the forget me feature has not been completed.
+
+(PICTURE OF PROJECT BOARD)
+
+### Our development workflow
+
 When a new task arises, an issue is created on github using it's build-in ticket system.
 
 The issue is then created based on a set of rules shown in our `README.md` file, including:
