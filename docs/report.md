@@ -126,7 +126,7 @@ These include:
 
 As for our test suite, testing for the `AuthorRepository` and the forget me feature have not been completed. Our playwright tests only works locally, so we filtered them out of our github workflows. In addition a larger playwright test suite would have been ideal as more edge case UI errors would have been detected sooner.
 
-(PICTURE OF PROJECT BOARD)
+![Screenshot of our github project board.](images/project_board.png)
 
 ### Our development workflow
 
