@@ -231,10 +231,10 @@ An important reference for an overview of software licensing options in the open
 ## LLMs, ChatGPT, Copilot, and others
 
 ### ChatGPT
-We have tried not to rely on services such as ChatGPT. Although the amount of code related data LLM's possess, they often lack the perspective required to write code that adheres to most common programming principles.
+We have tried not to rely on services such as ChatGPT. We found that it often lacks the perspective required to write code that adheres to most common programming principles.
 
 However, there are cases where ChatGPT has been used. Here are some key examples:
-- Throughout the project, ChatGPT has primarily been used for added inspiration. Provided "solutions" to issues were not satisfactory, but did provide insight into how we would solve these issues ourselves.
+- Throughout the project, ChatGPT has in some cases been used for added inspiration. Provided "solutions" to issues were not satisfactory, but did provide insight into how we would solve these issues ourselves. However in the time it took to get to a helpful answer, we could have just as easily found help somewhere else.
 - In the first stages of the project, it was a useful tool for installing software correctly. 
 - It proved quite useful when setting up the connection between azure and GitHub OAuth, as the instructions provided in the course material do not reflect the current state of the azure website.
 - When recieving error messages of considerable length, it was good at translating these to a more readable form.
