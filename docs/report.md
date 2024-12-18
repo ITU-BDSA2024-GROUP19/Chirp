@@ -127,11 +127,11 @@ These include:
 
 As for our test suite, testing for the `AuthorRepository` and the forget me feature have not been completed. Our playwright tests only works locally, so we filtered them out of our GitHub workflows. In addition a larger playwright test suite would have been ideal as more edge case UI errors would have been detected sooner.
 
-![Screenshot of our github project board.](images/project_board.png)
+![Screenshot of our GitHub project board.](images/project_board.png)
 
 ### Our development workflow
 
-When a new task arises, an issue is created on github using it's build-in ticket system.
+When a new task arises, an issue is created on GitHub using it's build-in ticket system.
 
 The issue is then created based on a set of rules shown in our `README.md` file, including:
 
@@ -146,7 +146,7 @@ If the developer thinks the task is done, they create a pull request.
 If another group member believes changes are necessary, a new development cycle begins.
 The contents are only pushed to main when the pull request gets a minimum of one approval.
 
-![Illustration of the workflow when working on _Chirp!  as a UML activity diagram.](images/workflow.png)
+![Illustration of the workflow when working on _Chirp!_ as a UML activity diagram.](images/workflow.png)
 
 \pagebreak
 
@@ -156,8 +156,8 @@ The contents are only pushed to main when the pull request gets a minimum of one
 
 - The project can simply be run locally using the `dotnet run` command from the Chirp.Web directory in the terminal.
 
-- Environment variables for the database connection string and the Azure storage connection string depends on if you run the sourcecode directly, which is seen as development state, or not. If not in development state, environment variables are needed to be set.
-- If in development state, database will be stored directly in memory and the default stock image will be shown, instead of those provided by the Azure cloud storage. Environment variables are not needed to be set, but can still be set for the enhanced experience in development state.
+- Environment variables for the database connection string and the Azure storage connection string depend on if you run the source code directly or not. The app is able to detect that it is running in a developer environment. When the app is deployed to a live server or otherwise published, the environment variables must be set.
+- If in the development state, the app normally uses an in-memory SQLite database with sample data. It is also possible to use a persistent database in testing by setting `CHIRPDBPATH` to the path of a database file. A default picture replaces custom profile pictures, if a connection to Azure Cloud Storage is unavailable. Environment variables are not needed to be set, but can still be set to make Azure Storage and GitHub OAuth work in the development state.
 
 Examples of these environment variables are: 
 
@@ -179,7 +179,7 @@ AccountName=chirpstorage;AccountKey=yourkey;EndpointSuffix=core.windows.net"
 - The project can be run by executing `Chirp.Web` in the bash terminal set to the release directory.
 - It is mandatory to set the environment variable `CHIRPDBPATH` to the SQLite database location. Optionally set the Azure Blob Storage and GitHub OAuth variables.
 - Setting `CHIRPDBPATH` to `":memory:"` will run _Chirp!_ with an in-memory database and sample user data. 
-- For persistent user data, set `CHIRPDBPATH` to the path for a database file. E.g. `/chirpdata/chirp.db`. The database will automatically be created if it does not exist, but the directory must exist.
+- For persistent user data, set `CHIRPDBPATH` to the path for a database file. E.g. `/chirpdata/chirp.db`. The database will automatically be created if it does not exist. The directory must exist.
 
 Examples of these environment variables are: 
 
@@ -194,7 +194,7 @@ AccountName=chirpstorage;AccountKey=yourkey;EndpointSuffix=core.windows.net"
 
 ### How to run test suite locally
 
-With a terminal open in the project root, the test suite can be run using the command "`dotnet test`". Integration tests and end-to-end tests run the app locally using an in-memory database. 
+With a terminal open in the project root, the test suite can be run using the command "`dotnet test`". Integration tests and end-to-end tests will run the app locally using an in-memory database. 
 
 - Regular unit tests and integration tests are known to work on all platforms. These tests are integrated into our workflow on GitHub. 
 - Playwright tests can run locally. A test fixture has been incorporated to help setup Playwright on new machines.[^4] The test fixture has been used successfully on Windows machines. There are still problems running these tests on Linux and OSX platforms. 
@@ -202,11 +202,11 @@ With a terminal open in the project root, the test suite can be run using the co
 [^4]: Xavier Solau, https://github.com/xaviersolau/DevArticles/tree/e2e_test_blazor_with_playwright, 2022
 
 ### Our tests
-In our test suite, we have created Unit tests for the `CheepRepository`and `CheepService`.
+In our test suite, we have created Unit tests for the `CheepRepository` and `CheepService`.
 These tests are run on a repository stub imitating the real `CheepRepository`.
-The Unit tests, test most methods in both the `CheepService` and `CheepRepository`.
+These tests cover most of the methods in both `CheepService` and `CheepRepository`.
 
-Furthermore we have created different End-to-End UI tests, using the Playwright framework, that focus on checking that the _Chirp!_ website runs as intended.
+Furthermore we have created different End-to-End UI tests using the Playwright framework. These tests focus on checking that the _Chirp!_ website runs as intended.
 
 This includes:
 
@@ -214,8 +214,8 @@ This includes:
 - Testing that the authentication works as intended.
 - Testing that the website displays cheeps as intended.
 
-Lastly, we have an integration test, making sure SQL injection attacks can not happen.
-Although not all aspects of the application are tested, we tested what we deemed most important, making sure to use and learn all the testing frameworks that were provided.
+Lastly, we have an integration test, making sure that SQL injection attacks cannot happen.
+Although not all aspects of the application are tested, we have covered what we deemed most important. Over the duration of the project, we made sure to learn and use all the testing frameworks that were introduced. 
 
 # Ethics
 
@@ -223,9 +223,9 @@ Although not all aspects of the application are tested, we tested what we deemed
 
 We have chosen to release our project under the MIT License. Anyone can use the project for any purpose, provided that the license and our mark is retained with the work. We accept no liability and provide no warranty for such use. 
 
-To adopt this license, we first looked at any dependencies that our project had. Namely the Microsoft `.nuget` packages released under the MIT license, as well as other third party tools such as `Moq` released under the BSD-3 license. The dependencies we identified do not place restrictions on our project source release through their licensing. 
+To adopt this license, we first looked at any dependencies referenced by our project. These were the Microsoft `.nuget` packages released under the MIT license and other third party tools such as `Moq` released under the BSD-3 license. The dependencies we identified do not place restrictions on our project source release through their licensing. 
 
-An important reference for an overview of software licensing options in the open source community has been `https://choosealicense.com/`. Insight into the importance of licensing for promoting competition and continued development was promoted by attending a guest lecture on the subject by Martin von Haller Grønbæk at ITU.[^5]
+An important reference for an overview of software licensing options in the open source community has been `https://choosealicense.com/`. We found insight into the importance of licensing for promoting competition and continued development from a guest lecture on the subject by Martin von Haller Grønbæk at ITU.[^5]
 
 [^5]: Martin von Haller Grønbæk, "Guest lecture on Software Licenses" (lecture, ITU, Copenhagen, October 9, 2024).
 
@@ -236,7 +236,7 @@ We have tried not to rely on services such as ChatGPT. We found that it often la
 
 However, there are cases where ChatGPT has been used. Here are some key examples:
 
-- Throughout the project, ChatGPT has in some cases been used for added inspiration. Provided "solutions" to issues were not satisfactory, but did provide insight into how we would solve these issues ourselves. However in the time it took to get to a helpful answer, we could have just as easily found help somewhere else.
+- Throughout the project, ChatGPT has in some cases been used for added inspiration. Provided "solutions" to issues were not satisfactory for direct application, but did provide insight into how we could solve these issues ourselves. However in the time it took to get to a helpful answer, we could have just as easily found help somewhere else.
 - In the first stages of the project, it was a useful tool for installing software correctly. 
 - It proved quite useful when setting up the connection between Azure and GitHub OAuth. The instructions provided in the course material did not reflect the current state of the Azure website.
 - When receiving error messages of considerable length, it was good at translating these to a more readable form.
@@ -245,8 +245,8 @@ However, there are cases where ChatGPT has been used. Here are some key examples
 
 Several IDE's have been in use during the project, namely Visual Studio 22, Visual Studio Code, and Jetbrains Rider. By default, Rider has a built-in feature called IntelliSense, that adds suggestions to complete statements.
 
-IntelliSense has been used often, although many of its autocomplete suggestions have been ignored, as much like ChatGPT, it does not always understand the context of the environment, and thus has a tendency to provide inapplicable suggestions.
+IntelliSense has been used often, although many of its autocomplete suggestions have been ignored. Much like ChatGPT, it does not always understand the context of the environment and has a tendency to provide inapplicable suggestions. To the extent that this tool has found use, it has still largely required a human in the loop with project insight. 
 
-The use of IntelliSense has also been extended with GitHub Copilot, an extension for Rider. This service provides optimized autocomplete suggestions, to improve on IntelliSense.
+The use of IntelliSense has also been extended with GitHub Copilot, an extension for Rider. This service provides optimized autocomplete suggestions and improves on IntelliSense.
 
 No other LLM's have been used during the project.
