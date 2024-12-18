@@ -64,7 +64,7 @@ The diagram shows that our code base only has inward dependencies, in compliance
 The class diagram below shows how the architecture of _Chirp!_ looks when deployed. It is a client-server application where clients connect to a webservice through HTTP. 
 All of the HTTP GET/POST requests are then handled by Azure App Service using an SQLite database.
 The webserver depends on two services that handles different core components in our program. The first one is the Blob Service which is based in the Azure environment. Blobs are defined as unstructured data or files, which in our case is the users profile pictures.
-The second one is an external API provided by Github. This API makes third party authentication possible through webservice calls that provide authentication tokens for our login process.
+The second one is an external API provided by Github. This API makes third party authentication possible through webservice calls, that provide authentication tokens for our login process.
 
 ![Illustration of the _Chirp!_ deployment as a UML package diagram.](images/deployment-diagram.png)
 
@@ -72,7 +72,7 @@ The second one is an external API provided by Github. This API makes third party
 
 ## User activities
 
-The illustration below shows two user journeys. The first one shows the journey of a non-authorized user, and the second one shows what becomes available when the user has logged in/is authorized. 
+The illustration below shows two user journeys. The first one shows the journey of a non-authorized user, and the second one shows what becomes available when the user has logged in, and thereby becomes authorized. 
 
 We can se that the actions that change the website are only available to authorized users. This includes the ability to post a Cheep, follow other users, and like Cheeps.
 
