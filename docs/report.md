@@ -123,10 +123,10 @@ All features for the _Chirp!_ application have been completed. The last unresolv
 
 These include:
 
-- The ability for users logged in through github, to delete their account without creating a password
-- Small refactorings, enabling easier readability of our code base
+- The ability for users logged in through GitHub, to delete their account without creating a password.
+- Small refactorings, enabling easier readability of our code base.
 
-As for our test suite, testing for the `AuthorRepository` and the forget me feature have not been completed. Our playwright tests only works locally, so we filtered them out of our github workflows. In addition a larger playwright test suite would have been ideal as more edge case UI errors would have been detected sooner.
+As for our test suite, testing for the `AuthorRepository` and the forget me feature have not been completed. Our playwright tests only works locally, so we filtered them out of our GiHhub workflows. In addition a larger playwright test suite would have been ideal as more edge case UI errors would have been detected sooner.
 
 ![Screenshot of our github project board.](images/project_board.png)
 
@@ -211,9 +211,9 @@ Furthermore we have created different End-to-End UI tests, using the Playwright 
 
 This includes:
 
-- Testing against XSS attacks
-- Testing that the authentication works as intended
-- Testing that the website displays cheeps as intended
+- Testing against XSS attacks.
+- Testing that the authentication works as intended.
+- Testing that the website displays cheeps as intended.
 
 Lastly, we have an integration test, making sure SQL injection attacks can not happen.
 Although not all aspects of the application are tested, we tested what we deemed most important, making sure to use and learn all the testing frameworks that were provided.
@@ -236,10 +236,11 @@ An important reference for an overview of software licensing options in the open
 We have tried not to rely on services such as ChatGPT. We found that it often lacks the perspective required to write code that adheres to most common programming principles.
 
 However, there are cases where ChatGPT has been used. Here are some key examples:
+
 - Throughout the project, ChatGPT has in some cases been used for added inspiration. Provided "solutions" to issues were not satisfactory, but did provide insight into how we would solve these issues ourselves. However in the time it took to get to a helpful answer, we could have just as easily found help somewhere else.
 - In the first stages of the project, it was a useful tool for installing software correctly. 
-- It proved quite useful when setting up the connection between azure and GitHub OAuth, as the instructions provided in the course material do not reflect the current state of the azure website.
-- When recieving error messages of considerable length, it was good at translating these to a more readable form.
+- It proved quite useful when setting up the connection between Azure and GitHub OAuth. The instructions provided in the course material did not reflect the current state of the Azure website.
+- When receiving error messages of considerable length, it was good at translating these to a more readable form.
 
 ### Copilots
 
