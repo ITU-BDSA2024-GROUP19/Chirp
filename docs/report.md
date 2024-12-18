@@ -194,6 +194,13 @@ AccountName=chirpstorage;AccountKey=yourkey;EndpointSuffix=core.windows.net"
 
 ### How to run test suite locally
 
+With a terminal open in the project root, the test suite can be run using the command "`dotnet test`". Integration tests and end-to-end tests run the app locally using an in-memory database. 
+
+- Regular unit tests and integration tests are known to work on all platforms. These tests are integrated into our workflow on GitHub. 
+- Playwright tests can run locally. A test fixture has been incorporated to help setup Playwright on new machines.[^4] The test fixture has been used successfully on Windows machines. There are still problems running these tests on Linux and OSX platforms. 
+
+[^4]: Xavier Solau, https://github.com/xaviersolau/DevArticles/tree/e2e_test_blazor_with_playwright, 2022
+
 ### Our tests
 In our test suite, we have created Unit tests for the `CheepRepository`and `CheepService`.
 These tests are run on a repository stub imitating the real `CheepRepository`.
@@ -218,7 +225,9 @@ We have chosen to release our project under the MIT License. Anyone can use the 
 
 To adopt this license, we first looked at any dependencies that our project had. Namely the Microsoft `.nuget` packages released under the MIT license, as well as other third party tools such as `Moq` released under the BSD-3 license. The dependencies we identified do not place restrictions on our project source release through their licensing. 
 
-An important reference for an overview of software licensing options in the open source community has been `https://choosealicense.com/`. Insight into the importance of licensing for promoting competition and continued development was promoted by attending a guest lecture on the subject by Martin von Haller Grønbæk at ITU. 
+An important reference for an overview of software licensing options in the open source community has been `https://choosealicense.com/`. Insight into the importance of licensing for promoting competition and continued development was promoted by attending a guest lecture on the subject by Martin von Haller Grønbæk at ITU.[^5]
+
+[^5]: Martin von Haller Grønbæk, "Guest lecture on Software Licenses" (lecture, ITU, Copenhagen, October 9, 2024).
 
 ## LLMs, ChatGPT, Copilot, and others
 
