@@ -26,7 +26,7 @@ The two main entities of _Chirp!_ are `Author` and `Cheep`.
 - An `Author` represents one of our users. This type is implemented as an extension of the default `IdentityUser` type.[^1] Authors can follow each other on _Chirp!_ 
 - A `Cheep` is a message posted to _Chirp!_ by an author. Additionally for this project, users are able to "like" Cheeps.
 
-These entity types are saved to a database using _Enitiy Framework Core_.[^2] EF Core supports saving these entities in a relational database for the application, and is able to apply _migrations_ to this database as the entities change and features are added. 
+These entity types are saved to a database using _Enitiy Framework Core_.[^2] EF Core supports saving these entities in a relational database for the application. As the entities change and features are added, EF Core is able to apply _migrations_ to any existing database.
 
 In addition to the main entities, we have derived types for data transfer and page model types. 
 
