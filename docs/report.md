@@ -74,9 +74,9 @@ The second one is an external API provided by Github. This API makes third party
 
 ## User activities
 
-The illustration below shows two user journeys. The first one shows the journey of a non-authorized user, and the second one shows what becomes available when the user has logged in, and thereby becomes authorized. 
+The illustrations below show two user journeys. The first one shows the journey of a non-authorized user. The second one shows what features become available when the user has been authorized. 
 
-We can se that the actions that change the website are only available to authorized users. This includes the ability to post a Cheep, follow other users, and like Cheeps.
+We can see that the actions that change the website are only available to authorized users. This includes the ability to post a Cheep, follow other users, and like Cheeps.
 
 ![Illustration of _Chirp!_ user activities as a UML activity diagram.](images/user_activities.png)
 
@@ -87,9 +87,9 @@ We can se that the actions that change the website are only available to authori
 The sequence diagram below illustrates the sequence of messages and data needed to render the entire public timeline for a non-authorized user.
 The sequence starts with the user loading the application thereby sending a HTTP GET request. The diagram ends with a fully rendered public timeline returned to the user.
 
-The LINQ query returns a `Task<List<CheepDTO>>` that is convert to a `<List<CheepDTO>>` and then finally tranformed the result to a `List<CheepViewModel>` with the loop.
+The LINQ query returns a `Task<List<CheepDTO>>` that is converted to a `<List<CheepDTO>>` and then finally the result is transformed to a `List<CheepViewModel>` with the loop.
 
-![Illustration of a sequence of calls through _Chirp! as a UML sequence diagram.](images/sequence_diagram.png)
+![Illustration of a sequence of calls through _Chirp!_ as a UML sequence diagram.](images/sequence_diagram.png)
 
 \pagebreak
 
@@ -97,7 +97,7 @@ The LINQ query returns a `Task<List<CheepDTO>>` that is convert to a `<List<Chee
 
 ## Build, test, release, and deployment
 
-Below is an illustration of how our two workflows interact with different github action triggers.
+Below is an illustration of how our two workflows interact with different GitHub action triggers.
 
 We have three workflows:
 
@@ -106,8 +106,8 @@ We have three workflows:
 - _`bdsa2024group19chirprazordeploy`_ handles deployment to Azure. When a pull request to the main branch closes with a merge, this workflow deploys the new version to our website.
 
 All of our workflows run on a local Ubuntu instance, that is created at the start of the workflow.
-All the workflows checks out our code base, sets up .NET8 and runs a dotnet restore, build and test.
-The deployment and release workflow then deploys the newly build application to Azure. Finally the release workflow creates a new github release with the necessary files.
+All the workflows check out the code base, set up _.NET_ and use it to restore, build and test the project.
+The deployment and release workflow then deploys the newly built application to Azure. Finally the release workflow creates a new GitHub release with the necessary files.
 
 ![Illustration of _Chirp! build, test and deployment workflows as a UML activity diagram.](images/github-actions.png)
 
@@ -125,7 +125,7 @@ These include:
 - The ability for users logged in through GitHub, to delete their account without creating a password.
 - Small refactorings, enabling easier readability of our code base.
 
-As for our test suite, testing for the `AuthorRepository` and the forget me feature have not been completed. Our playwright tests only works locally, so we filtered them out of our GiHhub workflows. In addition a larger playwright test suite would have been ideal as more edge case UI errors would have been detected sooner.
+As for our test suite, testing for the `AuthorRepository` and the forget me feature have not been completed. Our playwright tests only works locally, so we filtered them out of our GitHub workflows. In addition a larger playwright test suite would have been ideal as more edge case UI errors would have been detected sooner.
 
 ![Screenshot of our github project board.](images/project_board.png)
 
