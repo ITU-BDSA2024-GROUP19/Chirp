@@ -107,23 +107,37 @@ public class Startup(IConfiguration configuration, IHostEnvironment environment)
 
         services.AddScoped<IAuthorService, AuthorService>();
 
-        // Identity and OAuth user authentication services:
-        services.AddAuthentication(options =>
+        // Identity authentication services:
+        var authBuilder = services.AddAuthentication(options =>
         {
             options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
         })
 
-        .AddCookie()
+        .AddCookie();
 
-        .AddGitHub(options =>
+        string? github_clientid = configuration["authentication:github:clientId"];
+        string? github_clientsecret = configuration["authentication:github:clientSecret"];
+
+        // GitHub OAuth as optional feature:
+        if (github_clientid != null && github_clientsecret != null)
         {
-            options.ClientId = configuration["authentication:github:clientId"] ?? throw new InvalidOperationException("Configuration missing a GitHub clientId");
-            options.ClientSecret = configuration["authentication:github:clientSecret"] ?? throw new InvalidOperationException("Configuration missing a GitHub clientSecret");
-            options.CallbackPath = "/signin-github";
-            options.SaveTokens = true;
-            options.Scope.Add("user:email");
-            options.ClaimActions.MapJsonKey("urn:github:avatar", "avatar_url");
-        });
+            authBuilder.AddGitHub(options =>
+            {
+                options.ClientId = configuration["authentication:github:clientId"] ?? throw new InvalidOperationException("Configuration missing a GitHub clientId");
+                options.ClientSecret = configuration["authentication:github:clientSecret"] ?? throw new InvalidOperationException("Configuration missing a GitHub clientSecret");
+                options.CallbackPath = "/signin-github";
+                options.SaveTokens = true;
+                options.Scope.Add("user:email");
+                options.ClaimActions.MapJsonKey("urn:github:avatar", "avatar_url");
+            });
+        }
+        else
+        {
+            Console.WriteLine("""
+                              GitHub Client ID and Client Secret not found.
+                              OAuth via GitHub will not be available.
+                              """);
+        }
 
         services.AddDefaultIdentity<Author>(options =>
         {
@@ -136,7 +150,7 @@ public class Startup(IConfiguration configuration, IHostEnvironment environment)
     /// Configures the middleware stack for Chirp.
     /// </summary>
     /// <param name="app"></param>
-    public async void Configure(WebApplication app)
+    public async Task Configure(WebApplication app)
     {
         if (!app.Environment.IsDevelopment())
         {

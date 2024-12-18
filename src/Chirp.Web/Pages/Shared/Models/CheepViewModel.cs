@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace Chirp.Web.Pages.Shared.Models;
 
 /// <summary>
@@ -26,6 +28,6 @@ public record CheepViewModel(
         DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeSeconds(timestamp);
         TimeZoneInfo danishTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central Europe Standard Time");
         DateTime dateTime = TimeZoneInfo.ConvertTime(dateTimeOffset.UtcDateTime, danishTimeZone);
-        return dateTime.ToString("dd/MM/yyyy HH:mm:ss"); // ensures the right format that is required
+        return dateTime.ToString(CultureInfo.InvariantCulture); // ensures the right format that is required
     }
 }

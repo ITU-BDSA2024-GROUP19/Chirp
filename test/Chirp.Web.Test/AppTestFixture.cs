@@ -2,6 +2,10 @@ using Microsoft.AspNetCore.Builder;
 
 namespace Chirp.Web.Test;
 
+/// <summary>
+/// Test fixture class written as an aid to test page models.
+/// Ensures that the application is setup for running with in-memory SQLite and sample data.
+/// </summary>
 public class AppTestFixture : IDisposable
 {
     public WebApplication App { get; }
@@ -33,7 +37,7 @@ public class AppTestFixture : IDisposable
 
         var app = builder.Build();
 
-        startup.Configure(app);
+        startup.Configure(app).Wait();
 
         return app;
     }
